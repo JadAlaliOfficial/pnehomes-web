@@ -2,27 +2,53 @@
 // src/features/property/components/FilterBar.tsx
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 export default function FilterBar() {
   const router = useRouter()
   const sp = useSearchParams()
 
+  const [community, setCommunity] = useState(sp.get("community") ?? "")
+  const [price, setPrice] = useState(sp.get("price") ?? "")
   const [beds, setBeds] = useState(sp.get("beds") ?? "")
   const [baths, setBaths] = useState(sp.get("baths") ?? "")
-  const [sort, setSort] = useState(sp.get("sort") ?? "newest")
+  const [garages, setGarages] = useState(sp.get("garages") ?? "")
 
   useEffect(() => {
+    setCommunity(sp.get("community") ?? "")
+    setPrice(sp.get("price") ?? "")
     setBeds(sp.get("beds") ?? "")
     setBaths(sp.get("baths") ?? "")
-    setSort(sp.get("sort") ?? "newest")
+    setGarages(sp.get("garages") ?? "")
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sp.toString()])
 
   function apply() {
     const params = new URLSearchParams(sp.toString())
+    
+    // Community filter - trim whitespace and handle case-insensitive comparison
+    const trimmedCommunity = community.trim()
+    trimmedCommunity ? params.set("community", trimmedCommunity) : params.delete("community")
+    
+    // Price filter - ensure it's a valid number
+    const numericPrice = price.trim()
+    if (numericPrice && !isNaN(Number(numericPrice)) && Number(numericPrice) > 0) {
+      params.set("price", numericPrice)
+    } else {
+      params.delete("price")
+    }
+    
     beds ? params.set("beds", beds) : params.delete("beds")
     baths ? params.set("baths", baths) : params.delete("baths")
-    sort ? params.set("sort", sort) : params.delete("sort")
+    garages ? params.set("garages", garages) : params.delete("garages")
     router.push(`/floor-plans?${params.toString()}`)
   }
 
@@ -32,28 +58,59 @@ export default function FilterBar() {
 
   return (
     <div className="mb-6 flex flex-wrap gap-3">
-      <select className="border rounded px-3 py-2" value={beds} onChange={e=>setBeds(e.target.value)}>
-        <option value="">Any beds</option>
-        <option value="2">2+ beds</option>
-        <option value="3">3+ beds</option>
-        <option value="4">4+ beds</option>
-      </select>
+      <Input
+        type="text"
+        placeholder="Community name"
+        value={community}
+        onChange={(e) => setCommunity(e.target.value)}
+        className="w-[160px]"
+      />
 
-      <select className="border rounded px-3 py-2" value={baths} onChange={e=>setBaths(e.target.value)}>
-        <option value="">Any baths</option>
-        <option value="2">2+ baths</option>
-        <option value="3">3+ baths</option>
-      </select>
+      <Input
+        type="number"
+        placeholder="Max price"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+        className="w-[140px]"
+        min="0"
+      />
 
-      <select className="border rounded px-3 py-2" value={sort} onChange={e=>setSort(e.target.value)}>
-        <option value="newest">Newest</option>
-        <option value="priceAsc">Price ↑</option>
-        <option value="priceDesc">Price ↓</option>
-        <option value="sqftDesc">Sqft ↓</option>
-      </select>
+      <Select value={beds} onValueChange={setBeds}>
+        <SelectTrigger className="w-[140px]">
+          <SelectValue placeholder="Any beds" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="any">Any beds</SelectItem>
+          <SelectItem value="2">2+ beds</SelectItem>
+          <SelectItem value="3">3+ beds</SelectItem>
+          <SelectItem value="4">4+ beds</SelectItem>
+        </SelectContent>
+      </Select>
 
-      <button className="border rounded px-4 py-2" onClick={apply}>Apply</button>
-      <button className="border rounded px-4 py-2" onClick={reset}>Reset</button>
+      <Select value={baths} onValueChange={setBaths}>
+        <SelectTrigger className="w-[140px]">
+          <SelectValue placeholder="Any baths" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="any">Any baths</SelectItem>
+          <SelectItem value="2">2+ baths</SelectItem>
+          <SelectItem value="3">3+ baths</SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Select value={garages} onValueChange={setGarages}>
+        <SelectTrigger className="w-[140px]">
+          <SelectValue placeholder="Any garages" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="any">Any garages</SelectItem>
+          <SelectItem value="1">1+ garages</SelectItem>
+          <SelectItem value="2">2+ garages</SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Button onClick={apply}>Apply</Button>
+      <Button variant="outline" onClick={reset}>Reset</Button>
     </div>
   )
 }

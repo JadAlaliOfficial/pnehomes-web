@@ -4,14 +4,18 @@ import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import SharePrintButtons from "@/features/property/components/SharePrintButtons"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import ImageGallery from "@/components/ImageGallery"
 
 export async function generateStaticParams() {
   const slugs = await Property.allSlugs()
   return slugs.map(slug => ({ slug }))
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const p = await Property.getBySlug(params.slug)
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const p = await Property.getBySlug(slug)
   if (!p) return notFound()
 
   // helpers
@@ -46,6 +50,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
       <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">{p.title}</h1>
+          <div className="mt-1 text-sm text-muted-foreground opacity-60 capitalize">
+            {p.community}
+          </div>
         {metaBits.length > 0 && (
           <div className="mt-2 text-sm text-muted-foreground opacity-80">
             {metaBits.join(" • ")}
@@ -53,9 +60,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
         )}
         </div>
         {p.status && (
-          <span className="inline-flex items-center rounded-full border px-3 py-1 text-xs uppercase tracking-wide bg-blue-50 text-blue-700 border-blue-200">
+          <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-blue-200">
             {p.status}
-          </span>
+          </Badge>
         )}
       </div>
 
@@ -63,39 +70,16 @@ export default async function Page({ params }: { params: { slug: string } }) {
       <div className="grid gap-6 lg:grid-cols-[1fr,380px]">
         {/* Gallery */}
         <div>
-          {/* Main image */}
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg">
-            <Image
-              src={gallery[0]}
-              alt={p.title}
-              fill
-              className="object-cover"
-              sizes="(min-width:1024px) 66vw, 100vw"
-              priority
-            />
-          </div>
-
-          {/* Thumbnails (if more than 1) */}
-          {gallery.length > 1 && (
-            <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {gallery.slice(1, 9).map((src, i) => (
-                <div key={i} className="relative aspect-[4/3] overflow-hidden rounded-md">
-                  <Image
-                    src={src}
-                    alt={`${p.title} photo ${i + 2}`}
-                    fill
-                    className="object-cover"
-                    sizes="(min-width:1024px) 16vw, 25vw"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
+          <ImageGallery 
+            images={gallery} 
+            title={p.title} 
+            maxVisibleImages={3}
+          />
         </div>
 
         {/* Sticky facts / price card */}
         <aside className="lg:pl-2">
-          <div className="sticky top-6 rounded-xl border bg-white shadow-sm">
+          <div className="sticky top-6 rounded-xl border bg-card shadow-sm">
             <div className="p-5 border-b">
               <div className="text-2xl font-semibold">{money(p.price)}</div>
               <div className="mt-1 text-sm text-muted-foreground opacity-80">
@@ -107,6 +91,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
             <div className="p-5 space-y-3">
               {/* quick facts list like PNE page */}
               <ul className="grid grid-cols-2 gap-y-2 text-sm">
+                <li className="opacity-80">Community</li><li className="font-medium capitalize">{p.community || "-"}</li>
                 <li className="opacity-80">Bedrooms</li><li className="font-medium">{p.beds || "-"}</li>
                 <li className="opacity-80">Bathrooms</li><li className="font-medium">{p.baths || "-"}</li>
                 <li className="opacity-80">Garages</li><li className="font-medium">{p.garages || "-"}</li>
@@ -116,14 +101,19 @@ export default async function Page({ params }: { params: { slug: string } }) {
               {/* CTA row */}
               <div className="pt-2 flex flex-col gap-2 print:hidden">
                 {p.zillow_link && (
-                  <a
-                    href={p.zillow_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-md border border-orange-200 bg-orange-50 px-4 py-2 text-sm font-medium text-orange-700 hover:bg-orange-100"
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="border-orange-200 bg-orange-50 text-orange-700 hover:bg-orange-100"
                   >
-                    View on Zillow
-                  </a>
+                    <a
+                      href={p.zillow_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View on Zillow
+                    </a>
+                  </Button>
                 )}
 
                 {/* Share & Print buttons (client) */}
@@ -145,17 +135,18 @@ export default async function Page({ params }: { params: { slug: string } }) {
           {Array.isArray(p.Whats_special.badges) && p.Whats_special.badges.length > 0 && (
             <div className="mb-4 flex flex-wrap gap-2">
               {p.Whats_special.badges.map((badge, i) => (
-                <span
+                <Badge
                   key={i}
-                  className="px-3 py-1 rounded-full text-xs bg-blue-50 text-blue-700 border border-blue-100"
+                  variant="secondary"
+                  className="bg-blue-50 text-blue-700 border-blue-100"
                 >
                   {badge}
-                </span>
+                </Badge>
               ))}
             </div>
           )}
           {p.Whats_special.description && (
-            <p className="text-gray-700 leading-relaxed">{p.Whats_special.description}</p>
+            <p className="text-muted-foreground leading-relaxed">{p.Whats_special.description}</p>
           )}
         </section>
       )}
@@ -166,9 +157,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
           <h2 className="text-xl font-semibold mb-4">Facts &amp; Features</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {p.Facts_features.map((section, i) => (
-              <div key={i} className="rounded-lg border p-4">
+              <div key={i} className="rounded-lg border p-4 bg-card">
                 <h3 className="font-medium mb-2">{section.title}</h3>
-                <ul className="space-y-1 text-sm text-gray-700">
+                <ul className="space-y-1 text-sm text-muted-foreground">
                   {section.list.map((item, j) => (
                     <li key={j}>{item}</li>
                   ))}
@@ -185,7 +176,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
           <h2 className="text-xl font-semibold mb-4">Floor Plans</h2>
           <div className="grid gap-6 sm:grid-cols-2">
             {p.floor_plans.map((plan, i) => (
-              <div key={i} className="rounded-lg border overflow-hidden">
+              <div key={i} className="rounded-lg border overflow-hidden bg-card">
                 <div className="relative aspect-[4/3]">
                   <Image
                     src={plan.img}
@@ -212,25 +203,23 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <nav className="mt-10 flex items-center justify-between gap-3">
           <div>
             {p.prev_property_slug && (
-              <Link
-                href={`/property/${p.prev_property_slug}`}
-                className="inline-flex items-center gap-2 rounded-md border px-3 py-2 text-sm hover:bg-gray-50"
-              >
-                <span aria-hidden>←</span>
-                Previous Property
-              </Link>
+              <Button asChild variant="outline">
+                <Link href={`/property/${p.prev_property_slug}`}>
+                  <span aria-hidden>←</span>
+                  Previous Property
+                </Link>
+              </Button>
             )}
           </div>
           <div className="text-sm text-muted-foreground opacity-70">{p.title}</div>
           <div>
             {p.next_property_slug && (
-              <Link
-                href={`/property/${p.next_property_slug}`}
-                className="inline-flex items-center gap-2 rounded-md border px-3 py-2 text-sm hover:bg-gray-50"
-              >
-                Next Property
-                <span aria-hidden>→</span>
-              </Link>
+              <Button asChild variant="outline">
+                <Link href={`/property/${p.next_property_slug}`}>
+                  Next Property
+                  <span aria-hidden>→</span>
+                </Link>
+              </Button>
             )}
           </div>
         </nav>

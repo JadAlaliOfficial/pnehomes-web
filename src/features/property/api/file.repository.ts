@@ -2,12 +2,16 @@
 import raw from "../mock/properties.json" 
 import { z } from "zod"
 import { PropertySchema, type Property } from "../model/types"
-import { applyFiltersAndSort, type ListParams } from "../model/selectors"
+import { applyFiltersAndSort, getTotalCount, type ListParams } from "../model/selectors"
 
 const Properties = z.array(PropertySchema).parse(raw)
 
 export async function list(params: ListParams = {}): Promise<Property[]> {
   return applyFiltersAndSort(Properties, params)
+}
+
+export async function getTotalFilteredCount(params: ListParams = {}): Promise<number> {
+  return getTotalCount(Properties, params)
 }
 
 export async function getBySlug(slug: string): Promise<Property | undefined> {

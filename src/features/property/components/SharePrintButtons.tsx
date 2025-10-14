@@ -2,6 +2,7 @@
 "use client"
 
 import { useState } from "react"
+import { Button } from "@/components/ui/button"
 
 type Props = {
   title: string
@@ -46,24 +47,30 @@ export default function SharePrintButtons({ title, text, className }: Props) {
 
   return (
     <div className={`flex gap-2 ${className || ""}`}>
-      <button
+      <div className="w-full">
+      <Button
         type="button"
+        variant="outline"
         onClick={handleShare}
-        className="inline-flex items-center justify-center rounded-md border px-4 py-2 text-sm font-medium hover:bg-gray-50 w-full"
+        className="w-full"
         aria-label="Share this property"
       >
         <span aria-hidden>🔗</span>
         <span className="ml-2">{copied ? "Link copied!" : "Share"}</span>
-      </button>
-      <button
-        type="button"
-        onClick={handlePrint}
-        className="inline-flex items-center justify-center rounded-md border px-4 py-2 text-sm font-medium hover:bg-gray-50 w-full"
-        aria-label="Print this page"
-      >
-        <span aria-hidden>🖨️</span>
-        <span className="ml-2">Print</span>
-      </button>
+      </Button>
+      </div>
+      <div className="w-full">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handlePrint}
+          className="w-full"
+          aria-label="Print this page"
+        >
+          <span aria-hidden>🖨️</span>
+          <span className="ml-2">Print</span>
+        </Button>
+      </div>
     </div>
   )
 }

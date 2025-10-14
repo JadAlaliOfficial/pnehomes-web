@@ -24,6 +24,7 @@ export const PropertySchema = z.object({
   id: z.number(),
   slug: z.string(),
   title: z.string(),
+  community: z.string(),
   status: PropertyStatus,
   price: z.string(),
   beds: z.string(),
