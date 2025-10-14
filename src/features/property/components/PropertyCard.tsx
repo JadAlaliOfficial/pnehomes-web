@@ -21,10 +21,10 @@ export default function PropertyCard({ p }: { p: Property }) {
           {p.title}
         </Link>
         <div className="text-sm mt-1 opacity-80">
-          {p.beds} bd • {p.baths} ba • {p.sqft.toLocaleString()} sqft • {p.city}
+          {p.beds} bd • {p.baths} ba • {parseInt(p.sqft).toLocaleString()} sqft
         </div>
         <div className="mt-2 font-medium">
-          {p.price ? `$${p.price.toLocaleString()}` : "Contact for price"}
+          {p.price ? `$${parseInt(p.price).toLocaleString()}` : "Contact for price"}
         </div>
         <div className="mt-1 text-xs uppercase tracking-wide opacity-70">{p.status}</div>
       </div>
