@@ -1,4 +1,4 @@
-import { BuildingOptionsData } from '../model/types';
+import { BuildingOptionsData, Article } from '../model/types';
 import buildingOptionsData from '../mock/buildingOptions.json';
 
 export class BuildingOptionsFileRepository {
@@ -17,5 +17,43 @@ export class BuildingOptionsFileRepository {
    */
   getBuildingOptionsSync(): BuildingOptionsData {
     return buildingOptionsData as BuildingOptionsData;
+  }
+
+  /**
+   * Get all articles
+   * @returns Promise<Article[]>
+   */
+  async getArticles(): Promise<Article[]> {
+    const data = buildingOptionsData as BuildingOptionsData;
+    return Promise.resolve(data.articles);
+  }
+
+  /**
+   * Get articles synchronously
+   * @returns Article[]
+   */
+  getArticlesSync(): Article[] {
+    const data = buildingOptionsData as BuildingOptionsData;
+    return data.articles;
+  }
+
+  /**
+   * Get article by slug
+   * @param slug - The article slug
+   * @returns Promise<Article | undefined>
+   */
+  async getArticleBySlug(slug: string): Promise<Article | undefined> {
+    const data = buildingOptionsData as BuildingOptionsData;
+    return Promise.resolve(data.articles.find(article => article.slug === slug));
+  }
+
+  /**
+   * Get article by slug synchronously
+   * @param slug - The article slug
+   * @returns Article | undefined
+   */
+  getArticleBySlugSync(slug: string): Article | undefined {
+    const data = buildingOptionsData as BuildingOptionsData;
+    return data.articles.find(article => article.slug === slug);
   }
 }

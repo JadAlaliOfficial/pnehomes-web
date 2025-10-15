@@ -1,5 +1,5 @@
 import { BuildingOptionsFileRepository } from './file.repository';
-import { BuildingOptionsData, BuildingOption } from '../model/types';
+import { BuildingOptionsData, BuildingOption, Article } from '../model/types';
 
 // Create a singleton instance of the repository
 const buildingOptionsRepository = new BuildingOptionsFileRepository();
@@ -20,8 +20,42 @@ export const getBuildingOptionsSync = (): BuildingOptionsData => {
   return buildingOptionsRepository.getBuildingOptionsSync();
 };
 
+/**
+ * Get all articles
+ * @returns Promise<Article[]>
+ */
+export const getArticles = async (): Promise<Article[]> => {
+  return buildingOptionsRepository.getArticles();
+};
+
+/**
+ * Get articles synchronously
+ * @returns Article[]
+ */
+export const getArticlesSync = (): Article[] => {
+  return buildingOptionsRepository.getArticlesSync();
+};
+
+/**
+ * Get article by slug
+ * @param slug - The article slug
+ * @returns Promise<Article | undefined>
+ */
+export const getArticleBySlug = async (slug: string): Promise<Article | undefined> => {
+  return buildingOptionsRepository.getArticleBySlug(slug);
+};
+
+/**
+ * Get article by slug synchronously
+ * @param slug - The article slug
+ * @returns Article | undefined
+ */
+export const getArticleBySlugSync = (slug: string): Article | undefined => {
+  return buildingOptionsRepository.getArticleBySlugSync(slug);
+};
+
 // Export types for convenience
-export type { BuildingOptionsData, BuildingOption };
+export type { BuildingOptionsData, BuildingOption, Article };
 
 // Export repository class for advanced usage
 export { BuildingOptionsFileRepository };
