@@ -8,6 +8,9 @@ export default function Home() {
     <main className="flex min-h-screen items-center justify-center p-8">
       <div className="flex flex-col gap-4 items-center">
         <Button asChild size="lg">
+          <Link href="/building-options">Go to Building Options</Link>
+        </Button>
+        <Button asChild size="lg">
           <Link href="/floor-plans">Go to Floor Plans</Link>
         </Button>
         <Button asChild size="lg" variant="outline">

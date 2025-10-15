@@ -1,0 +1,20 @@
+{
+    "slogan": "IF YOU CAN DREAM IT WE CAN BUILD IT come build with us ",
+    "title":"Flexible Building Options ",
+    "options":[
+  {
+    "id": 1,
+    "go_to": "own-land-contact",
+    "title": "We can build on your own land",
+    "description" : "Get your home built on the land you already own, tailored to your specifications. ",
+    "section_img": "/img/own_land.jpg"
+  },
+  {
+    "id": 2,
+    "go_to": "communities",
+    "title": "Explore our land option",
+    "description" : "Discover prime locations available for building, investing, or expanding.",
+    "section_img": "/img/communities.jpg"
+  }
+]
+}
