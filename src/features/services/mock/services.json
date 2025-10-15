@@ -1,0 +1,36 @@
+[
+  {
+    "id": 1,
+    "slug": "custom-homes",
+    "title": "Custom Homes", 
+    "content": [    
+        {  "img": "/img/custom_homes_1.jpg",
+        "sub_title": "What is a custom home? ",
+        "description": "A custom home is a personalized house designed and built to reflect your unique lifestyle, preferences, and needs."
+        },
+        {
+          "img": "/img/custom_homes_2.jpg",
+          "sub_title": "Why choose a custom home with PNE Homes? ",
+          "description": "Opt for a custom home with PNE Homes for a truly tailored experience! We transform your dreams into reality by designing a home that aligns perfectly with your lifestyle. Benefit from exceptional quality, cutting-edge designs, and a devoted team that prioritizes your needs. With our 3D design services, virtual tours, and on-site cameras, you'll stay connected throughout the entire process. Your vision combined with our expertise—let's create your ideal home together!"
+        },
+        {
+          "img": "/img/custom_homes_3.jpg",
+          "sub_title": "What is the process for building a custom home with PNE Homes?",
+          "description": "The process for building a custom home with PNE Homes begins with an initial consultation to understand your vision and needs. Next, you’ll work with our design team to create a personalized floor plan and select finishes that reflect your style. Once the design is finalized, we’ll handle all the necessary permits and preparations. Throughout the construction phase, you’ll receive regular updates and have opportunities for input, ensuring the project stays on track and meets your expectations. Finally, upon completion, we conduct a thorough walkthrough with you to ensure every detail is perfect before handing over the keys to your dream home."
+        }
+    ]
+  },
+  {
+    "id": 2,
+    "slug": "basement-design-and-finish",
+    "title": "Basement Design and Finish",
+    "sub_title": "Looking for a way to add value and expand your living space? ",
+    "description": "Look no further than our finished basement service! As experienced builders in the area, we have the expertise and resources to transform your unfinished basement into a functional and stylish living space that you and your family will love. ",
+    "content": [    
+        {  "img": "/img/basement_design_and_finish.jpg",
+        "sub_title": "With our promotion:",
+        "description": "You'll receive a FREE comprehensive 3D basement finishing package that includes everything you need to create the perfect space for your needs. Our team of skilled professionals will work with you to design a layout that maximizes your available space, while incorporating your unique style and preferences."
+        }
+    ]
+  }
+]

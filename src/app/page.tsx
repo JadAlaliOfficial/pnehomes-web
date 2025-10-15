@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { ServicesSelect } from "@/features/services/components/ServicesSelect"
 
 export default function Home() {
   return (
@@ -16,6 +17,11 @@ export default function Home() {
         <Button asChild size="lg" variant="outline">
           <Link href="/gallery">Go to Gallery</Link>
         </Button>
+        
+        {/* Services Select Dropdown */}
+        <div className="w-full max-w-xs">
+          <ServicesSelect />
+        </div>
       </div>
     </main>
   )
