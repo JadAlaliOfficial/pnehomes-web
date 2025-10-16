@@ -1,3 +1,5 @@
+"use client"
+
 // src/features/property/components/PropertyCard.tsx
 
 import Link from "next/link"
@@ -5,10 +7,23 @@ import Image from "next/image"
 import type { Property } from "../model/types"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Eye } from "lucide-react"
+import { Eye, Plus, Check } from "lucide-react"
 import PropertyReviewDialog from "./PropertyReviewDialog"
+import { useComparison } from "@/contexts/ComparisonContext"
 
 export default function PropertyCard({ p }: { p: Property }) {
+  const { addToComparison, removeFromComparison, isInComparison } = useComparison()
+  const isSelected = isInComparison(p.id)
+
+  const handleCompareClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (isSelected) {
+      removeFromComparison(p.id)
+    } else {
+      addToComparison(p)
+    }
+  }
   return (
     <Card className="overflow-hidden group">
       <div className="relative aspect-[4/3]">
@@ -47,6 +62,34 @@ export default function PropertyCard({ p }: { p: Property }) {
           {p.price ? `$${parseInt(p.price).toLocaleString()}` : "Contact for price"}
         </div>
         <div className="mt-1 text-xs uppercase tracking-wide opacity-70">{p.status}</div>
+        
+        {/* Compare Button */}
+        <div className="mt-3 pt-3 border-t border-gray-100">
+          <div className="flex gap-2">
+            <Button
+              onClick={handleCompareClick}
+              size="sm"
+              variant={isSelected ? "default" : "outline"}
+              className={`flex-1 transition-all ${
+                isSelected 
+                  ? "bg-blue-600 hover:bg-blue-700 text-white" 
+                  : "hover:bg-blue-50"
+              }`}
+            >
+              {isSelected ? (
+                <>
+                  <Check className="w-4 h-4 mr-1" />
+                  Added to Compare
+                </>
+              ) : (
+                <>
+                  <Plus className="w-4 h-4 mr-1" />
+                  Add to Compare
+                </>
+              )}
+            </Button>
+          </div>
+        </div>
         
         {/* Alternative Review Button - Always Visible */}
         <div className="mt-3 pt-3 border-t border-gray-100">
