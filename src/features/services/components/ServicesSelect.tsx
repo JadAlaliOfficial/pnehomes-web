@@ -16,6 +16,7 @@ export function ServicesSelect() {
   const router = useRouter()
   const [services, setServices] = useState<Service[]>([])
   const [loading, setLoading] = useState(true)
+  const [selectValue, setSelectValue] = useState("")
 
   useEffect(() => {
     const loadServices = async () => {
@@ -36,6 +37,8 @@ export function ServicesSelect() {
 
   const handleServiceSelect = (slug: string) => {
     router.push(`/services/${slug}`)
+    // Reset the select value to keep showing "Services"
+    setSelectValue("")
   }
 
   if (loading) {
@@ -49,9 +52,9 @@ export function ServicesSelect() {
   }
 
   return (
-    <Select onValueChange={handleServiceSelect}>
+    <Select value={selectValue} onValueChange={handleServiceSelect}>
       <SelectTrigger className="w-full">
-        <SelectValue placeholder="Select a service" />
+        <SelectValue placeholder="Services" />
       </SelectTrigger>
       <SelectContent>
         {services.map((service) => (
