@@ -1,0 +1,77 @@
+[
+  {
+    "id": 1,
+    "slug": "beulah-park",
+    "title": "Beulah Park", 
+    "city": "Grove",
+    "address": "3648 Beulah Park Dr, Grove City, OH 43123",
+    "card_image": "/img/beulah_park_1.jpg",
+    "gallery": ["/img/beulah_park_1.jpg","/img/beulah_park_2.jpg","/img/beulah_park_3.jpg","/img/beulah_park_4.jpg"],
+    "video": "/vid/beulah_park_1.mp4",
+    "community-features": "Beulah Park stands as a shining example of New Urbanism, a meticulously designed 220-acre master-planned community that elevates the art of living. Connected seamlessly to downtown Grove City, within its bounds, you'll discover a perfect synergy of custom homes, captivating entertainment, walking paths, and expansive green areas, all curated to enhance the quality of life for everyone.",
+    "floor-plans": [
+        {
+            "slug": "pne-plan-56550SM",
+            "title": "PNE PLAN 56550SM",
+            "community": "beulah park",
+            "cover": "/img/avalon-1.jpg",
+            "status": "Now selling",
+            "price": "289900",
+            "beds": "2",
+            "baths": "3.5",
+            "garages": "1",
+            "sqft": "2343"
+        },
+        {
+            "slug": "the-solstice",
+            "title": "The Solstice",
+            "community": "beulah park",
+            "cover": "/img/solstice-1.jpg",
+            "status": "sold",
+            "price": "610000",
+            "beds": "4",
+            "baths": "3",
+            "garages": "2",
+            "sqft": "2430"
+        }
+    ],
+    "starting-price": "690000+"
+  },
+  {
+    "id": 2,
+    "slug": "edgewater",
+    "title": "Edgewater", 
+    "city": "Hilliard",
+    "address": "Hilliard, OH 43026",
+    "card_image": "/img/edgewater_1.jpg",
+    "gallery": ["/img/edgewater_1.jpg","/img/edgewater_2.jpg","/img/edgewater_3.jpg"],
+    "community-features": "Welcome to this well-established Hilliard, Ohio community, perfectly situated near the intersection of I-270 and Hilliard Rome Road. Here, residents revel in the convenience of nearby shopping centers, including a Sam's Club, while also enjoying the expansive park with its soccer field and picturesque walking trails. A tight-knit neighborhood thrives on a sense of unity and camaraderie, and whether you seek a charming home, you'll find a range of housing options tailored to your lifestyle. Embrace the inviting ambiance where the intersection of convenience and leisure creates an ideal place to call home in Hilliard, Ohio.",
+    "floor-plans": [
+        {
+            "slug": "pne-plan-56550SM",
+            "title": "PNE PLAN 56550SM",
+            "community": "beulah park",
+            "cover": "/img/avalon-1.jpg",
+            "status": "Now selling",
+            "price": "289900",
+            "beds": "2",
+            "baths": "3.5",
+            "garages": "1",
+            "sqft": "2343"
+        },
+        {
+            "slug": "the-solstice",
+            "title": "The Solstice",
+            "community": "beulah park",
+            "cover": "/img/solstice-1.jpg",
+            "status": "sold",
+            "price": "610000",
+            "beds": "4",
+            "baths": "3",
+            "garages": "2",
+            "sqft": "2430"
+        }
+    ],
+    "starting-price": "395000+"
+  }
+]

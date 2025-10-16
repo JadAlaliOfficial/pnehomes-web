@@ -12,6 +12,9 @@ export default function Home() {
           <Link href="/building-options">Go to Building Options</Link>
         </Button>
         <Button asChild size="lg">
+          <Link href="/communities">Go to Communities</Link>
+        </Button>
+        <Button asChild size="lg">
           <Link href="/floor-plans">Go to Floor Plans</Link>
         </Button>
         <Button asChild size="lg" variant="outline">
