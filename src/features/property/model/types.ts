@@ -48,6 +48,20 @@ const FactsFeatureSchema = z.object({
 })
 
 /**
+ * Schema for contact information
+ * 
+ * Contains contact details for the property:
+ * @property {string} name - Contact person's name
+ * @property {string} phone - Contact phone number
+ * @property {string} email - Contact email address
+ */
+const ContactSchema = z.object({
+  name: z.string(),
+  phone: z.string(),
+  email: z.string()
+})
+
+/**
  * Schema for property floor plan information
  * 
  * Contains details about different floor plan options:
@@ -81,6 +95,7 @@ const FloorPlanSchema = z.object({
  * @property {WhatsSpecial} Whats_special - Marketing highlights and unique features
  * @property {FactsFeature[]} Facts_features - Categorized lists of property features
  * @property {FloorPlan[]} floor_plans - Available floor plan options
+ * @property {Contact} contact - Contact information for the property
  * @property {string} next_property_slug - Slug of the next property for navigation
  * @property {string} prev_property_slug - Slug of the previous property for navigation
  */
@@ -89,19 +104,20 @@ export const PropertySchema = z.object({
   slug: z.string(),
   title: z.string(),
   community: z.string(),
-  status: PropertyStatus,
+  status: PropertyStatus.default("available"),
   price: z.string(),
   beds: z.string(),
   baths: z.string(),
   garages: z.string(),
   sqft: z.string(),
   gallery: z.array(z.string()).default([]),
-  zillow_link: z.string().optional(),
-  Whats_special: WhatsSpecialSchema,
-  Facts_features: z.array(FactsFeatureSchema),
-  floor_plans: z.array(FloorPlanSchema),
-  next_property_slug: z.string(),
-  prev_property_slug: z.string()
+  zillow_link: z.string().optional().nullable(),
+  Whats_special: WhatsSpecialSchema.optional().nullable(),
+  Facts_features: z.array(FactsFeatureSchema).optional(),
+  floor_plans: z.array(FloorPlanSchema).optional(),
+  contact: ContactSchema.optional().nullable(),
+  next_property_slug: z.string().optional(),
+  prev_property_slug: z.string().optional()
 })
 
 // TypeScript type inference from Zod schemas
@@ -130,3 +146,9 @@ export type FactsFeature = z.infer<typeof FactsFeatureSchema>
  * Inferred from FloorPlanSchema
  */
 export type FloorPlan = z.infer<typeof FloorPlanSchema>
+
+/**
+ * TypeScript type for Contact information
+ * Inferred from ContactSchema
+ */
+export type Contact = z.infer<typeof ContactSchema>

@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { getCommunities } from "@/features/property/api"
 
 export default function FilterBar() {
   const router = useRouter()
@@ -21,6 +22,7 @@ export default function FilterBar() {
   const [beds, setBeds] = useState(sp.get("beds") ?? "")
   const [baths, setBaths] = useState(sp.get("baths") ?? "")
   const [garages, setGarages] = useState(sp.get("garages") ?? "")
+  const [communities, setCommunities] = useState<string[]>([])
 
   useEffect(() => {
     setCommunity(sp.get("community") ?? "")
@@ -30,6 +32,11 @@ export default function FilterBar() {
     setGarages(sp.get("garages") ?? "")
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sp.toString()])
+
+  useEffect(() => {
+    // Load communities for dropdown
+    getCommunities().then(setCommunities)
+  }, [])
 
   function apply() {
     const params = new URLSearchParams(sp.toString())
@@ -58,13 +65,19 @@ export default function FilterBar() {
 
   return (
     <div className="mb-6 flex flex-wrap gap-3">
-      <Input
-        type="text"
-        placeholder="Community name"
-        value={community}
-        onChange={(e) => setCommunity(e.target.value)}
-        className="w-[160px]"
-      />
+      <Select value={community} onValueChange={setCommunity}>
+        <SelectTrigger className="w-[160px]">
+          <SelectValue placeholder="Community name" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">All communities</SelectItem>
+          {communities.map((communityName) => (
+            <SelectItem key={communityName} value={communityName}>
+              {communityName}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
       <Input
         type="number"

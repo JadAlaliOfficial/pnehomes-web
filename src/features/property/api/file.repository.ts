@@ -10,13 +10,13 @@
 import raw from "../mock/properties.json" 
 import { z } from "zod"
 import { PropertySchema, type Property } from "../model/types"
-import { applyFiltersAndSort, getTotalCount, type ListParams } from "../model/selectors"
+import { applyFiltersAndSort, getTotalCount, getUniqueCommunities, type ListParams } from "../model/selectors"
 
 /**
  * Parsed and validated property data from the JSON file
  * Uses Zod schema validation to ensure data integrity at runtime
  */
-const Properties = z.array(PropertySchema).parse(raw)
+const Properties = z.array(PropertySchema).parse(raw.properties)
 
 /**
  * Retrieves a filtered, sorted, and paginated list of properties
@@ -77,6 +77,19 @@ export async function getBySlug(slug: string): Promise<Property | undefined> {
  */
 export async function allSlugs(): Promise<string[]> {
   return Properties.map(p => p.slug)
+}
+
+/**
+ * Gets all unique communities from the properties for dropdown filtering
+ * 
+ * @returns Promise resolving to an array of unique community names, sorted alphabetically
+ * 
+ * @example
+ * // Get all available communities for filter dropdown
+ * const communities = await getCommunities()
+ */
+export async function getCommunities(): Promise<string[]> {
+  return getUniqueCommunities(Properties)
 }
 
 // Re-export the ListParams type for external consumption

@@ -175,3 +175,25 @@ export function getTotalCount(items: Property[], params: ListParams = {}) {
 
   return out.length
 }
+
+/**
+ * Gets unique communities from all properties for dropdown filtering
+ * 
+ * @param items - Array of Property objects to extract communities from
+ * @returns Array of unique community names, sorted alphabetically
+ * 
+ * @example
+ * const communities = getUniqueCommunities(properties)
+ * // Returns: ['Beulah Park', 'Downtown', 'Riverside']
+ */
+export function getUniqueCommunities(items: Property[]): string[] {
+  const communities = new Set<string>()
+  
+  items.forEach(property => {
+    if (property.community && property.community.trim()) {
+      communities.add(property.community.trim())
+    }
+  })
+  
+  return Array.from(communities).sort((a, b) => a.localeCompare(b))
+}

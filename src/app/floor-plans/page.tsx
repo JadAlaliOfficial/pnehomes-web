@@ -4,6 +4,7 @@ import * as Property from "@/features/property/api"
 import PropertyCard from "@/features/property/components/PropertyCard"
 import FilterBar from "@/features/property/components/FilterBar"
 import { toNum } from "@/lib/url"
+import Image from "next/image"
 
 // export const dynamic = "force-static"
 
@@ -34,7 +35,23 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
 
   return (
     <main className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-2">Floor Plans</h1>
+      {/* Cover Image */}
+      <div className="relative w-full h-64 mb-8 rounded-lg overflow-hidden">
+        <Image
+          src="/images/floor-plans-cover.jpg"
+          alt="Floor Plans Cover"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+          <div className="text-center text-white">
+            <h1 className="text-4xl font-bold mb-2">Floor Plans</h1>
+            <p className="text-lg opacity-90">Discover Your Perfect Home</p>
+          </div>
+        </div>
+      </div>
+
       <p className="text-sm opacity-80 mb-4">Showing {list.length} of {totalCount} result{totalCount === 1 ? "" : "s"}</p>
       <FilterBar />
 

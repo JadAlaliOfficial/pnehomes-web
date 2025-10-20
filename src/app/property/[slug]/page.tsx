@@ -13,10 +13,48 @@ export async function generateStaticParams() {
   return slugs.map(slug => ({ slug }))
 }
 
-export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+export default async function Page({ 
+  params, 
+  searchParams 
+}: { 
+  params: Promise<{ slug: string }>
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}) {
   const { slug } = await params
+  const sp = await searchParams
   const p = await Property.getBySlug(slug)
   if (!p) return notFound()
+
+  // Get filter parameters from search params to maintain context
+  const filterParams = {
+    community: typeof sp.community === "string" ? sp.community : undefined,
+    price: sp.price ? Number(sp.price) : undefined,
+    beds: sp.beds ? Number(sp.beds) : undefined,
+    baths: sp.baths ? Number(sp.baths) : undefined,
+    garages: sp.garages ? Number(sp.garages) : undefined,
+    min: sp.min ? Number(sp.min) : undefined,
+    max: sp.max ? Number(sp.max) : undefined,
+    sortBy: "sqft" as const,
+    sortOrder: "desc" as const
+  }
+
+  // Get filtered properties to calculate navigation
+  const filteredProperties = await Property.list({ ...filterParams, limit: 1000 })
+  const currentIndex = filteredProperties.findIndex(prop => prop.slug === slug)
+  
+  const prevProperty = currentIndex > 0 ? filteredProperties[currentIndex - 1] : null
+  const nextProperty = currentIndex < filteredProperties.length - 1 ? filteredProperties[currentIndex + 1] : null
+
+  // Build query string for navigation links
+  const buildNavUrl = (targetSlug: string) => {
+    const queryParams = new URLSearchParams()
+    Object.entries(sp).forEach(([key, value]) => {
+      if (value && typeof value === 'string') {
+        queryParams.set(key, value)
+      }
+    })
+    return `/property/${targetSlug}?${queryParams.toString()}`
+  }
 
   // helpers
   const num = (v?: string) => {
@@ -198,13 +236,22 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         </section>
       )}
 
+      {/* Contact Button */}
+      <section className="mt-10 text-center">
+        <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
+          <Link href={`/contact?message=I'm interested in ${encodeURIComponent(p.title)}`}>
+            Contact Us About This Property
+          </Link>
+        </Button>
+      </section>
+
       {/* Prev / Next property navigation */}
-      {(p.prev_property_slug || p.next_property_slug) && (
+      {(prevProperty || nextProperty) && (
         <nav className="mt-10 flex items-center justify-between gap-3">
           <div>
-            {p.prev_property_slug && (
+            {prevProperty && (
               <Button asChild variant="outline">
-                <Link href={`/property/${p.prev_property_slug}`}>
+                <Link href={buildNavUrl(prevProperty.slug)}>
                   <span aria-hidden>←</span>
                   Previous Property
                 </Link>
@@ -213,9 +260,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           </div>
           <div className="text-sm text-muted-foreground opacity-70">{p.title}</div>
           <div>
-            {p.next_property_slug && (
+            {nextProperty && (
               <Button asChild variant="outline">
-                <Link href={`/property/${p.next_property_slug}`}>
+                <Link href={buildNavUrl(nextProperty.slug)}>
                   Next Property
                   <span aria-hidden>→</span>
                 </Link>

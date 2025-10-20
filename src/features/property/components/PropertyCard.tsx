@@ -4,6 +4,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
+import { useSearchParams } from "next/navigation"
 import type { Property } from "../model/types"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -14,6 +15,7 @@ import { useComparison } from "@/contexts/ComparisonContext"
 export default function PropertyCard({ p }: { p: Property }) {
   const { addToComparison, removeFromComparison, isInComparison } = useComparison()
   const isSelected = isInComparison(p.id)
+  const searchParams = useSearchParams()
 
   const handleCompareClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -24,6 +26,9 @@ export default function PropertyCard({ p }: { p: Property }) {
       addToComparison(p)
     }
   }
+
+  // Build property URL with current filter parameters
+  const propertyUrl = `/property/${p.slug}?${searchParams.toString()}`
   return (
     <Card className="overflow-hidden group">
       <div className="relative aspect-[4/3]">
@@ -49,7 +54,7 @@ export default function PropertyCard({ p }: { p: Property }) {
         </div>
       </div>
       <CardContent className="p-4">
-        <Link href={`/property/${p.slug}`} className="font-semibold hover:underline">
+        <Link href={propertyUrl} className="font-semibold hover:underline">
           {p.title}
         </Link>
         <div className="text-sm mt-1 opacity-60 capitalize">
