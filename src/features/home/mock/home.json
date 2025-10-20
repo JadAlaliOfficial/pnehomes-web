@@ -1,9 +1,11 @@
 {
-    "video": "/vid/first.mp4",
-    "logo": "/img/App-Logo.png",
-    "title": "Pne Homes",
-    "subtitle": "Your home, your way",
-    "book-button": {"title":"Book Now" , "slug":"contact"},
+    "first-section" :{
+        "video": "/vid/first.mp4",
+        "logo": "/img/App-Logo.png",
+        "title": "Pne Homes",
+        "subtitle": "Your home, your way",
+        "book-button": "Book Now" 
+    },
     "hero": {
         "title": "Pne Homes",
         "subtitle": "Your home, your way",
@@ -21,13 +23,14 @@
             {"title":"Basement Design and Finish " , "slug":"basement-design-and-finish"}
         ]
     },
-    "links":{
+    "grid-section":{
         "video": "/vid/second.mp4",
+        "logo": "/img/App-Logo.png",
         "links": [
-            {"title":"Communities" , "slug":"communities" , "cover":"/img/communities.jpg"},
-            {"title":"Kitchens" , "slug":"gallery/kitchens" , "cover":"/img/kitchen_2_real.jpg"},
-            {"title":"Events" , "slug":"events" , "cover":"/img/beulah_park_2.jpg"},
-            {"title":"Why PNE" , "slug":"services/custom-homes" , "cover":"/img/custom_homes_2.jpg"}
+            {"title":"Communities" ,  "cover":"/img/communities.jpg"},
+            {"title":"Kitchens" , "cover":"/img/kitchen_2_real.jpg"},
+            {"title":"Events" , "cover":"/img/beulah_park_2.jpg"},
+            {"title":"Why PNE" , "cover":"/img/custom_homes_2.jpg"}
         ]
     },
     "testimonials" : [
@@ -44,8 +47,5 @@
             "by": "Jane D. Happy Homeowner"
         }
     ],
-    "contact": {
-        "title": "CONTACT",
-        "slug" :"contact"
-    }
+    "contact": "CONTACT"
 }

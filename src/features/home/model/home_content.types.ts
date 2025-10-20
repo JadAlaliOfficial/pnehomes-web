@@ -1,8 +1,3 @@
-export interface ButtonLink {
-  title: string;
-  slug: string;
-}
-
 export interface HeroSection {
   icon: string;
   title: string;
@@ -28,13 +23,21 @@ export interface Services {
 
 export interface LinkItem {
   title: string;
-  slug: string;
   cover: string;
 }
 
-export interface Links {
+export interface GridSection {
   video: string;
+  logo: string;
   links: LinkItem[];
+}
+
+export interface FirstSection {
+  video: string;
+  logo: string;
+  title: string;
+  subtitle: string;
+  "book-button": string;
 }
 
 export interface Testimonial {
@@ -42,20 +45,11 @@ export interface Testimonial {
   by: string;
 }
 
-export interface Contact {
-  title: string;
-  slug: string;
-}
-
 export interface HomeContent {
-  video: string;
-  logo: string;
-  title: string;
-  subtitle: string;
-  "book-button": ButtonLink;
+  "first-section": FirstSection;
   hero: Hero;
   services: Services;
-  links: Links;
+  "grid-section": GridSection;
   testimonials: Testimonial[];
-  contact: Contact;
+  contact: string;
 }

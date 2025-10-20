@@ -1,9 +1,9 @@
 {
     "header-logo" : "/img/App-Logo.png",
-    "header-nav":[{ "title":"Floor Plans" , "slug":"floor-plans" } , { "title":"Gallery" , "slug":"gallery" } , { "title":"Communities" , "slug":"communities" } , { "title":"Building Options" , "slug":"building-options" } , {"title":"Services" , "slug":"services"} , { "title":"Contact Us" , "slug":"contact" }],
+    "header-nav":[ "Home" , "Floor Plansss" , "Gallery" , "Communities" , "Building Options" , "Services" , "Contact Us"],
     "header-button" : "Book Now",
     "header-phone" : 6144998375,
-    "footer-nav" : [{ "title":"About us" , "slug":"about-us" } , { "title":"Our Team" , "slug":"our-team" } , { "title":"Events" , "slug":"events" } , { "title":"Privacy Policy" , "slug":"privacy-policy" } ],
+    "footer-nav" : ["About us" , "Our Team" , "Events" , "Privacy Policy" ],
     "footer-phone" : 6144998375,
     "footer-social" :[{"icon" : "facebook" , "url" : "https://www.facebook.com/pne.builders" } , { "icon" : "youtube" , "url" : "https://www.youtube.com/@PNE-HOMES" } , { "icon" : "x" , "url" : "https://x.com/PneBuilders" } , { "icon" : "linkedIn" , "url" : "https://www.linkedin.com/company/95049579/admin/feed/posts/" } , { "icon" : "instagram" , "url" : "https://www.instagram.com/pne.builders/" } , { "icon" : "tiktok" , "url" : "https://www.tiktok.com/@pne.builders" } , {"icon":"pinterest" , "url" :"https://www.pinterest.com/pnehomes/"} , {"icon":"zillow" , "url":"https://www.zillow.com/home-builder-profile/pne-builders/20099/"}]
 }

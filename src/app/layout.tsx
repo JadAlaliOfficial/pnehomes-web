@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Header } from "@/features/home/components/homeLayout/Header";
+import { Footer } from "@/features/home/components/homeLayout/Footer";
 import { ComparisonProvider } from "@/contexts/ComparisonContext";
 import ComparisonDrawer from "@/components/ComparisonDrawer";
 import ComparisonFloatingButton from "@/components/ComparisonFloatingButton";

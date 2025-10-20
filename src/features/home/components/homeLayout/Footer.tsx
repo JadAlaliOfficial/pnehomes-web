@@ -51,16 +51,29 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              {footerConfig.navigation.map((item) => (
-                <li key={item.slug}>
-                  <Link
-                    href={`/${item.slug}`}
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    {item.title}
-                  </Link>
-                </li>
-              ))}
+              {footerConfig.navigation.map((item, index) => {
+                // Map footer navigation items to specific routes based on index
+                const getRouteForIndex = (index: number) => {
+                  switch (index) {
+                    case 0: return "/about-us"; // About us
+                    case 1: return "/our-team"; // Our Team
+                    case 2: return "/events"; // Events
+                    case 3: return "/privacy-policy"; // Privacy Policy
+                    default: return `/${item.toLowerCase().replace(/\s+/g, '-')}`;
+                  }
+                };
+
+                return (
+                  <li key={index}>
+                    <Link
+                      href={getRouteForIndex(index)}
+                      className="text-gray-300 hover:text-white transition-colors"
+                    >
+                      {item}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 

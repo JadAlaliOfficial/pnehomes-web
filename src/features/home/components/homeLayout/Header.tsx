@@ -29,12 +29,25 @@ export function Header() {
 
           {/* Navigation */}
           <nav className="hidden md:flex space-x-8 items-center">
-            {headerConfig.navigation.map((item) => {
-              // Special handling for Services - use ServicesSelect component
-              if (item.slug === "services") {
+            {headerConfig.navigation.map((item, index) => {
+              // Map navigation items to specific routes based on index
+              const getRouteForIndex = (index: number) => {
+                switch (index) {
+                  case 0: return "/"; // Home
+                  case 1: return "/floor-plans"; // Floor Plans
+                  case 2: return "/gallery"; // Gallery
+                  case 3: return "/communities"; // Communities
+                  case 4: return "/building-options"; // Building Options (keep original route)
+                  case 6: return "/contact"; // Contact Us -> /contact
+                  default: return `/${item.toLowerCase().replace(/\s+/g, '-')}`;
+                }
+              };
+
+              // Special handling for Services (Building Options) - use ServicesSelect component
+              if (index === 5) {
                 return (
-                  <div key={item.slug} className="min-w-[120px]">
-                    <ServicesSelect />
+                  <div key={index} className="min-w-[120px]">
+                    <ServicesSelect placeholder={item} />
                   </div>
                 );
               }
@@ -42,11 +55,11 @@ export function Header() {
               // Regular navigation links
               return (
                 <Link
-                  key={item.slug}
-                  href={`/${item.slug}`}
+                  key={index}
+                  href={getRouteForIndex(index)}
                   className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
                 >
-                  {item.title}
+                  {item}
                 </Link>
               );
             })}

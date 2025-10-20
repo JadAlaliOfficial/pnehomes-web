@@ -24,6 +24,13 @@ export class HomeContentRepository {
   }
 
   /**
+   * Get first section data
+   */
+  public getFirstSection() {
+    return this.homeContent["first-section"];
+  }
+
+  /**
    * Get hero section data
    */
   public getHero() {
@@ -38,10 +45,10 @@ export class HomeContentRepository {
   }
 
   /**
-   * Get links section data
+   * Get grid section data
    */
-  public getLinks() {
-    return this.homeContent.links;
+  public getGridSection() {
+    return this.homeContent["grid-section"];
   }
 
   /**
@@ -59,34 +66,34 @@ export class HomeContentRepository {
   }
 
   /**
-   * Get main video
+   * Get main video from first section
    */
   public getMainVideo() {
-    return this.homeContent.video;
+    return this.homeContent["first-section"].video;
   }
 
   /**
-   * Get logo
+   * Get logo from first section
    */
   public getLogo() {
-    return this.homeContent.logo;
+    return this.homeContent["first-section"].logo;
   }
 
   /**
-   * Get main title and subtitle
+   * Get main title and subtitle from first section
    */
   public getMainTitle() {
     return {
-      title: this.homeContent.title,
-      subtitle: this.homeContent.subtitle
+      title: this.homeContent["first-section"].title,
+      subtitle: this.homeContent["first-section"].subtitle
     };
   }
 
   /**
-   * Get book button
+   * Get book button from first section
    */
   public getBookButton() {
-    return this.homeContent["book-button"];
+    return this.homeContent["first-section"]["book-button"];
   }
 
   /**

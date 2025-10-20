@@ -1,5 +1,5 @@
 import { HomeLayoutRepository } from './folder.repository';
-import { HomeLayout, NavigationItem, SocialMediaItem } from '../model/types';
+import { HomeLayout, SocialMediaItem } from '../model/types';
 
 // Initialize repository instance
 const homeLayoutRepo = HomeLayoutRepository.getInstance();
@@ -32,14 +32,14 @@ export const homeLayoutApi = {
   /**
    * Get header navigation items
    */
-  getHeaderNav: (): NavigationItem[] => {
+  getHeaderNav: (): string[] => {
     return homeLayoutRepo.getHeaderNavigation();
   },
 
   /**
    * Get footer navigation items
    */
-  getFooterNav: (): NavigationItem[] => {
+  getFooterNav: (): string[] => {
     return homeLayoutRepo.getFooterNavigation();
   },
 
@@ -66,7 +66,7 @@ export const homeLayoutApi = {
 };
 
 // Export types for external use
-export type { HomeLayout, NavigationItem, SocialMediaItem } from '../model/types';
+export type { HomeLayout, SocialMediaItem } from '../model/types';
 
 // Export repository for advanced use cases
 export { HomeLayoutRepository } from './folder.repository';

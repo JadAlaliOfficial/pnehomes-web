@@ -1,5 +1,5 @@
 import { HomeContentRepository } from './home_content.repository';
-import { HomeContent, Hero, Services, Links, Testimonial, Contact, ButtonLink } from '../model/home_content.types';
+import { HomeContent, Hero, Services, GridSection, FirstSection, Testimonial } from '../model/home_content.types';
 
 // Initialize repository instance
 const homeContentRepo = HomeContentRepository.getInstance();
@@ -13,6 +13,13 @@ export const homeContentApi = {
    */
   getContent: (): HomeContent => {
     return homeContentRepo.getHomeContent();
+  },
+
+  /**
+   * Get first section data
+   */
+  getFirstSection: (): FirstSection => {
+    return homeContentRepo.getFirstSection();
   },
 
   /**
@@ -30,10 +37,10 @@ export const homeContentApi = {
   },
 
   /**
-   * Get links section data
+   * Get grid section data
    */
-  getLinks: (): Links => {
-    return homeContentRepo.getLinks();
+  getGridSection: (): GridSection => {
+    return homeContentRepo.getGridSection();
   },
 
   /**
@@ -46,7 +53,7 @@ export const homeContentApi = {
   /**
    * Get contact section data
    */
-  getContact: (): Contact => {
+  getContact: (): string => {
     return homeContentRepo.getContact();
   },
 
@@ -74,7 +81,7 @@ export const homeContentApi = {
   /**
    * Get book button data
    */
-  getBookButton: (): ButtonLink => {
+  getBookButton: (): string => {
     return homeContentRepo.getBookButton();
   },
 
@@ -91,10 +98,9 @@ export type {
   HomeContent, 
   Hero, 
   Services, 
-  Links, 
-  Testimonial, 
-  Contact, 
-  ButtonLink,
+  GridSection,
+  FirstSection,
+  Testimonial,
   HeroSection,
   ServiceLink,
   LinkItem

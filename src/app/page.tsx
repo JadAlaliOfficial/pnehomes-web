@@ -7,9 +7,10 @@ import { homeContentApi } from "@/features/home/api/home_content.api"
 
 export default function Home() {
   const homeContent = homeContentApi.getContent();
+  const firstSection = homeContentApi.getFirstSection();
   const hero = homeContentApi.getHero();
   const services = homeContentApi.getServices();
-  const links = homeContentApi.getLinks();
+  const gridSection = homeContentApi.getGridSection();
   const testimonials = homeContentApi.getTestimonials();
   const contact = homeContentApi.getContact();
   
@@ -23,24 +24,24 @@ export default function Home() {
           loop 
           className="absolute inset-0 w-full h-full object-cover z-0"
         >
-          <source src={homeContent.video} type="video/mp4" />
+          <source src={firstSection.video} type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-black bg-opacity-40 z-10"></div>
         <div className="relative z-20 text-center text-white px-4">
           <div className="mb-8">
             <Image 
-              src={homeContent.logo} 
+              src={firstSection.logo} 
               alt="PNE Homes Logo" 
               width={200} 
               height={100}
               className="mx-auto mb-6"
             />
           </div>
-          <h1 className="text-6xl font-bold mb-4">{homeContent.title}</h1>
-          <p className="text-2xl mb-8">{homeContent.subtitle}</p>
+          <h1 className="text-6xl font-bold mb-4">{firstSection.title}</h1>
+          <p className="text-2xl mb-8">{firstSection.subtitle}</p>
           <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg">
-            <Link href={`/${homeContent["book-button"].slug}`}>
-              {homeContent["book-button"].title}
+            <Link href="/contact">
+              {firstSection["book-button"]}
             </Link>
           </Button>
         </div>
@@ -101,14 +102,14 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           {/* First Row */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-            {/* First Card - First Link */}
-            <Link href={`/${links.links[0].slug}`} className="group">
+            {/* First Card - First Link - communitites */}
+            <Link href={'/communities'} className="group">
               <div 
                 className="relative h-64 rounded-lg overflow-hidden bg-cover bg-center cursor-pointer transform transition-transform group-hover:scale-105"
-                style={{ backgroundImage: `url(${links.links[0].cover})` }}
+                style={{ backgroundImage: `url(${gridSection.links[0].cover})` }}
               >
                 <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                  <h3 className="text-white text-2xl font-bold">{links.links[0].title}</h3>
+                  <h3 className="text-white text-2xl font-bold">{gridSection.links[0].title}</h3>
                 </div>
               </div>
             </Link>
@@ -121,18 +122,18 @@ export default function Home() {
                 loop 
                 className="w-full h-full object-cover"
               >
-                <source src={links.video} type="video/mp4" />
+                <source src={gridSection.video} type="video/mp4" />
               </video>
             </div>
             
-            {/* Third Card - Second Link */}
-            <Link href={`/${links.links[1].slug}`} className="group">
+            {/* Third Card - Second Link - kitchens  */}
+            <Link href='/gallery/kitchens' className="group">
               <div 
                 className="relative h-64 rounded-lg overflow-hidden bg-cover bg-center cursor-pointer transform transition-transform group-hover:scale-105"
-                style={{ backgroundImage: `url(${links.links[1].cover})` }}
+                style={{ backgroundImage: `url(${gridSection.links[1].cover})` }}
               >
                 <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                  <h3 className="text-white text-2xl font-bold">{links.links[1].title}</h3>
+                  <h3 className="text-white text-2xl font-bold">{gridSection.links[1].title}</h3>
                 </div>
               </div>
             </Link>
@@ -140,14 +141,14 @@ export default function Home() {
           
           {/* Second Row */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* First Card - Third Link */}
-            <Link href={`/${links.links[2].slug}`} className="group">
+            {/* First Card - Third Link - events */}
+            <Link href='/events' className="group">
               <div 
                 className="relative h-64 rounded-lg overflow-hidden bg-cover bg-center cursor-pointer transform transition-transform group-hover:scale-105"
-                style={{ backgroundImage: `url(${links.links[2].cover})` }}
+                style={{ backgroundImage: `url(${gridSection.links[2].cover})` }}
               >
                 <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                  <h3 className="text-white text-2xl font-bold">{links.links[2].title}</h3>
+                  <h3 className="text-white text-2xl font-bold">{gridSection.links[2].title}</h3>
                 </div>
               </div>
             </Link>
@@ -155,7 +156,7 @@ export default function Home() {
             {/* Second Card - Logo */}
             <div className="h-64 rounded-lg bg-gray-100 flex items-center justify-center">
               <Image 
-                src={homeContent.logo} 
+                src={gridSection.logo} 
                 alt="PNE Homes Logo" 
                 width={150} 
                 height={75}
@@ -163,13 +164,13 @@ export default function Home() {
             </div>
             
             {/* Third Card - Fourth Link */}
-            <Link href={`/${links.links[3].slug}`} className="group">
+            <Link href='/services/custom-homes/' className="group">
               <div 
                 className="relative h-64 rounded-lg overflow-hidden bg-cover bg-center cursor-pointer transform transition-transform group-hover:scale-105"
-                style={{ backgroundImage: `url(${links.links[3].cover})` }}
+                style={{ backgroundImage: `url(${gridSection.links[3].cover})` }}
               >
                 <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                  <h3 className="text-white text-2xl font-bold">{links.links[3].title}</h3>
+                  <h3 className="text-white text-2xl font-bold">{gridSection.links[3].title}</h3>
                 </div>
               </div>
             </Link>
@@ -195,9 +196,9 @@ export default function Home() {
       {/* Contact Button */}
       <section className="py-20 px-4 bg-white text-center">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-4xl font-bold mb-8 text-gray-900">{contact.title}</h2>
+          <h2 className="text-4xl font-bold mb-8 text-gray-900">{contact}</h2>
           <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-4 text-lg">
-            <Link href={`/${contact.slug}`}>
+            <Link href="/contact">
               Get In Touch
             </Link>
           </Button>

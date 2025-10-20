@@ -12,7 +12,11 @@ import {
 import { getAllServices } from "../api"
 import type { Service } from "../model/types"
 
-export function ServicesSelect() {
+interface ServicesSelectProps {
+  placeholder?: string;
+}
+
+export function ServicesSelect({ placeholder = "Services" }: ServicesSelectProps) {
   const router = useRouter()
   const [services, setServices] = useState<Service[]>([])
   const [loading, setLoading] = useState(true)
@@ -37,7 +41,7 @@ export function ServicesSelect() {
 
   const handleServiceSelect = (slug: string) => {
     router.push(`/services/${slug}`)
-    // Reset the select value to keep showing "Services"
+    // Reset the select value to keep showing the placeholder
     setSelectValue("")
   }
 
@@ -54,7 +58,7 @@ export function ServicesSelect() {
   return (
     <Select value={selectValue} onValueChange={handleServiceSelect}>
       <SelectTrigger className="w-full">
-        <SelectValue placeholder="Services" />
+        <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
         {services.map((service) => (

@@ -1,8 +1,3 @@
-export interface NavigationItem {
-  title: string;
-  slug: string;
-}
-
 export interface SocialMediaItem {
   icon: string;
   url: string;
@@ -10,10 +5,10 @@ export interface SocialMediaItem {
 
 export interface HomeLayout {
   "header-logo": string;
-  "header-nav": NavigationItem[];
+  "header-nav": string[];
   "header-button": string;
   "header-phone": number;
-  "footer-nav": NavigationItem[];
+  "footer-nav": string[];
   "footer-phone": number;
   "footer-social": SocialMediaItem[];
 }
