@@ -66,7 +66,6 @@ export default function PropertyCard({ p }: { p: Property }) {
         <div className="mt-2 font-medium">
           {p.price ? `$${parseInt(p.price).toLocaleString()}` : "Contact for price"}
         </div>
-        <div className="mt-1 text-xs uppercase tracking-wide opacity-70">{p.status}</div>
         
         {/* Compare Button */}
         <div className="mt-3 pt-3 border-t border-gray-100">

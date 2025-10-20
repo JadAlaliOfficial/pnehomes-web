@@ -8,13 +8,14 @@ import { GalleryImage } from "../model/types"
 
 interface GalleryContentProps {
   images: GalleryImage[]
+  albumTitle?: string
 }
 
 interface ImageState {
   [key: number]: "virtual" | "real"
 }
 
-export default function GalleryContent({ images }: GalleryContentProps) {
+export default function GalleryContent({ images, albumTitle }: GalleryContentProps) {
   const [imageStates, setImageStates] = useState<ImageState>({})
 
   const toggleImage = (index: number) => {
@@ -46,7 +47,7 @@ export default function GalleryContent({ images }: GalleryContentProps) {
             <div className="relative aspect-[4/3] overflow-hidden">
               <Image
                 src={getCurrentImage(image, index)}
-                alt={`Gallery image ${index + 1}`}
+                alt={albumTitle ? `${albumTitle} - Image ${index + 1}` : `Gallery image ${index + 1}`}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
                 sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"

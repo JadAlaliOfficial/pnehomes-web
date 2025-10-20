@@ -21,7 +21,6 @@ import type { Property } from "./types"
  * @property {number} [garages] - Filter properties with garages equal to or above this value
  * @property {number} [min] - Minimum price filter (inclusive)
  * @property {number} [max] - Maximum price filter (inclusive)
- * @property {string} [status] - Filter by property status (available, sold, comingSoon, Now selling)
  * @property {number} [page] - Page number for pagination (1-based, defaults to 1)
  * @property {number} [limit] - Number of items per page (defaults to 9)
  * @property {string} [sortBy] - Field to sort by (sqft, price, id - defaults to sqft)
@@ -35,7 +34,6 @@ export type ListParams = {
   garages?: number
   min?: number
   max?: number
-  status?: "available" | "sold" | "comingSoon" | "Now selling"
   page?: number
   limit?: number
   sortBy?: "sqft" | "price" | "id"
@@ -59,7 +57,6 @@ export type ListParams = {
  * const results = applyFiltersAndSort(properties, {
  *   community: 'Downtown',
  *   beds: 3,
- *   status: 'available',
  *   sortBy: 'price',
  *   sortOrder: 'asc',
  *   page: 2,
@@ -79,9 +76,6 @@ export function applyFiltersAndSort(items: Property[], params: ListParams = {}) 
   if (params.price) {
     out = out.filter(p => parseInt(p.price) <= params.price!)
   }
-
-  // Status filter - exact match for property availability status
-  if (params.status) out = out.filter(p => p.status === params.status)
   
   // Bedroom filter - equal to or above specified value (minimum bedrooms)
   if (params.beds) out = out.filter(p => parseInt(p.beds) >= params.beds!)
@@ -148,7 +142,6 @@ export function applyFiltersAndSort(items: Property[], params: ListParams = {}) 
  * @example
  * // Get total count of available properties under $500k
  * const totalCount = getTotalCount(properties, {
- *   status: 'available',
  *   max: 500000
  * })
  * console.log(`Found ${totalCount} available properties under $500k`)
@@ -166,7 +159,6 @@ export function getTotalCount(items: Property[], params: ListParams = {}) {
     out = out.filter(p => parseInt(p.price) <= params.price!)
   }
 
-  if (params.status) out = out.filter(p => p.status === params.status)
   if (params.beds) out = out.filter(p => parseInt(p.beds) >= params.beds!)
   if (params.baths) out = out.filter(p => parseFloat(p.baths) >= params.baths!)
   if (params.garages) out = out.filter(p => parseInt(p.garages) >= params.garages!)

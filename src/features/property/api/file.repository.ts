@@ -44,7 +44,7 @@ export async function list(params: ListParams = {}): Promise<Property[]> {
  * 
  * @example
  * // Get total count of available properties under $500k
- * const count = await getTotalFilteredCount({ status: 'available', max: 500000 })
+ * const count = await getTotalFilteredCount({ max: 500000 })
  */
 export async function getTotalFilteredCount(params: ListParams = {}): Promise<number> {
   return getTotalCount(Properties, params)

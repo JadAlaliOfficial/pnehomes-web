@@ -12,16 +12,7 @@
 
 import { z } from "zod"
 
-/**
- * Enumeration of possible property status values
- * 
- * Defines the lifecycle states a property can be in:
- * - "available": Property is ready for purchase/rent
- * - "sold": Property has been sold and is no longer available
- * - "comingSoon": Property will be available in the future
- * - "Now selling": Property is currently being marketed for sale
- */
-export const PropertyStatus = z.enum(["available", "sold", "comingSoon", "Now selling"])
+
 
 /**
  * Schema for the "What's Special" section of a property
@@ -104,7 +95,6 @@ export const PropertySchema = z.object({
   slug: z.string(),
   title: z.string(),
   community: z.string(),
-  status: PropertyStatus.default("available"),
   price: z.string(),
   beds: z.string(),
   baths: z.string(),

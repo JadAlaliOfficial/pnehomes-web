@@ -84,7 +84,7 @@ export default async function Page({
 
   return (
     <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      {/* Title + status */}
+      {/* Title */}
       <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">{p.title}</h1>
@@ -97,11 +97,6 @@ export default async function Page({
           </div>
         )}
         </div>
-        {p.status && (
-          <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-blue-200">
-            {p.status}
-          </Badge>
-        )}
       </div>
 
       {/* Hero area: gallery + sticky info card */}

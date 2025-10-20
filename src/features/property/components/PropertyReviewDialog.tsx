@@ -92,11 +92,7 @@ export default function PropertyReviewDialog({ property, children }: PropertyRev
                 <div className="text-sm text-muted-foreground opacity-60 capitalize">
                   {property.community}
                 </div>
-                {property.status && (
-                  <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-blue-200">
-                    {property.status}
-                  </Badge>
-                )}
+                
               </div>
               
               <div className="text-2xl font-bold">

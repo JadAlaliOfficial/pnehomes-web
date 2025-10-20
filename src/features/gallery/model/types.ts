@@ -41,10 +41,29 @@ export interface GalleryAlbum {
 }
 
 /**
- * Gallery Data Type
- * Array of gallery albums
+ * Contact Information Interface
+ * Represents contact information for gallery inquiries
  */
-export type GalleryData = GalleryAlbum[];
+export interface ContactInfo {
+  title: string;
+  message: string;
+}
+
+/**
+ * Gallery Data Interface
+ * Represents the complete gallery data structure with cover and albums
+ */
+export interface GalleryData {
+  cover: string;
+  gallery: GalleryAlbum[];
+  contact: ContactInfo;
+}
+
+/**
+ * Gallery Albums Type
+ * Array of gallery albums (for backward compatibility)
+ */
+export type GalleryAlbums = GalleryAlbum[];
 
 /**
  * Gallery Filter Options

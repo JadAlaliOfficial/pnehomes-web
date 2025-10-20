@@ -1,4 +1,5 @@
-import { getGallerySubAlbum } from "@/features/gallery/api"
+import { getGallerySubAlbum, getGalleryContactInfo } from "@/features/gallery/api"
+import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import GalleryContent from "@/features/gallery/components/GalleryContent"
@@ -10,12 +11,15 @@ interface SubAlbumPageProps {
 export default async function SubAlbumPage({ params }: SubAlbumPageProps) {
   const { slug, subSlug } = await params
   const result = await getGallerySubAlbum(slug, subSlug)
+  const contactInfo = await getGalleryContactInfo()
 
   if (!result.found || !result.subAlbum) {
     return notFound()
   }
 
   const { album, subAlbum } = result
+  const contactMessage = contactInfo.message.replace('{title}', subAlbum.title)
+  const contactUrl = `/contact?message=${encodeURIComponent(contactMessage)}`
 
   return (
     <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -31,10 +35,17 @@ export default async function SubAlbumPage({ params }: SubAlbumPageProps) {
           <span>→</span>
           <span className="text-foreground">{subAlbum.title}</span>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight">{subAlbum.title}</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold tracking-tight">{subAlbum.title}</h1>
+          <Link href={contactUrl}>
+            <Button variant="outline" size="sm">
+              {contactInfo.title}
+            </Button>
+          </Link>
+        </div>
       </div>
 
-      <GalleryContent images={subAlbum.gallery} />
+      <GalleryContent images={subAlbum.gallery} albumTitle={subAlbum.title} />
     </main>
   )
 }

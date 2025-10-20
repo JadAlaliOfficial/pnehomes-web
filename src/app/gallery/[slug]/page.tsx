@@ -1,5 +1,6 @@
-import { getGalleryAlbumBySlug } from "@/features/gallery/api"
+import { getGalleryAlbumBySlug, getGalleryContactInfo } from "@/features/gallery/api"
 import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -12,10 +13,14 @@ interface AlbumPageProps {
 export default async function AlbumPage({ params }: AlbumPageProps) {
   const { slug } = await params
   const album = await getGalleryAlbumBySlug(slug)
+  const contactInfo = await getGalleryContactInfo()
 
   if (!album) {
     return notFound()
   }
+
+  const contactMessage = contactInfo.message.replace('{title}', album.title)
+  const contactUrl = `/contact?message=${encodeURIComponent(contactMessage)}`
 
   return (
     <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -26,7 +31,14 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
         >
           ← Back to Gallery
         </Link>
-        <h1 className="text-3xl font-bold tracking-tight">{album.title}</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold tracking-tight">{album.title}</h1>
+          <Link href={contactUrl}>
+            <Button variant="outline" size="sm">
+              {contactInfo.title}
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Case A: Album has sub-albums */}
@@ -58,7 +70,7 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
         </div>
       ) : (
         /* Case B: Album has direct gallery images */
-        album.gallery && <GalleryContent images={album.gallery} />
+        album.gallery && <GalleryContent images={album.gallery} albumTitle={album.title} />
       )}
     </main>
   )

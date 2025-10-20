@@ -2,9 +2,13 @@ import { GalleryFileRepository } from './file.repository';
 import { 
   GalleryData, 
   GalleryAlbum, 
+  GalleryAlbums,
   SubAlbum, 
   GalleryFilterOptions, 
-  GallerySearchResult 
+  GallerySearchResult,
+  ContactInfo,
+  GalleryImage,
+  CoverImage
 } from '../model/types';
 
 // Create a singleton instance of the repository
@@ -16,10 +20,34 @@ const galleryRepository = new GalleryFileRepository();
  */
 
 /**
- * Get all gallery albums
+ * Get complete gallery data including cover and contact info
  * @returns Promise<GalleryData>
  */
-export const getAllGalleryAlbums = async (): Promise<GalleryData> => {
+export const getGalleryData = async (): Promise<GalleryData> => {
+  return galleryRepository.getGalleryData();
+};
+
+/**
+ * Get gallery cover image
+ * @returns Promise<string>
+ */
+export const getGalleryCover = async (): Promise<string> => {
+  return galleryRepository.getCoverImage();
+};
+
+/**
+ * Get contact information
+ * @returns Promise<ContactInfo>
+ */
+export const getGalleryContactInfo = async (): Promise<ContactInfo> => {
+  return galleryRepository.getContactInfo();
+};
+
+/**
+ * Get all gallery albums
+ * @returns Promise<GalleryAlbums>
+ */
+export const getAllGalleryAlbums = async (): Promise<GalleryAlbums> => {
   return galleryRepository.getAllAlbums();
 };
 
@@ -57,34 +85,34 @@ export const getGallerySubAlbum = async (
 /**
  * Filter gallery albums based on criteria
  * @param options - Filter options
- * @returns Promise<GalleryData>
+ * @returns Promise<GalleryAlbums>
  */
-export const filterGalleryAlbums = async (options: GalleryFilterOptions): Promise<GalleryData> => {
+export const filterGalleryAlbums = async (options: GalleryFilterOptions): Promise<GalleryAlbums> => {
   return galleryRepository.filterAlbums(options);
 };
 
 /**
  * Get albums that have sub-albums
- * @returns Promise<GalleryData>
+ * @returns Promise<GalleryAlbums>
  */
-export const getAlbumsWithSubAlbums = async (): Promise<GalleryData> => {
+export const getAlbumsWithSubAlbums = async (): Promise<GalleryAlbums> => {
   return galleryRepository.getAlbumsWithSubAlbums();
 };
 
 /**
  * Get albums that have direct galleries (no sub-albums)
- * @returns Promise<GalleryData>
+ * @returns Promise<GalleryAlbums>
  */
-export const getAlbumsWithDirectGalleries = async (): Promise<GalleryData> => {
+export const getAlbumsWithDirectGalleries = async (): Promise<GalleryAlbums> => {
   return galleryRepository.getAlbumsWithDirectGalleries();
 };
 
 /**
  * Search albums by title
  * @param searchTerm - Search term
- * @returns Promise<GalleryData>
+ * @returns Promise<GalleryAlbums>
  */
-export const searchGalleryAlbumsByTitle = async (searchTerm: string): Promise<GalleryData> => {
+export const searchGalleryAlbumsByTitle = async (searchTerm: string): Promise<GalleryAlbums> => {
   return galleryRepository.searchAlbumsByTitle(searchTerm);
 };
 
@@ -108,11 +136,13 @@ export const getGallerySubAlbumsCount = async (): Promise<number> => {
 export type {
   GalleryData,
   GalleryAlbum,
+  GalleryAlbums,
   SubAlbum,
   GalleryFilterOptions,
   GallerySearchResult,
   GalleryImage,
-  CoverImage
+  CoverImage,
+  ContactInfo
 } from '../model/types';
 
 // Export repository class for advanced use cases

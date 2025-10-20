@@ -1,57 +1,61 @@
-[
-  {
-    "id": 1,
-    "slug": "exteriors",
-    "title": "Exteriors",
-    "cover_img": {
-      "virtual_img": "/img/avalon-1.jpg",
-      "real_img": ""
-      
-    },
-    "sub_albums": [
-      {
-        "slug": "lot-38",
-        "title": "Lot 38",
-        "cover_img": {
-          "virtual_img": "/img/lot_38_1_virtual.jpg",
-          "real_img": ""
-        },
-        "gallery": [
-          {  "virtual_img": "/img/lot_38_1_virtual.jpg" ,"real_img": "/img/lot_38_1_real.jpg" },
-          {  "virtual_img": "/img/lot_38_2_virtual.jpg" ,"real_img": "/img/lot_38_2_real.jpg" },
-          {  "virtual_img": "/img/lot_38_3_virtual.jpg" ,"real_img": "" },
-          {  "virtual_img": "/img/lot_38_4_virtual.jpg" ,"real_img": "" }
-        ]
+{
+  "cover": "/img/cover.jpg",
+  "gallery": [
+    {
+      "id": 1,
+      "slug": "exteriors",
+      "title": "Exteriors",
+      "cover_img": {
+        "virtual_img": "/img/avalon-1.jpg",
+        "real_img": "/img/avalon-1.jpg"
       },
-      {
-        "slug": "lot-49",
-        "title": "Lot 49",
-        "cover_img": {
-          
-          "virtual_img": "/img/lot_49_2_virtual.jpg",
-          "real_img": ""
+      "sub_albums": [
+        {
+          "slug": "lot-38",
+          "title": "Lot 38",
+          "cover_img": {
+            "virtual_img": "/img/lot_38_1_virtual.jpg",
+            "real_img": "/img/lot_38_1_real.jpg"
+          },
+          "gallery": [
+            { "virtual_img": "/img/lot_38_1_virtual.jpg", "real_img": "/img/lot_38_1_real.jpg" },
+            { "virtual_img": "/img/lot_38_2_virtual.jpg", "real_img": "/img/lot_38_2_real.jpg" },
+            { "virtual_img": "/img/lot_38_3_virtual.jpg", "real_img": "/img/lot_38_3_virtual.jpg" },
+            { "virtual_img": "/img/lot_38_4_virtual.jpg", "real_img": "/img/lot_38_4_virtual.jpg" }
+          ]
         },
-        "gallery": [
-          {  "virtual_img": "/img/lot_49_1_virtual.jpg" ,"real_img": "" },
-          {  "virtual_img": "/img/lot_49_2_virtual.jpg" ,"real_img": "" },
-          {  "virtual_img": "/img/lot_49_3_virtual.jpg" ,"real_img": "" }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 3,
-    "slug": "kitchens",
-    "title": "Kitchens",
-    "cover_img": {
-      "virtual_img": "/img/kitchen_1_virtual.jpg",
-      "real_img": ""
-      
+        {
+          "slug": "lot-49",
+          "title": "Lot 49",
+          "cover_img": {
+            "virtual_img": "/img/lot_49_2_virtual.jpg",
+            "real_img": "/img/lot_49_2_virtual.jpg"
+          },
+          "gallery": [
+            { "virtual_img": "/img/lot_49_1_virtual.jpg", "real_img": "/img/lot_49_1_virtual.jpg" },
+            { "virtual_img": "/img/lot_49_2_virtual.jpg", "real_img": "/img/lot_49_2_virtual.jpg" },
+            { "virtual_img": "/img/lot_49_3_virtual.jpg", "real_img": "/img/lot_49_3_virtual.jpg" }
+          ]
+        }
+      ]
     },
-    "gallery": [
-      {  "virtual_img": "/img/kitchen_1_virtual.jpg" ,"real_img": "/img/kitchen_1_real.jpg" },
-      {  "virtual_img": "/img/kitchen_2_virtual.jpg" ,"real_img": "/img/kitchen_2_real.jpg" },
-      {  "virtual_img": "/img/kitchen_3_virtual.jpg" ,"real_img": "/img/kitchen_3_real.jpg" }
-    ]
+    {
+      "id": 3,
+      "slug": "kitchens",
+      "title": "Kitchens",
+      "cover_img": {
+        "virtual_img": "/img/kitchen_1_virtual.jpg",
+        "real_img": "/img/kitchen_1_real.jpg"
+      },
+      "gallery": [
+        { "virtual_img": "/img/kitchen_1_virtual.jpg", "real_img": "/img/kitchen_1_real.jpg" },
+        { "virtual_img": "/img/kitchen_2_virtual.jpg", "real_img": "/img/kitchen_2_real.jpg" },
+        { "virtual_img": "/img/kitchen_3_virtual.jpg", "real_img": "/img/kitchen_3_real.jpg" }
+      ]
+    }
+  ],
+  "contact": {
+    "title": "Contact Us",
+    "message": "I'm contacting you to ask about images of the {title}"
   }
-]
+}

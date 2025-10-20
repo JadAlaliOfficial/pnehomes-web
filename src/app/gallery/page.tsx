@@ -1,18 +1,33 @@
-import { getAllGalleryAlbums } from "@/features/gallery/api"
+import { getGalleryData } from "@/features/gallery/api"
 import { Card, CardContent } from "@/components/ui/card"
 import Image from "next/image"
 import Link from "next/link"
 
 export default async function GalleryPage() {
-  const albums = await getAllGalleryAlbums()
+  const galleryData = await getGalleryData()
+  const { cover, gallery: albums } = galleryData
 
   return (
     <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      {/* Cover Image Section */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">Gallery</h1>
-        <p className="text-muted-foreground mt-2">
-          Explore our collection of virtual and real images
-        </p>
+        <div className="relative aspect-[21/9] w-full overflow-hidden rounded-lg">
+          <Image
+            src={cover}
+            alt="Gallery Cover"
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-8">
+            <h1 className="text-4xl font-bold tracking-tight text-white mb-2">Gallery</h1>
+            <p className="text-white/90 text-lg">
+              Explore our collection of virtual and real images
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

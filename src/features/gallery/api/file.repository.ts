@@ -1,9 +1,11 @@
 import { 
   GalleryData, 
   GalleryAlbum, 
+  GalleryAlbums,
   SubAlbum, 
   GalleryFilterOptions, 
-  GallerySearchResult 
+  GallerySearchResult,
+  ContactInfo
 } from '../model/types';
 import galleryData from '../mock/gallery.json';
 
@@ -19,11 +21,35 @@ export class GalleryFileRepository {
   }
 
   /**
-   * Get all gallery albums
+   * Get complete gallery data including cover and contact info
    * @returns Promise<GalleryData>
    */
-  async getAllAlbums(): Promise<GalleryData> {
+  async getGalleryData(): Promise<GalleryData> {
     return Promise.resolve(this.data);
+  }
+
+  /**
+   * Get gallery cover image
+   * @returns Promise<string>
+   */
+  async getCoverImage(): Promise<string> {
+    return Promise.resolve(this.data.cover);
+  }
+
+  /**
+   * Get contact information
+   * @returns Promise<ContactInfo>
+   */
+  async getContactInfo(): Promise<ContactInfo> {
+    return Promise.resolve(this.data.contact);
+  }
+
+  /**
+   * Get all gallery albums
+   * @returns Promise<GalleryAlbums>
+   */
+  async getAllAlbums(): Promise<GalleryAlbums> {
+    return Promise.resolve(this.data.gallery);
   }
 
   /**
@@ -32,7 +58,7 @@ export class GalleryFileRepository {
    * @returns Promise<GalleryAlbum | null>
    */
   async getAlbumById(id: number): Promise<GalleryAlbum | null> {
-    const album = this.data.find(album => album.id === id);
+    const album = this.data.gallery.find(album => album.id === id);
     return Promise.resolve(album || null);
   }
 
@@ -42,7 +68,7 @@ export class GalleryFileRepository {
    * @returns Promise<GalleryAlbum | null>
    */
   async getAlbumBySlug(slug: string): Promise<GalleryAlbum | null> {
-    const album = this.data.find(album => album.slug === slug);
+    const album = this.data.gallery.find(album => album.slug === slug);
     return Promise.resolve(album || null);
   }
 
@@ -53,7 +79,7 @@ export class GalleryFileRepository {
    * @returns Promise<GallerySearchResult>
    */
   async getSubAlbum(albumSlug: string, subAlbumSlug: string): Promise<GallerySearchResult> {
-    const album = this.data.find(album => album.slug === albumSlug);
+    const album = this.data.gallery.find(album => album.slug === albumSlug);
     
     if (!album || !album.sub_albums) {
       return Promise.resolve({ found: false });
@@ -71,10 +97,10 @@ export class GalleryFileRepository {
   /**
    * Filter albums based on criteria
    * @param options - Filter options
-   * @returns Promise<GalleryData>
+   * @returns Promise<GalleryAlbums>
    */
-  async filterAlbums(options: GalleryFilterOptions): Promise<GalleryData> {
-    let filteredData = [...this.data];
+  async filterAlbums(options: GalleryFilterOptions): Promise<GalleryAlbums> {
+    let filteredData = [...this.data.gallery];
 
     if (options.id !== undefined) {
       filteredData = filteredData.filter(album => album.id === options.id);
@@ -96,28 +122,28 @@ export class GalleryFileRepository {
 
   /**
    * Get albums with sub-albums only
-   * @returns Promise<GalleryData>
+   * @returns Promise<GalleryAlbums>
    */
-  async getAlbumsWithSubAlbums(): Promise<GalleryData> {
+  async getAlbumsWithSubAlbums(): Promise<GalleryAlbums> {
     return this.filterAlbums({ hasSubAlbums: true });
   }
 
   /**
    * Get albums with direct galleries only (no sub-albums)
-   * @returns Promise<GalleryData>
+   * @returns Promise<GalleryAlbums>
    */
-  async getAlbumsWithDirectGalleries(): Promise<GalleryData> {
+  async getAlbumsWithDirectGalleries(): Promise<GalleryAlbums> {
     return this.filterAlbums({ hasSubAlbums: false });
   }
 
   /**
    * Search for albums by title (case-insensitive)
    * @param searchTerm - Search term
-   * @returns Promise<GalleryData>
+   * @returns Promise<GalleryAlbums>
    */
-  async searchAlbumsByTitle(searchTerm: string): Promise<GalleryData> {
+  async searchAlbumsByTitle(searchTerm: string): Promise<GalleryAlbums> {
     const lowerSearchTerm = searchTerm.toLowerCase();
-    const results = this.data.filter(album => 
+    const results = this.data.gallery.filter(album => 
       album.title.toLowerCase().includes(lowerSearchTerm)
     );
     return Promise.resolve(results);
@@ -128,7 +154,7 @@ export class GalleryFileRepository {
    * @returns Promise<number>
    */
   async getAlbumsCount(): Promise<number> {
-    return Promise.resolve(this.data.length);
+    return Promise.resolve(this.data.gallery.length);
   }
 
   /**
@@ -136,7 +162,7 @@ export class GalleryFileRepository {
    * @returns Promise<number>
    */
   async getSubAlbumsCount(): Promise<number> {
-    const count = this.data.reduce((total, album) => {
+    const count = this.data.gallery.reduce((total, album) => {
       return total + (album.sub_albums?.length || 0);
     }, 0);
     return Promise.resolve(count);
