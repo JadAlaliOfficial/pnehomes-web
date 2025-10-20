@@ -1,0 +1,81 @@
+{
+  "cover": "/img/cover.jpg",
+  "properties": 
+    [
+      {
+        "id": 1,
+        "slug": "pne-plan-56550SM",
+        "title": "PNE PLAN 56550SM",
+        "community": "beulah park",
+        "price": "289900",
+        "beds": "2",
+        "baths": "3.5",
+        "garages": "1",
+        "sqft": "2343",
+        "gallery": ["/img/avalon-1.jpg","/img/avalon-1.jpg","/img/avalon-1.jpg","/img/avalon-1.jpg"],
+        "zillow_link": "https://www.zillow.com/community/beulah-park/2053928148_zpid/",
+        "Whats_special": {
+          "badges": ["Open-concept floor plan", "Large windows", "High ceilings", "Cozy fireplace", "Natural light", "Modern living space"],
+          "description": "Welcome to your dream farmhouse! This stunning new construction home boasts over 2500 square feet of modern living space, designed for comfort and style. With 3 bedrooms and 2.5 bathrooms, this home offers ample space for your family to thrive. Should the need arise, you have the flexibility to add a 4th bedroom for extra space, and an additional bathroom for added convenience. As you enter the home, you'll be greeted by an inviting open-concept floor plan that seamlessly connects the living, dining, and kitchen areas. The spacious living room features high ceilings, creating a grand and open atmosphere. A cozy fireplace and large windows fill the room with natural light, creating a warm and inviting space for gatherings and relaxation."
+        },
+        "Facts_features": [
+          {
+            "title": "Bedrooms & bathrooms",
+            "list": ["Bedrooms: 3", "Bathrooms: 3", "Full bathrooms: 2", "1/2 bathrooms: 1"]
+          },
+          {
+            "title": "Heating",
+            "list": ["Natural Gas", "Forced Air"]
+          }
+        ],
+        "floor_plans": [
+          {
+            "title": "Main Level",
+            "img": "/img/avalon-1.jpg",
+            "Description": "Width 81'4\" Depth 60'2\""
+          },
+          {
+            "title": "Second floor",
+            "img": "/img/avalon-1.jpg",
+            "Description": "Width 81'4\" Depth 60'2\""
+          }
+        ],
+        "next_property_slug": "the-solstice",
+        "prev_property_slug": "the-solstice"
+      },
+      {
+        "id": 2,
+        "slug": "the-solstice",
+        "title": "The Solstice",
+        "community": "beulah park",
+        "price": "610000",
+        "beds": "4",
+        "baths": "3",
+        "garages": "2",
+        "sqft": "2430",
+        "gallery": ["/img/solstice-1.jpg"],
+        "zillow_link": "https://www.zillow.com/community/beulah-park/2053928148_zpid/",
+        "Whats_special": {
+          "badges": ["Spacious layout", "Premium finishes", "Guest suite", "Gourmet kitchen"],
+          "description": "Experience luxury living in The Solstice, a beautifully crafted home featuring premium finishes and thoughtful design throughout. This elegant residence offers a perfect blend of comfort and sophistication."
+        },
+        "Facts_features": [
+          {
+            "title": "Bedrooms & bathrooms",
+            "list": ["Bedrooms: 4", "Bathrooms: 3", "Full bathrooms: 3", "1/2 bathrooms: 0"]
+          },
+          {
+            "title": "Heating",
+            "list": ["Natural Gas", "Forced Air"]
+          }
+        ],
+        "floor_plans": [
+          {
+            "title": "Main Level",
+            "img": "/img/solstice-1.jpg",
+            "Description": "Width 75'2\" Depth 58'4\""
+          }
+        ]
+      }
+  ]
+}

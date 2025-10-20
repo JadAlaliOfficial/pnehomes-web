@@ -1,0 +1,37 @@
+{
+    "cover": "/img/cover.jpg",
+    "slogan": "EVENTS",
+    "events":[
+        {
+            "title" : "Kemba Charity Event",
+            "description" : "Thrilled to be part of the Kemba Charity Event! We were honored to participate in this year's event, which was filled with incredible generosity and community spirit. A huge thank you to everyone who helped make it a success. ",
+            "gallery": [
+                "/img/event1_1.jpg",
+                "/img/event2_1.jpg",
+                "/img/event3_1.jpg"
+            ]
+        },
+        {
+            "title" : "Make-A-Day",
+            "description" : "Proud to join the Make-A-Day event, where we come together to support our community and build a better future for all! As leaders in architecture and construction, we believe that building strong foundations isn't just about structures; it's about fostering human connections and supporting those in need. Join us and make a difference, because every small step creates a big change.Together, we build a stronger, more united community! ",
+            "gallery": [
+                "/img/event1_2.jpg",
+                "/img/event2_2.jpg",
+                "/img/event3_2.jpg"
+            ]
+        },
+        {
+            "title" : "American Floor Source",
+            "description" : "We were thrilled to take part in an exciting event with Columbus Crew and American Floor Source! It was a fantastic opportunity to support the team and share in the excitement with our community. We're deeply committed to being active participants, engaging positively, and making a meaningful impact locally. ",
+            "gallery": [
+                "/img/event1_2.jpg",
+                "/img/event2_2.jpg",
+                "/img/event3_2.jpg"
+            ]
+        }
+    ],
+    "contact" : {
+        "title" : "Contact Us Today",
+        "message": "We'd love to hear from you! Whether you have questions, feedback, or simply want to say hello, we're here to help. Please don't hesitate to reach out to us. We value your input and look forward to connecting with you."
+    }
+}

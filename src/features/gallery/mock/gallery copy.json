@@ -1,313 +1,46 @@
-[
-  {
-    "id": 1,
-    "slug": "exteriors",
-    "title": "Exteriors",
-    "cover_img": {
-      "real_img": "/img/gallery/exteriors/cover.jpg",
-      "virtual_img": "/gallery/exteriors/cover.jpg"
-    },
-    "sub_albums": [
+{
+  "cover": "/img/cover.jpg",
+  "gallery":
+    [
       {
-        "slug": "lot-38",
-        "title": "Lot 38",
-        "cover_img": {
-          "real_img": "/img/gallery/exteriors/lot-38-cover.jpg",
-          "virtual_img": "/gallery/exteriors/lot-38-cover.jpg"
-        },
-        "gallery": [
-          { "real_img": "/img/gallery/exteriors/lot-38-1.jpg", "virtual_img": "/gallery/exteriors/lot-38-1.jpg" },
-          { "real_img": "/img/gallery/exteriors/lot-38-2.jpg", "virtual_img": "/gallery/exteriors/lot-38-2.jpg" },
-          { "real_img": "/img/gallery/exteriors/lot-38-3.jpg", "virtual_img": "/gallery/exteriors/lot-38-3.jpg" }
+        "id": 1,
+        "slug": "exteriors",
+        "title": "Exteriors",
+        "cover_img": "/img/avalon-1.jpg",
+        "sub_albums": [
+          {
+            "slug": "lot-38",
+            "title": "Lot 38",
+            "cover_img": "/img/lot_38_1_virtual.jpg",
+            "gallery": [
+              {  "virtual_img": "/img/lot_38_1_virtual.jpg" ,"real_img": "/img/lot_38_1_real.jpg" },
+              {  "virtual_img": "/img/lot_38_2_virtual.jpg" ,"real_img": "/img/lot_38_2_real.jpg" },
+              {  "virtual_img": "/img/lot_38_3_virtual.jpg" ,"real_img": "" },
+              {  "virtual_img": "/img/lot_38_4_virtual.jpg" ,"real_img": "" }
+            ]
+          },
+          {
+            "slug": "lot-49",
+            "title": "Lot 49",
+            "cover_img": "/img/lot_49_2_virtual.jpg",
+            "gallery": [
+              {  "virtual_img": "/img/lot_49_1_virtual.jpg" ,"real_img": "" },
+              {  "virtual_img": "/img/lot_49_2_virtual.jpg" ,"real_img": "" },
+              {  "virtual_img": "/img/lot_49_3_virtual.jpg" ,"real_img": "" }
+            ]
+          }
         ]
       },
       {
-        "slug": "lot-49",
-        "title": "Lot 49",
-        "cover_img": {
-          "real_img": "/img/gallery/exteriors/lot-49-cover.jpg",
-          "virtual_img": "/gallery/exteriors/lot-49-cover.jpg"
-        },
+        "id": 3,
+        "slug": "kitchens",
+        "title": "Kitchens",
+        "cover_img": "/img/kitchen_1_virtual.jpg",
         "gallery": [
-          { "real_img": "/img/gallery/exteriors/lot-49-1.jpg", "virtual_img": "/gallery/exteriors/lot-49-1.jpg" },
-          { "real_img": "/img/gallery/exteriors/lot-49-2.jpg", "virtual_img": "/gallery/exteriors/lot-49-2.jpg" },
-          { "real_img": "/img/gallery/exteriors/lot-49-3.jpg", "virtual_img": "/gallery/exteriors/lot-49-3.jpg" }
-        ]
-      },
-      {
-        "slug": "lot-62",
-        "title": "Lot 62",
-        "cover_img": {
-          "real_img": "/img/gallery/exteriors/lot-62-cover.jpg",
-          "virtual_img": "/gallery/exteriors/lot-62-cover.jpg"
-        },
-        "gallery": [
-          { "real_img": "/img/gallery/exteriors/lot-62-1.jpg", "virtual_img": "/gallery/exteriors/lot-62-1.jpg" },
-          { "real_img": "/img/gallery/exteriors/lot-62-2.jpg", "virtual_img": "/gallery/exteriors/lot-62-2.jpg" },
-          { "real_img": "/img/gallery/exteriors/lot-62-3.jpg", "virtual_img": "/gallery/exteriors/lot-62-3.jpg" }
-        ]
-      },
-      {
-        "slug": "lot-64",
-        "title": "Lot 64",
-        "cover_img": {
-          "real_img": "/img/gallery/exteriors/lot-64-cover.jpg",
-          "virtual_img": "/gallery/exteriors/lot-64-cover.jpg"
-        },
-        "gallery": [
-          { "real_img": "/img/gallery/exteriors/lot-64-1.jpg", "virtual_img": "/gallery/exteriors/lot-64-1.jpg" },
-          { "real_img": "/img/gallery/exteriors/lot-64-2.jpg", "virtual_img": "/gallery/exteriors/lot-64-2.jpg" },
-          { "real_img": "/img/gallery/exteriors/lot-64-3.jpg", "virtual_img": "/gallery/exteriors/lot-64-3.jpg" }
+          {  "virtual_img": "/img/kitchen_1_virtual.jpg" ,"real_img": "/img/kitchen_1_real.jpg" },
+          {  "virtual_img": "/img/kitchen_2_virtual.jpg" ,"real_img": "/img/kitchen_2_real.jpg" },
+          {  "virtual_img": "/img/kitchen_3_virtual.jpg" ,"real_img": "/img/kitchen_3_real.jpg" }
         ]
       }
     ]
-  },
-  {
-    "id": 2,
-    "slug": "bathrooms",
-    "title": "Bathrooms",
-    "cover_img": {
-      "real_img": "/img/gallery/bathrooms/cover.jpg",
-      "virtual_img": "/gallery/bathrooms/cover.jpg"
-    },
-    "gallery": [
-      { "real_img": "/img/gallery/bathrooms/01.jpg", "virtual_img": "/gallery/bathrooms/01.jpg" },
-      { "real_img": "/img/gallery/bathrooms/02.jpg", "virtual_img": "/gallery/bathrooms/02.jpg" },
-      { "real_img": "/img/gallery/bathrooms/03.jpg", "virtual_img": "/gallery/bathrooms/03.jpg" },
-      { "real_img": "/img/gallery/bathrooms/04.jpg", "virtual_img": "/gallery/bathrooms/04.jpg" },
-      { "real_img": "/img/gallery/bathrooms/05.jpg", "virtual_img": "/gallery/bathrooms/05.jpg" },
-      { "real_img": "/img/gallery/bathrooms/06.jpg", "virtual_img": "/gallery/bathrooms/06.jpg" }
-    ]
-  },
-  {
-    "id": 3,
-    "slug": "kitchens",
-    "title": "Kitchens",
-    "cover_img": {
-      "real_img": "/img/gallery/kitchens/cover.jpg",
-      "virtual_img": "/gallery/kitchens/cover.jpg"
-    },
-    "gallery": [
-      { "real_img": "/img/gallery/kitchens/01.jpg", "virtual_img": "/gallery/kitchens/01.jpg" },
-      { "real_img": "/img/gallery/kitchens/02.jpg", "virtual_img": "/gallery/kitchens/02.jpg" },
-      { "real_img": "/img/gallery/kitchens/03.jpg", "virtual_img": "/gallery/kitchens/03.jpg" },
-      { "real_img": "/img/gallery/kitchens/04.jpg", "virtual_img": "/gallery/kitchens/04.jpg" },
-      { "real_img": "/img/gallery/kitchens/05.jpg", "virtual_img": "/gallery/kitchens/05.jpg" },
-      { "real_img": "/img/gallery/kitchens/06.jpg", "virtual_img": "/gallery/kitchens/06.jpg" },
-      { "real_img": "/img/gallery/kitchens/07.jpg", "virtual_img": "/gallery/kitchens/07.jpg" },
-      { "real_img": "/img/gallery/kitchens/08.jpg", "virtual_img": "/gallery/kitchens/08.jpg" },
-      { "real_img": "/img/gallery/kitchens/09.jpg", "virtual_img": "/gallery/kitchens/09.jpg" },
-      { "real_img": "/img/gallery/kitchens/10.jpg", "virtual_img": "/gallery/kitchens/10.jpg" },
-      { "real_img": "/img/gallery/kitchens/11.jpg", "virtual_img": "/gallery/kitchens/11.jpg" },
-      { "real_img": "/img/gallery/kitchens/12.jpg", "virtual_img": "/gallery/kitchens/12.jpg" }
-    ]
-  },
-  {
-    "id": 4,
-    "slug": "living-rooms",
-    "title": "Living Rooms",
-    "cover_img": {
-      "real_img": "/img/gallery/living-rooms/cover.jpg",
-      "virtual_img": "/gallery/living-rooms/cover.jpg"
-    },
-    "gallery": [
-      { "real_img": "/img/gallery/living-rooms/01.jpg", "virtual_img": "/gallery/living-rooms/01.jpg" },
-      { "real_img": "/img/gallery/living-rooms/02.jpg", "virtual_img": "/gallery/living-rooms/02.jpg" },
-      { "real_img": "/img/gallery/living-rooms/03.jpg", "virtual_img": "/gallery/living-rooms/03.jpg" },
-      { "real_img": "/img/gallery/living-rooms/04.jpg", "virtual_img": "/gallery/living-rooms/04.jpg" },
-      { "real_img": "/img/gallery/living-rooms/05.jpg", "virtual_img": "/gallery/living-rooms/05.jpg" }
-    ]
-  },
-  {
-    "id": 5,
-    "slug": "dining-rooms",
-    "title": "Dining Rooms",
-    "cover_img": {
-      "real_img": "/img/gallery/dining-rooms/cover.jpg",
-      "virtual_img": "/gallery/dining-rooms/cover.jpg"
-    },
-    "gallery": [
-      { "real_img": "/img/gallery/dining-rooms/01.jpg", "virtual_img": "/gallery/dining-rooms/01.jpg" },
-      { "real_img": "/img/gallery/dining-rooms/02.jpg", "virtual_img": "/gallery/dining-rooms/02.jpg" },
-      { "real_img": "/img/gallery/dining-rooms/03.jpg", "virtual_img": "/gallery/dining-rooms/03.jpg" },
-      { "real_img": "/img/gallery/dining-rooms/04.jpg", "virtual_img": "/gallery/dining-rooms/04.jpg" }
-    ]
-  },
-  {
-    "id": 6,
-    "slug": "bedrooms",
-    "title": "Bedrooms",
-    "cover_img": {
-      "real_img": "/img/gallery/bedrooms/cover.jpg",
-      "virtual_img": "/gallery/bedrooms/cover.jpg"
-    },
-    "sub_albums": [
-      {
-        "slug": "guest-bedrooms",
-        "title": "Guest Bedrooms",
-        "cover_img": {
-          "real_img": "/img/gallery/bedrooms/guest-cover.jpg",
-          "virtual_img": "/gallery/bedrooms/guest-cover.jpg"
-        },
-        "gallery": [
-          { "real_img": "/img/gallery/bedrooms/guest/01.jpg", "virtual_img": "/gallery/bedrooms/guest/01.jpg" },
-          { "real_img": "/img/gallery/bedrooms/guest/02.jpg", "virtual_img": "/gallery/bedrooms/guest/02.jpg" },
-          { "real_img": "/img/gallery/bedrooms/guest/03.jpg", "virtual_img": "/gallery/bedrooms/guest/03.jpg" }
-        ]
-      },
-      {
-        "slug": "kids-bedrooms",
-        "title": "Kids Bedrooms",
-        "cover_img": {
-          "real_img": "/img/gallery/bedrooms/kids-cover.jpg",
-          "virtual_img": "/gallery/bedrooms/kids-cover.jpg"
-        },
-        "gallery": [
-          { "real_img": "/img/gallery/bedrooms/kids/01.jpg", "virtual_img": "/gallery/bedrooms/kids/01.jpg" },
-          { "real_img": "/img/gallery/bedrooms/kids/02.jpg", "virtual_img": "/gallery/bedrooms/kids/02.jpg" },
-          { "real_img": "/img/gallery/bedrooms/kids/03.jpg", "virtual_img": "/gallery/bedrooms/kids/03.jpg" }
-        ]
-      },
-      {
-        "slug": "master-bedrooms",
-        "title": "Master Bedrooms",
-        "cover_img": {
-          "real_img": "/img/gallery/bedrooms/master-cover.jpg",
-          "virtual_img": "/gallery/bedrooms/master-cover.jpg"
-        },
-        "gallery": [
-          { "real_img": "/img/gallery/bedrooms/master/01.jpg", "virtual_img": "/gallery/bedrooms/master/01.jpg" },
-          { "real_img": "/img/gallery/bedrooms/master/02.jpg", "virtual_img": "/gallery/bedrooms/master/02.jpg" },
-          { "real_img": "/img/gallery/bedrooms/master/03.jpg", "virtual_img": "/gallery/bedrooms/master/03.jpg" }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 7,
-    "slug": "offices",
-    "title": "Offices",
-    "cover_img": {
-      "real_img": "/img/gallery/offices/cover.jpg",
-      "virtual_img": "/gallery/offices/cover.jpg"
-    },
-    "gallery": [
-      { "real_img": "/img/gallery/offices/01.jpg", "virtual_img": "/gallery/offices/01.jpg" },
-      { "real_img": "/img/gallery/offices/02.jpg", "virtual_img": "/gallery/offices/02.jpg" },
-      { "real_img": "/img/gallery/offices/03.jpg", "virtual_img": "/gallery/offices/03.jpg" }
-    ]
-  },
-  {
-    "id": 8,
-    "slug": "basements",
-    "title": "Basements",
-    "cover_img": {
-      "real_img": "/img/gallery/basements/cover.jpg",
-      "virtual_img": "/gallery/basements/cover.jpg"
-    },
-    "gallery": [
-      { "real_img": "/img/gallery/basements/01.jpg", "virtual_img": "/gallery/basements/01.jpg" },
-      { "real_img": "/img/gallery/basements/02.jpg", "virtual_img": "/gallery/basements/02.jpg" },
-      { "real_img": "/img/gallery/basements/03.jpg", "virtual_img": "/gallery/basements/03.jpg" },
-      { "real_img": "/img/gallery/basements/04.jpg", "virtual_img": "/gallery/basements/04.jpg" }
-    ]
-  },
-  {
-    "id": 9,
-    "slug": "laundry-rooms",
-    "title": "Laundry Rooms",
-    "cover_img": {
-      "real_img": "/img/gallery/laundry/cover.jpg",
-      "virtual_img": "/gallery/laundry/cover.jpg"
-    },
-    "gallery": [
-      { "real_img": "/img/gallery/laundry/01.jpg", "virtual_img": "/gallery/laundry/01.jpg" },
-      { "real_img": "/img/gallery/laundry/02.jpg", "virtual_img": "/gallery/laundry/02.jpg" },
-      { "real_img": "/img/gallery/laundry/03.jpg", "virtual_img": "/gallery/laundry/03.jpg" }
-    ]
-  },
-  {
-    "id": 10,
-    "slug": "mud-rooms",
-    "title": "Mud Rooms",
-    "cover_img": {
-      "real_img": "/img/gallery/mud-rooms/cover.jpg",
-      "virtual_img": "/gallery/mud-rooms/cover.jpg"
-    },
-    "gallery": [
-      { "real_img": "/img/gallery/mud-rooms/01.jpg", "virtual_img": "/gallery/mud-rooms/01.jpg" },
-      { "real_img": "/img/gallery/mud-rooms/02.jpg", "virtual_img": "/gallery/mud-rooms/02.jpg" },
-      { "real_img": "/img/gallery/mud-rooms/03.jpg", "virtual_img": "/gallery/mud-rooms/03.jpg" }
-    ]
-  },
-  {
-    "id": 11,
-    "slug": "built-ins",
-    "title": "Built-Ins",
-    "cover_img": {
-      "real_img": "/img/gallery/built-ins/cover.jpg",
-      "virtual_img": "/gallery/built-ins/cover.jpg"
-    },
-    "gallery": [
-      { "real_img": "/img/gallery/built-ins/01.jpg", "virtual_img": "/gallery/built-ins/01.jpg" },
-      { "real_img": "/img/gallery/built-ins/02.jpg", "virtual_img": "/gallery/built-ins/02.jpg" },
-      { "real_img": "/img/gallery/built-ins/03.jpg", "virtual_img": "/gallery/built-ins/03.jpg" }
-    ]
-  },
-  {
-    "id": 12,
-    "slug": "pantry",
-    "title": "Pantry",
-    "cover_img": {
-      "real_img": "/img/gallery/pantry/cover.jpg",
-      "virtual_img": "/gallery/pantry/cover.jpg"
-    },
-    "gallery": [
-      { "real_img": "/img/gallery/pantry/01.jpg", "virtual_img": "/gallery/pantry/01.jpg" },
-      { "real_img": "/img/gallery/pantry/02.jpg", "virtual_img": "/gallery/pantry/02.jpg" },
-      { "real_img": "/img/gallery/pantry/03.jpg", "virtual_img": "/gallery/pantry/03.jpg" }
-    ]
-  },
-  {
-    "id": 13,
-    "slug": "entrance",
-    "title": "Entrance",
-    "cover_img": {
-      "real_img": "/img/gallery/entrance/cover.jpg",
-      "virtual_img": "/gallery/entrance/cover.jpg"
-    },
-    "gallery": [
-      { "real_img": "/img/gallery/entrance/01.jpg", "virtual_img": "/gallery/entrance/01.jpg" },
-      { "real_img": "/img/gallery/entrance/02.jpg", "virtual_img": "/gallery/entrance/02.jpg" },
-      { "real_img": "/img/gallery/entrance/03.jpg", "virtual_img": "/gallery/entrance/03.jpg" }
-    ]
-  },
-  {
-    "id": 14,
-    "slug": "backyard",
-    "title": "Backyard",
-    "cover_img": {
-      "real_img": "/img/gallery/backyard/cover.jpg",
-      "virtual_img": "/gallery/backyard/cover.jpg"
-    },
-    "gallery": [
-      { "real_img": "/img/gallery/backyard/01.jpg", "virtual_img": "/gallery/backyard/01.jpg" },
-      { "real_img": "/img/gallery/backyard/02.jpg", "virtual_img": "/gallery/backyard/02.jpg" },
-      { "real_img": "/img/gallery/backyard/03.jpg", "virtual_img": "/gallery/backyard/03.jpg" }
-    ]
-  },
-  {
-    "id": 15,
-    "slug": "mood-board",
-    "title": "Mood Board",
-    "cover_img": {
-      "real_img": "/img/gallery/mood-board/cover.jpg",
-      "virtual_img": "/gallery/mood-board/cover.jpg"
-    },
-    "gallery": [
-      { "real_img": "/img/gallery/mood-board/01.jpg", "virtual_img": "/gallery/mood-board/01.jpg" },
-      { "real_img": "/img/gallery/mood-board/02.jpg", "virtual_img": "/gallery/mood-board/02.jpg" },
-      { "real_img": "/img/gallery/mood-board/03.jpg", "virtual_img": "/gallery/mood-board/03.jpg" }
-    ]
-  }
-]
+}

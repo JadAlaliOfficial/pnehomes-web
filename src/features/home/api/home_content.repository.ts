@@ -48,7 +48,7 @@ export class HomeContentRepository {
    * Get testimonials data
    */
   public getTestimonials() {
-    return this.homeContent.testemonials;
+    return this.homeContent.testimonials;
   }
 
   /**

@@ -56,6 +56,6 @@ export interface HomeContent {
   hero: Hero;
   services: Services;
   links: Links;
-  testemonials: Testimonial[];
+  testimonials: Testimonial[];
   contact: Contact;
 }
