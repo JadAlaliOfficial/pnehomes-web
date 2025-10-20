@@ -97,6 +97,38 @@ export class HomeContentRepository {
   }
 
   /**
+   * Check if book button exists and is not null or empty
+   */
+  public hasBookButton(): boolean {
+    const bookButton = this.homeContent["first-section"]["book-button"];
+    return bookButton !== null && bookButton !== "";
+  }
+
+  /**
+   * Check if first section subtitle exists and is not null or empty
+   */
+  public hasFirstSectionSubtitle(): boolean {
+    const subtitle = this.homeContent["first-section"].subtitle;
+    return subtitle !== null && subtitle !== "";
+  }
+
+  /**
+   * Check if hero subtitle exists and is not null or empty
+   */
+  public hasHeroSubtitle(): boolean {
+    const subtitle = this.homeContent.hero.subtitle;
+    return subtitle !== null && subtitle !== "";
+  }
+
+  /**
+   * Check if services description exists and is not null or empty
+   */
+  public hasServicesDescription(): boolean {
+    const description = this.homeContent.services.description;
+    return description !== null && description !== "";
+  }
+
+  /**
    * Update home content data (for future use)
    */
   public updateHomeContent(newContent: Partial<HomeContent>): void {

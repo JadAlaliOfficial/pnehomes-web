@@ -32,19 +32,17 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">PNE Homes</h3>
-            <p className="text-gray-300 mb-4">
-              Building quality homes with exceptional craftsmanship and attention to detail.
-            </p>
-            <div className="flex items-center text-gray-300">
-              <Phone className="h-4 w-4 mr-2" />
-              <a 
-                href={`tel:${footerConfig.phone}`}
-                className="hover:text-white transition-colors"
-              >
-                {footerConfig.phone}
-              </a>
-            </div>
+            {footerConfig.phone && (
+              <div className="flex items-center text-gray-300">
+                <Phone className="h-4 w-4 mr-2" />
+                <a 
+                  href={`tel:${footerConfig.phone}`}
+                  className="hover:text-white transition-colors"
+                >
+                  {footerConfig.phone}
+                </a>
+              </div>
+            )}
           </div>
 
           {/* Navigation Links */}

@@ -38,12 +38,16 @@ export default function Home() {
             />
           </div>
           <h1 className="text-6xl font-bold mb-4">{firstSection.title}</h1>
-          <p className="text-2xl mb-8">{firstSection.subtitle}</p>
-          <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg">
-            <Link href="/contact">
-              {firstSection["book-button"]}
-            </Link>
-          </Button>
+          {homeContentApi.hasFirstSectionSubtitle() && (
+            <p className="text-2xl mb-8">{firstSection.subtitle}</p>
+          )}
+          {homeContentApi.hasBookButton() && (
+            <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg">
+              <Link href="/contact">
+                {firstSection["book-button"]}
+              </Link>
+            </Button>
+          )}
         </div>
       </section>
 
@@ -51,7 +55,9 @@ export default function Home() {
       <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-5xl font-bold mb-4 text-gray-900">{hero.title}</h2>
-          <p className="text-xl mb-16 text-gray-600">{hero.subtitle}</p>
+          {homeContentApi.hasHeroSubtitle() && (
+            <p className="text-xl mb-16 text-gray-600">{hero.subtitle}</p>
+          )}
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {hero.sections.map((section, index) => (
@@ -63,7 +69,9 @@ export default function Home() {
                   </div>
                 </div>
                 <h3 className="text-xl font-bold mb-4 text-gray-900">{section.title}</h3>
-                <p className="text-gray-600">{section.description}</p>
+                {section.description && (
+                  <p className="text-gray-600">{section.description}</p>
+                )}
               </div>
             ))}
           </div>
@@ -76,7 +84,9 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold mb-6 text-gray-900">{services.title}</h2>
-              <p className="text-lg text-gray-600 mb-8">{services.description}</p>
+              {homeContentApi.hasServicesDescription() && (
+                <p className="text-lg text-gray-600 mb-8">{services.description}</p>
+              )}
             </div>
             <div className="space-y-4">
               {services.links.map((link, index) => (

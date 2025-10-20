@@ -67,18 +67,24 @@ export function Header() {
 
           {/* Contact & CTA */}
           <div className="flex items-center space-x-4">
-            <a
-              href={`tel:${headerConfig.phone}`}
-              className="flex items-center text-gray-700 hover:text-blue-600 transition-colors"
-            >
-              <Phone className="h-4 w-4 mr-2" />
-              <span className="hidden sm:inline text-sm font-medium">
-                {headerConfig.phone}
-              </span>
-            </a>
-            <Button size="sm">
-              {headerConfig.button}
-            </Button>
+            {headerConfig.phone && (
+              <a
+                href={`tel:${headerConfig.phone}`}
+                className="flex items-center text-gray-700 hover:text-blue-600 transition-colors"
+              >
+                <Phone className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline text-sm font-medium">
+                  {headerConfig.phone}
+                </span>
+              </a>
+            )}
+            {headerConfig.button && (
+              <Link href="/contact">
+                <Button size="sm">
+                  {headerConfig.button}
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>

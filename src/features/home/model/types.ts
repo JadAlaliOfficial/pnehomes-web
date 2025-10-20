@@ -6,10 +6,10 @@ export interface SocialMediaItem {
 export interface HomeLayout {
   "header-logo": string;
   "header-nav": string[];
-  "header-button": string;
-  "header-phone": number;
+  "header-button": string | null;
+  "header-phone": number | null;
   "footer-nav": string[];
-  "footer-phone": number;
+  "footer-phone": number | null;
   "footer-social": SocialMediaItem[];
 }
 

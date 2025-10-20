@@ -1,12 +1,12 @@
 export interface HeroSection {
   icon: string;
   title: string;
-  description: string;
+  description: string | null;
 }
 
 export interface Hero {
   title: string;
-  subtitle: string;
+  subtitle: string | null;
   sections: HeroSection[];
 }
 
@@ -17,7 +17,7 @@ export interface ServiceLink {
 
 export interface Services {
   title: string;
-  description: string;
+  description: string | null;
   links: ServiceLink[];
 }
 
@@ -36,8 +36,8 @@ export interface FirstSection {
   video: string;
   logo: string;
   title: string;
-  subtitle: string;
-  "book-button": string;
+  subtitle: string | null;
+  "book-button": string | null;
 }
 
 export interface Testimonial {

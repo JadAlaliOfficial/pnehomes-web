@@ -81,8 +81,36 @@ export const homeContentApi = {
   /**
    * Get book button data
    */
-  getBookButton: (): string => {
+  getBookButton: (): string | null => {
     return homeContentRepo.getBookButton();
+  },
+
+  /**
+   * Check if book button exists and is not null
+   */
+  hasBookButton: (): boolean => {
+    return homeContentRepo.hasBookButton();
+  },
+
+  /**
+   * Check if first section subtitle exists and is not null
+   */
+  hasFirstSectionSubtitle: (): boolean => {
+    return homeContentRepo.hasFirstSectionSubtitle();
+  },
+
+  /**
+   * Check if hero subtitle exists and is not null
+   */
+  hasHeroSubtitle: (): boolean => {
+    return homeContentRepo.hasHeroSubtitle();
+  },
+
+  /**
+   * Check if services description exists and is not null
+   */
+  hasServicesDescription: (): boolean => {
+    return homeContentRepo.hasServicesDescription();
   },
 
   /**

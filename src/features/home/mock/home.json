@@ -3,8 +3,8 @@
         "video": "/vid/first.mp4",
         "logo": "/img/App-Logo.png",
         "title": "Pne Homes",
-        "subtitle": "Your home, your way",
-        "book-button": "Book Now" 
+        "subtitle": "",
+        "book-button": "" 
     },
     "hero": {
         "title": "Pne Homes",

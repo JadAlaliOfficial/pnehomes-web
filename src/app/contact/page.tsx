@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
+import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -93,14 +94,27 @@ function SimpleCaptcha({
 }
 
 export default function ContactPage() {
+  const searchParams = useSearchParams()
+  const messageParam = searchParams.get('message')
+  
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting }
   } = useForm<ContactFormData>({
-    resolver: zodResolver(contactFormSchema)
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      message: messageParam || ""
+    }
   })
+
+  // Set the message field value when component mounts if messageParam exists
+  useEffect(() => {
+    if (messageParam) {
+      setValue("message", messageParam)
+    }
+  }, [messageParam, setValue])
 
   const onSubmit = async (data: ContactFormData) => {
     // For now, just log the data - no actual submission
