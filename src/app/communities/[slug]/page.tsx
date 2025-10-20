@@ -19,9 +19,10 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
     return notFound()
   }
 
-  // Show only first 3 floor plans
-  const displayedFloorPlans = community["floor-plans"].slice(0, 3)
-  const hasMoreFloorPlans = community["floor-plans"].length > 3
+  // Show only first 3 floor plans, safely handling possible null or undefined
+  const floorPlans = community["floor-plans"] || []
+  const displayedFloorPlans = floorPlans.slice(0, 3)
+  const hasMoreFloorPlans = floorPlans.length > 3
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -76,9 +77,9 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-semibold">Floor Plans</h2>
               {hasMoreFloorPlans && (
-                <Link href={`/communities/${community.slug}/floor-plans`}>
+                <Link href={`/floor-plans?community=${encodeURIComponent(community.title)}`}>
                   <Button variant="outline">
-                    Show All Floor Plans ({community["floor-plans"].length})
+                    Show All Floor Plans ({floorPlans.length})
                   </Button>
                 </Link>
               )}
@@ -86,41 +87,35 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {displayedFloorPlans.map((floorPlan) => (
-                <Link 
-                  key={floorPlan.slug} 
-                  href={`/property/${floorPlan.slug}`}
-                  className="group block"
-                >
-                  <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                    <div className="relative h-48 overflow-hidden">
-                      <Image
-                        src={floorPlan.cover}
-                        alt={floorPlan.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
+                <Card key={floorPlan.slug} className="overflow-hidden">
+                  <div className="relative h-48 overflow-hidden">
+                    <Image
+                      src={floorPlan.cover}
+                      alt={floorPlan.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <CardContent className="p-4">
+                    <h3 className="font-semibold mb-2">
+                      {floorPlan.title}
+                    </h3>
+                    <div className="text-2xl font-bold text-green-600 mb-3">
+                      ${parseInt(floorPlan.price).toLocaleString()}
                     </div>
-                    <CardContent className="p-4">
-                      <h3 className="font-semibold mb-2 group-hover:text-blue-600 transition-colors">
-                        {floorPlan.title}
-                      </h3>
-                      <div className="text-2xl font-bold text-green-600 mb-3">
-                        ${parseInt(floorPlan.price).toLocaleString()}
-                      </div>
-                      <div className="flex justify-between text-sm text-gray-600">
-                        <span>{floorPlan.beds} beds</span>
-                        <span>{floorPlan.baths} baths</span>
-                        <span>{parseInt(floorPlan.sqft).toLocaleString()} sqft</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
+                    <div className="flex justify-between text-sm text-gray-600">
+                      <span>{floorPlan.beds} beds</span>
+                      <span>{floorPlan.baths} baths</span>
+                      <span>{parseInt(floorPlan.sqft).toLocaleString()} sqft</span>
+                    </div>
+                  </CardContent>
+                </Card>
               ))}
             </div>
 
             {/* Show Floor Plans Button */}
             <div className="mt-6 text-center">
-              <Link href={`/communities/${community.slug}/floor-plans`}>
+              <Link href={`/floor-plans?community=${encodeURIComponent(community.title)}`}>
                 <Button size="lg" className="px-8">
                   Show Floor Plans
                 </Button>
@@ -143,13 +138,13 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
                   <div className="text-sm text-gray-500 mb-6">
                     {community.city}
                   </div>
-                  
+
                   {/* Request Tour Button */}
                   <RequestTourButton 
                     communityName={community.title}
                     className="w-full mb-3"
                   />
-                  
+
                   <p className="text-xs text-gray-500">
                     Schedule a personalized tour of this community
                   </p>
@@ -168,7 +163,7 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Floor Plans:</span>
-                    <span className="font-medium">{community["floor-plans"].length}</span>
+                    <span className="font-medium">{floorPlans.length}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Starting Price:</span>

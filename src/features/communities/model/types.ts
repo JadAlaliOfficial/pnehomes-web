@@ -19,9 +19,9 @@ export interface Community {
   address: string;
   card_image: string;
   gallery: string[];
-  video: string;
-  "community-features": string;
-  "floor-plans": FloorPlan[];
+  video?: string | null;
+  "community-features"?: string | null;
+  "floor-plans"?: FloorPlan[] | null;
   "starting-price": string;
 }
 

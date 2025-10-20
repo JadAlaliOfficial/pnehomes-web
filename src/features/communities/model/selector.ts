@@ -26,6 +26,14 @@ export class CommunitySelector {
    * Filter properties within a community based on bedrooms, baths, and price
    */
   filterProperties(community: Community, filters: PropertyFilter): Community {
+    // Handle case where floor-plans is null or undefined
+    if (!community['floor-plans']) {
+      return {
+        ...community,
+        'floor-plans': []
+      };
+    }
+
     const filteredFloorPlans = community['floor-plans'].filter(floorPlan => {
       let matches = true;
 
@@ -68,13 +76,16 @@ export class CommunitySelector {
   getFilterOptions(communities: Community[]) {
     const cities = [...new Set(communities.map(c => c.city))];
     
-    const allFloorPlans = communities.flatMap(c => c['floor-plans']);
+    // Safely handle nullable floor-plans
+    const allFloorPlans = communities
+      .flatMap(c => c['floor-plans'] || []);
+    
     const bedrooms = [...new Set(allFloorPlans.map(fp => parseInt(fp.beds)))].sort((a, b) => a - b);
     const bathrooms = [...new Set(allFloorPlans.map(fp => parseFloat(fp.baths)))].sort((a, b) => a - b);
     
     const prices = allFloorPlans.map(fp => parseInt(fp.price)).sort((a, b) => a - b);
-    const minPrice = Math.min(...prices);
-    const maxPrice = Math.max(...prices);
+    const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
+    const maxPrice = prices.length > 0 ? Math.max(...prices) : 0;
 
     return {
       cities,
@@ -88,7 +99,9 @@ export class CommunitySelector {
    * Search floor plans across all communities
    */
   searchFloorPlans(communities: Community[], filters: PropertyFilter): FloorPlan[] {
-    const allFloorPlans = communities.flatMap(c => c['floor-plans']);
+    // Safely handle nullable floor-plans
+    const allFloorPlans = communities
+      .flatMap(c => c['floor-plans'] || []);
     
     return allFloorPlans.filter(floorPlan => {
       let matches = true;

@@ -2,7 +2,7 @@ import { Community } from '../model/types';
 import communitiesData from '../mock/communities.json';
 
 export class FileRepository {
-  private communities: Community[] = communitiesData as Community[];
+  private communities: Community[] = communitiesData.communities as Community[];
 
   /**
    * Get all communities
@@ -53,5 +53,27 @@ export class FileRepository {
   async getAllCities(): Promise<string[]> {
     const cities = [...new Set(this.communities.map(c => c.city))];
     return Promise.resolve(cities);
+  }
+
+  /**
+   * Get Zillow URL
+   */
+  async getZillowUrl(): Promise<string> {
+    return Promise.resolve(communitiesData.zillow);
+  }
+
+  /**
+   * Get contact message template
+   */
+  async getContactMessage(): Promise<string> {
+    return Promise.resolve(communitiesData.contact.message);
+  }
+
+  /**
+   * Get cover image
+   */
+  async getCoverImage(): Promise<string> {
+    // Use communities.jpg as fallback since cover.jpg doesn't exist
+    return Promise.resolve(communitiesData.cover || "/img/communities.jpg");
   }
 }

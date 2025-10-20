@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
@@ -10,144 +9,99 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import type { FloorPlan } from "../model/types"
+import { communitiesAPI } from "../api"
+import type { Community } from "../model/types"
 
 interface FloorPlanFiltersProps {
-  floorPlans: FloorPlan[]
-  onFilterChange: (filteredPlans: FloorPlan[]) => void
+  onFilterChange: (filters: { community?: string; city?: string }) => void
 }
 
-export default function FloorPlanFilters({ floorPlans, onFilterChange }: FloorPlanFiltersProps) {
-  const [beds, setBeds] = useState<string>("")
-  const [baths, setBaths] = useState<string>("")
-  const [status, setStatus] = useState<string>("")
-  const [minPrice, setMinPrice] = useState<string>("")
-  const [maxPrice, setMaxPrice] = useState<string>("")
+export default function FloorPlanFilters({ onFilterChange }: FloorPlanFiltersProps) {
+  const [communities, setCommunities] = useState<Community[]>([])
+  const [selectedCommunity, setSelectedCommunity] = useState<string>("")
+  const [selectedCity, setSelectedCity] = useState<string>("")
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    applyFilters()
-  }, [beds, baths, status, minPrice, maxPrice, floorPlans])
-
-  function applyFilters() {
-    let filtered = [...floorPlans]
-
-    // Filter by bedrooms
-    if (beds && beds !== "any") {
-      const minBeds = parseInt(beds)
-      filtered = filtered.filter(plan => parseInt(plan.beds) >= minBeds)
-    }
-
-    // Filter by bathrooms
-    if (baths && baths !== "any") {
-      const minBaths = parseFloat(baths)
-      filtered = filtered.filter(plan => parseFloat(plan.baths) >= minBaths)
-    }
-
-    // Filter by status
-    if (status && status !== "any") {
-      filtered = filtered.filter(plan => plan.status === status)
-    }
-
-    // Filter by price range
-    if (minPrice) {
-      const min = parseInt(minPrice)
-      if (!isNaN(min)) {
-        filtered = filtered.filter(plan => parseInt(plan.price) >= min)
+    async function loadCommunities() {
+      try {
+        const data = await communitiesAPI.getAllCommunities()
+        setCommunities(data)
+      } catch (error) {
+        console.error("Failed to load communities:", error)
+      } finally {
+        setLoading(false)
       }
     }
 
-    if (maxPrice) {
-      const max = parseInt(maxPrice)
-      if (!isNaN(max)) {
-        filtered = filtered.filter(plan => parseInt(plan.price) <= max)
-      }
+    loadCommunities()
+  }, [])
+
+  useEffect(() => {
+    const filters: { community?: string; city?: string } = {}
+    
+    if (selectedCommunity && selectedCommunity !== "any") {
+      filters.community = selectedCommunity
+    }
+    
+    if (selectedCity && selectedCity !== "any") {
+      filters.city = selectedCity
     }
 
-    onFilterChange(filtered)
-  }
+    onFilterChange(filters)
+  }, [selectedCommunity, selectedCity, onFilterChange])
 
   function resetFilters() {
-    setBeds("")
-    setBaths("")
-    setStatus("")
-    setMinPrice("")
-    setMaxPrice("")
+    setSelectedCommunity("")
+    setSelectedCity("")
   }
 
   // Get unique values for filter options
-  const uniqueStatuses = [...new Set(floorPlans.map(plan => plan.status))]
-  const uniqueBeds = [...new Set(floorPlans.map(plan => parseInt(plan.beds)))].sort((a, b) => a - b)
-  const uniqueBaths = [...new Set(floorPlans.map(plan => parseFloat(plan.baths)))].sort((a, b) => a - b)
+  const uniqueCommunities = [...new Set(communities.map(c => c.title))].sort()
+  const uniqueCities = [...new Set(communities.map(c => c.city))].sort()
+
+  if (loading) {
+    return (
+      <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+        <div className="text-center">Loading filters...</div>
+      </div>
+    )
+  }
 
   return (
     <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-      <h3 className="text-lg font-semibold mb-4">Filter Floor Plans</h3>
+      <h3 className="text-lg font-semibold mb-4">Filter by Location</h3>
       
       <div className="flex flex-wrap gap-3">
-        {/* Bedrooms Filter */}
-        <Select value={beds} onValueChange={setBeds}>
-          <SelectTrigger className="w-[140px]">
-            <SelectValue placeholder="Any beds" />
+        {/* Community Filter */}
+        <Select value={selectedCommunity} onValueChange={setSelectedCommunity}>
+          <SelectTrigger className="w-[200px]">
+            <SelectValue placeholder="Select community" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="any">Any beds</SelectItem>
-            {uniqueBeds.map(bedCount => (
-              <SelectItem key={bedCount} value={bedCount.toString()}>
-                {bedCount}+ beds
+            <SelectItem value="any">All communities</SelectItem>
+            {uniqueCommunities.map(community => (
+              <SelectItem key={community} value={community}>
+                {community}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
 
-        {/* Bathrooms Filter */}
-        <Select value={baths} onValueChange={setBaths}>
-          <SelectTrigger className="w-[140px]">
-            <SelectValue placeholder="Any baths" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="any">Any baths</SelectItem>
-            {uniqueBaths.map(bathCount => (
-              <SelectItem key={bathCount} value={bathCount.toString()}>
-                {bathCount}+ baths
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        {/* Status Filter */}
-        <Select value={status} onValueChange={setStatus}>
+        {/* City Filter */}
+        <Select value={selectedCity} onValueChange={setSelectedCity}>
           <SelectTrigger className="w-[160px]">
-            <SelectValue placeholder="Any status" />
+            <SelectValue placeholder="Select city" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="any">Any status</SelectItem>
-            {uniqueStatuses.map(statusOption => (
-              <SelectItem key={statusOption} value={statusOption}>
-                {statusOption}
+            <SelectItem value="any">All cities</SelectItem>
+            {uniqueCities.map(city => (
+              <SelectItem key={city} value={city}>
+                {city}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
-
-        {/* Min Price Filter */}
-        <Input
-          type="number"
-          placeholder="Min price"
-          value={minPrice}
-          onChange={(e) => setMinPrice(e.target.value)}
-          className="w-[140px]"
-          min="0"
-        />
-
-        {/* Max Price Filter */}
-        <Input
-          type="number"
-          placeholder="Max price"
-          value={maxPrice}
-          onChange={(e) => setMaxPrice(e.target.value)}
-          className="w-[140px]"
-          min="0"
-        />
 
         {/* Reset Button */}
         <Button variant="outline" onClick={resetFilters}>
@@ -155,9 +109,22 @@ export default function FloorPlanFilters({ floorPlans, onFilterChange }: FloorPl
         </Button>
       </div>
 
-      {/* Results Count */}
+      {/* Results Info */}
       <div className="mt-3 text-sm text-gray-600">
-        Showing {floorPlans.length} floor plan{floorPlans.length !== 1 ? 's' : ''}
+        {selectedCommunity || selectedCity ? (
+          <>
+            Filtering by{" "}
+            {selectedCommunity && selectedCommunity !== "any" && (
+              <span className="font-medium">{selectedCommunity}</span>
+            )}
+            {selectedCommunity && selectedCommunity !== "any" && selectedCity && selectedCity !== "any" && " in "}
+            {selectedCity && selectedCity !== "any" && (
+              <span className="font-medium">{selectedCity}</span>
+            )}
+          </>
+        ) : (
+          "Showing all communities"
+        )}
       </div>
     </div>
   )

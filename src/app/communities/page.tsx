@@ -1,17 +1,19 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Search } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { communitiesAPI, Community } from "@/features/communities/api"
 
 export default function CommunitiesPage() {
   const [communities, setCommunities] = useState<Community[]>([])
   const [filteredCommunities, setFilteredCommunities] = useState<Community[]>([])
-  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedCommunity, setSelectedCommunity] = useState<string>("all")
+  const [selectedCity, setSelectedCity] = useState<string>("all")
   const [loading, setLoading] = useState(true)
+  const [zillowUrl, setZillowUrl] = useState<string>("")
+  const [coverImage, setCoverImage] = useState<string>("")
 
   useEffect(() => {
     async function loadCommunities() {
@@ -19,6 +21,14 @@ export default function CommunitiesPage() {
         const data = await communitiesAPI.getAllCommunities()
         setCommunities(data)
         setFilteredCommunities(data)
+        
+        // Load Zillow URL
+        const zillow = await communitiesAPI.getZillowUrl()
+        setZillowUrl(zillow)
+        
+        // Load cover image
+        const cover = await communitiesAPI.getCoverImage()
+        setCoverImage(cover)
       } catch (error) {
         console.error("Failed to load communities:", error)
       } finally {
@@ -30,18 +40,22 @@ export default function CommunitiesPage() {
   }, [])
 
   useEffect(() => {
-    const trimmedSearch = searchTerm.trim().toLowerCase()
-    
-    if (!trimmedSearch) {
-      setFilteredCommunities(communities)
-    } else {
-      const filtered = communities.filter(community => 
-        community.title.toLowerCase().includes(trimmedSearch) ||
-        community.city.toLowerCase().includes(trimmedSearch)
-      )
-      setFilteredCommunities(filtered)
+    let filtered = communities
+
+    if (selectedCommunity !== "all") {
+      filtered = filtered.filter(community => community.title === selectedCommunity)
     }
-  }, [searchTerm, communities])
+
+    if (selectedCity !== "all") {
+      filtered = filtered.filter(community => community.city === selectedCity)
+    }
+
+    setFilteredCommunities(filtered)
+  }, [selectedCommunity, selectedCity, communities])
+
+  // Get unique community names and cities
+  const uniqueCommunities = Array.from(new Set(communities.map(c => c.title)))
+  const uniqueCities = Array.from(new Set(communities.map(c => c.city)))
 
   if (loading) {
     return (
@@ -52,23 +66,96 @@ export default function CommunitiesPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-center mb-4">Our Communities</h1>
-        <p className="text-lg text-gray-600 text-center mb-8">
-          Discover beautiful communities designed for modern living
-        </p>
+    <div className="min-h-screen">
+      {/* Hero Section with Cover Image */}
+      {coverImage && (
+        <section className="relative h-96 mb-8">
+          <div className="absolute inset-0">
+            <Image
+              src={coverImage}
+              alt="Our Communities"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+          <div className="relative z-10 flex items-center justify-center h-full">
+            <div className="text-center text-white">
+              <h1 className="text-5xl font-bold mb-4">Our Communities</h1>
+              <p className="text-xl">
+                Discover beautiful communities designed for modern living
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
+
+      <div className="container mx-auto px-4 py-8">
+        {!coverImage && (
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-center mb-4">Our Communities</h1>
+            <p className="text-lg text-gray-600 text-center mb-8">
+              Discover beautiful communities designed for modern living
+            </p>
+          </div>
+        )}
         
-        {/* Search Bar */}
-        <div className="max-w-md mx-auto relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-          <Input
-            type="text"
-            placeholder="Search by community name or city..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
-          />
+        {/* Filters */}
+        <div className="max-w-2xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Community Filter */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Filter by Community
+              </label>
+              <Select value={selectedCommunity} onValueChange={setSelectedCommunity}>
+                <SelectTrigger>
+                  <SelectValue placeholder="All Communities" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Communities</SelectItem>
+                  {uniqueCommunities.map((community) => (
+                    <SelectItem key={community} value={community}>
+                      {community}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* City Filter */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Filter by City
+              </label>
+              <Select value={selectedCity} onValueChange={setSelectedCity}>
+                <SelectTrigger>
+                  <SelectValue placeholder="All Cities" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Cities</SelectItem>
+                  {uniqueCities.map((city) => (
+                    <SelectItem key={city} value={city}>
+                      {city}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+
+        {/* Visit us on Zillow Button */}
+        <div className="text-center mt-6">
+          <a
+            href={zillowUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300"
+          >
+            Visit us on Zillow
+          </a>
         </div>
       </div>
 
@@ -109,13 +196,13 @@ export default function CommunitiesPage() {
       </div>
 
       {/* No Results */}
-      {filteredCommunities.length === 0 && searchTerm && (
+      {filteredCommunities.length === 0 && (selectedCommunity !== "all" || selectedCity !== "all") && (
         <div className="text-center py-12">
           <p className="text-gray-500 text-lg">
-            No communities found matching "{searchTerm}"
+            No communities found with the selected filters
           </p>
           <p className="text-gray-400 mt-2">
-            Try searching with different keywords
+            Try adjusting your filter selections
           </p>
         </div>
       )}

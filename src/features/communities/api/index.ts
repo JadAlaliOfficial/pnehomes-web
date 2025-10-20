@@ -65,7 +65,7 @@ export class CommunitiesAPI {
     if (filters.property) {
       communities = communities.map(community => 
         this.selector.filterProperties(community, filters.property!)
-      ).filter(community => community['floor-plans'].length > 0);
+      ).filter(community => (community['floor-plans'] || []).length > 0);
     }
 
     return communities;
@@ -76,6 +76,27 @@ export class CommunitiesAPI {
    */
   async getAllCities(): Promise<string[]> {
     return this.repository.getAllCities();
+  }
+
+  /**
+   * Get Zillow URL
+   */
+  async getZillowUrl(): Promise<string> {
+    return this.repository.getZillowUrl();
+  }
+
+  /**
+   * Get contact message template
+   */
+  async getContactMessage(): Promise<string> {
+    return this.repository.getContactMessage();
+  }
+
+  /**
+   * Get cover image
+   */
+  async getCoverImage(): Promise<string> {
+    return this.repository.getCoverImage();
   }
 }
 
