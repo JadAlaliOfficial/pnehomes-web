@@ -1,4 +1,5 @@
 {
+    "cover": "/img/cover.jpg",
     "slogan": "EVENTS",
     "events":[
         {
@@ -28,9 +29,5 @@
                 "/img/event3_2.jpg"
             ]
         }
-    ],
-    "contact" : {
-        "title" : "Contact Us Today",
-        "slug" : "contact"
-    }
+    ]
 }

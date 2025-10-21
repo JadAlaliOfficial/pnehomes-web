@@ -3,17 +3,18 @@
  */
 export interface ContactInfo {
   title: string;
-  slug: string;
+  message: string;
 }
 
 /**
  * Main aboutUs data interface
  */
 export interface AboutUsData {
+  cover: string;
   slogan: string;
   title: string;
   description: string;
-  contact: ContactInfo;
+  contact?: ContactInfo;
 }
 
 /**

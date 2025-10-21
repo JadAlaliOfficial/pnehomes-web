@@ -57,7 +57,7 @@ export default function ComparisonDrawer() {
             <div className="text-center py-8">
               <p className="text-gray-500 mb-2">No properties selected</p>
               <p className="text-sm text-gray-400">
-                Click "Add to Compare" on property cards to start comparing
+                Click &ldquo;Add to Compare&rdquo; on property cards to start comparing
               </p>
             </div>
           ) : (

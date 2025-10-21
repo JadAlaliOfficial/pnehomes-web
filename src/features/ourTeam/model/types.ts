@@ -7,14 +7,15 @@ export interface TeamMember {
 
 export interface Contact {
   title: string;
-  slug: string;
+  message: string;
 }
 
 export interface OurTeamData {
+  cover: string;
   slogan: string;
   title: string;
-  subtitle: string;
-  description: string;
+  subtitle?: string;
+  description?: string;
   team: TeamMember[];
-  contact: Contact;
+  contact?: Contact;
 }

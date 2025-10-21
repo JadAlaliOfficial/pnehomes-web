@@ -1,13 +1,14 @@
 export interface Contact {
   title: string;
-  slug: string;
+  message: string;
 }
 
 export interface PrivacyPolicy {
   slogan: string;
   title: string;
   description: string;
-  contact: Contact;
+  cover?: string;
+  contact?: Contact;
 }
 
 export interface PrivacyPolicyResponse {

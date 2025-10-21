@@ -74,15 +74,29 @@ export class PrivacyPolicyFileRepository {
 
   /**
    * Get contact information
-   * @returns Promise<{title: string, slug: string}>
+   * @returns Promise<{title: string, message: string} | null>
    */
-  static async getContact(): Promise<{title: string, slug: string}> {
+  static async getContact(): Promise<{title: string, message: string} | null> {
     try {
       const response = await this.getPrivacyPolicy();
-      return response.success ? response.data.contact : { title: '', slug: '' };
+      return response.success && response.data.contact ? response.data.contact : null;
     } catch (error) {
       console.error('Error getting privacy policy contact:', error);
-      return { title: '', slug: '' };
+      return null;
+    }
+  }
+
+  /**
+   * Get privacy policy cover
+   * @returns Promise<string>
+   */
+  static async getCover(): Promise<string> {
+    try {
+      const response = await this.getPrivacyPolicy();
+      return response.success ? response.data.cover || '' : '';
+    } catch (error) {
+      console.error('Error getting privacy policy cover:', error);
+      return '';
     }
   }
 }

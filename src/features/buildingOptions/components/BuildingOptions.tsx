@@ -9,8 +9,13 @@ export default function BuildingOptions() {
   const router = useRouter()
   const data = getBuildingOptionsSync()
 
-  const handleCardClick = (goTo: string) => {
-    router.push(`/${goTo}`)
+  const handleCardClick = (optionId: number) => {
+    if (optionId === 1) {
+      router.push('/contact/own_land')
+    } else {
+      // Handle other options as needed
+      router.push('/communities')
+    }
   }
 
   const handleArticleClick = (slug: string) => {
@@ -20,19 +25,49 @@ export default function BuildingOptions() {
   return (
     <div className="min-h-screen bg-background py-16 px-4">
       <div className="max-w-6xl mx-auto">
-        {/* Slogan - Very big font in the middle */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
-            {data.slogan}
-          </h1>
-        </div>
+        {/* Cover Image */}
+        {data.cover && (
+          <div className="relative w-full h-64 md:h-96 lg:h-[400px] overflow-hidden rounded-xl mb-12">
+            <Image
+              src={data.cover}
+              alt="Building Options Cover"
+              fill
+              className="object-cover"
+              sizes="(min-width: 1024px) 1024px, (min-width: 768px) 768px, 100vw"
+              priority
+            />
+            {/* Overlay with slogan */}
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+              <div className="text-center text-white px-4">
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4">
+                  {data.slogan}
+                </h1>
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-medium opacity-90">
+                  {data.title}
+                </h2>
+              </div>
+            </div>
+          </div>
+        )}
 
-        {/* Title - Smaller font under slogan */}
-        <div className="text-center mb-16">
-          <h2 className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-medium">
-            {data.title}
-          </h2>
-        </div>
+        {/* Fallback for when no cover image */}
+        {!data.cover && (
+          <>
+            {/* Slogan - Very big font in the middle */}
+            <div className="text-center mb-8">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
+                {data.slogan}
+              </h1>
+            </div>
+
+            {/* Title - Smaller font under slogan */}
+            <div className="text-center mb-16">
+              <h2 className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-medium">
+                {data.title}
+              </h2>
+            </div>
+          </>
+        )}
 
         {/* Two main option cards next to each other */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
@@ -40,7 +75,7 @@ export default function BuildingOptions() {
             <Card
               key={option.id}
               className="cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 border-2 hover:border-primary/50"
-              onClick={() => handleCardClick(option.go_to)}
+              onClick={() => handleCardClick(option.id)}
             >
               <CardContent className="p-0">
                 {/* Image */}
@@ -62,9 +97,11 @@ export default function BuildingOptions() {
                   </h3>
                   
                   {/* Description */}
-                  <p className="text-muted-foreground leading-relaxed">
-                    {option.description}
-                  </p>
+                  {option.description && (
+                    <p className="text-muted-foreground leading-relaxed">
+                      {option.description}
+                    </p>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -72,7 +109,7 @@ export default function BuildingOptions() {
         </div>
 
         {/* Articles Section */}
-        {data.articles && data.articles.length > 0 && (
+        {data.articles && data.articles.articles && data.articles.articles.length > 0 && (
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-8">
               <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
@@ -85,7 +122,7 @@ export default function BuildingOptions() {
 
             {/* Article cards - smaller cards in a grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {data.articles.map((article) => (
+              {data.articles.articles.map((article) => (
                 <Card
                   key={article.id}
                   className="cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 border hover:border-primary/50"
@@ -111,9 +148,11 @@ export default function BuildingOptions() {
                       </h4>
                       
                       {/* Description */}
-                      <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
-                        {article.description}
-                      </p>
+                      {article.description && (
+                        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                          {article.description}
+                        </p>
+                      )}
                     </div>
                   </CardContent>
                 </Card>

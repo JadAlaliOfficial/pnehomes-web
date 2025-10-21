@@ -1,28 +1,28 @@
-import { Service, Services, ServiceRepository } from '../model/types';
+import { Service, Services, ServiceRepository, ServicesData } from '../model/types';
 import servicesData from '../mock/services.json';
 
 /**
  * File-based repository implementation for services data
  */
 export class FileServiceRepository implements ServiceRepository {
-  private services: Services;
+  private servicesData: ServicesData;
 
   constructor() {
-    this.services = servicesData as Services;
+    this.servicesData = servicesData as ServicesData;
   }
 
   /**
    * Get all services
    */
   async getAll(): Promise<Services> {
-    return Promise.resolve(this.services);
+    return Promise.resolve(this.servicesData.services);
   }
 
   /**
    * Get service by ID
    */
   async getById(id: number): Promise<Service | null> {
-    const service = this.services.find(service => service.id === id);
+    const service = this.servicesData.services.find(service => service.id === id);
     return Promise.resolve(service || null);
   }
 
@@ -30,15 +30,22 @@ export class FileServiceRepository implements ServiceRepository {
    * Get service by slug
    */
   async getBySlug(slug: string): Promise<Service | null> {
-    const service = this.services.find(service => service.slug === slug);
+    const service = this.servicesData.services.find(service => service.slug === slug);
     return Promise.resolve(service || null);
+  }
+
+  /**
+   * Get cover image
+   */
+  async getCover(): Promise<string> {
+    return Promise.resolve(this.servicesData.cover);
   }
 
   /**
    * Search services by title (case-insensitive)
    */
   async searchByTitle(query: string): Promise<Services> {
-    const filteredServices = this.services.filter(service =>
+    const filteredServices = this.servicesData.services.filter(service =>
       service.title.toLowerCase().includes(query.toLowerCase())
     );
     return Promise.resolve(filteredServices);
@@ -55,13 +62,13 @@ export class FileServiceRepository implements ServiceRepository {
   }> {
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
-    const paginatedServices = this.services.slice(startIndex, endIndex);
+    const paginatedServices = this.servicesData.services.slice(startIndex, endIndex);
     
     return Promise.resolve({
       services: paginatedServices,
-      total: this.services.length,
+      total: this.servicesData.services.length,
       page,
-      totalPages: Math.ceil(this.services.length / limit)
+      totalPages: Math.ceil(this.servicesData.services.length / limit)
     });
   }
 
@@ -69,7 +76,7 @@ export class FileServiceRepository implements ServiceRepository {
    * Check if service exists by slug
    */
   async existsBySlug(slug: string): Promise<boolean> {
-    const exists = this.services.some(service => service.slug === slug);
+    const exists = this.servicesData.services.some(service => service.slug === slug);
     return Promise.resolve(exists);
   }
 }

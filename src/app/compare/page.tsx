@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -11,7 +11,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { ArrowLeft, ExternalLink } from 'lucide-react'
 
-export default function ComparePage() {
+// Compare component that uses useSearchParams
+function CompareContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [properties, setProperties] = useState<PropertyType[]>([])
@@ -125,7 +126,7 @@ export default function ComparePage() {
               </Link>
               <div className="flex items-center gap-2 mt-2">
                 <Badge variant="secondary" className="text-xs">
-                  {property.status}
+                  Available
                 </Badge>
                 <Link 
                   href={`/property/${property.slug}`}
@@ -193,13 +194,15 @@ export default function ComparePage() {
                   {property.title}
                 </h4>
                 <div className="space-y-2">
-                  {property.Whats_special.badges.slice(0, 6).map((badge, index) => (
+                  {property.Whats_special?.badges?.slice(0, 6).map((badge, index) => (
                     <Badge key={index} variant="outline" className="text-xs">
                       {badge}
                     </Badge>
-                  ))}
+                  )) || (
+                    <p className="text-xs text-gray-500">No special features listed</p>
+                  )}
                 </div>
-                {property.Whats_special.badges.length > 6 && (
+                {property.Whats_special?.badges && property.Whats_special.badges.length > 6 && (
                   <p className="text-xs text-gray-500 mt-2">
                     +{property.Whats_special.badges.length - 6} more features
                   </p>
@@ -221,5 +224,14 @@ export default function ComparePage() {
         ))}
       </div>
     </div>
+  )
+}
+
+// Main page component with Suspense wrapper
+export default function ComparePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 flex items-center justify-center"><div className="text-lg">Loading...</div></div>}>
+      <CompareContent />
+    </Suspense>
   )
 }

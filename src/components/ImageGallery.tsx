@@ -16,7 +16,7 @@ interface ImageGalleryProps {
 export default function ImageGallery({ images, title, maxVisibleImages = 3 }: ImageGalleryProps) {
   const [open, setOpen] = useState(false)
   const [api, setApi] = useState<CarouselApi>()
-  const [current, setCurrent] = useState(0)
+  const [, setCurrent] = useState(0)
   const visibleImages = images.slice(0, maxVisibleImages)
   const remainingCount = images.length - maxVisibleImages
 

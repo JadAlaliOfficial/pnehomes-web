@@ -4,7 +4,7 @@ import { notFound } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { getServiceBySlug } from "@/features/services/api"
+import { getServiceBySlug, getCover } from "@/features/services/api"
 
 interface ServicePageProps {
   params: {
@@ -20,16 +20,43 @@ export default async function ServicePage({ params }: ServicePageProps) {
   }
 
   const service = response.data
+  
+  // Get cover image
+  const coverResponse = await getCover()
+  const coverImage = coverResponse.success ? coverResponse.data : null
 
   return (
-    <div className="min-h-screen bg-background py-16 px-4">
-      <div className="max-w-6xl mx-auto">
-        {/* Service Title */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
-            {service.title}
-          </h1>
+    <div className="min-h-screen bg-background">
+      {/* Cover Image Section */}
+      {coverImage && (
+        <div className="relative w-full h-64 md:h-96 mb-12">
+          <Image
+            src={coverImage}
+            alt="Services Cover"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+            <div className="text-center text-white">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                {service.title}
+              </h1>
+            </div>
+          </div>
         </div>
+      )}
+      
+      <div className="py-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          {/* Service Title - Only show if no cover */}
+          {!coverImage && (
+            <div className="text-center mb-8">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
+                {service.title}
+              </h1>
+            </div>
+          )}
 
         {/* Service Sub-title (if exists) */}
         {service.sub_title && (
@@ -93,14 +120,15 @@ export default async function ServicePage({ params }: ServicePageProps) {
         {/* Contact Us Button */}
         <div className="text-center mt-16">
           <Button asChild size="lg" className="px-8 py-3">
-            <Link href="/contact">
-              Contact Us
+            <Link href={`/contact?message=${encodeURIComponent(service.contact.message.replace('{title}', service.title))}`}>
+              {service.contact.title}
             </Link>
           </Button>
         </div>
       </div>
     </div>
-  )
+  </div>
+)
 }
 
 // Generate static params for all services (optional, for better performance)

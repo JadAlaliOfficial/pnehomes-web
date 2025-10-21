@@ -2,7 +2,6 @@ import {
   GalleryData, 
   GalleryAlbum, 
   GalleryAlbums,
-  SubAlbum, 
   GalleryFilterOptions, 
   GallerySearchResult,
   ContactInfo

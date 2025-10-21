@@ -1,5 +1,5 @@
 import { EventsAPI } from '@/features/events/api';
-import type { Event, Contact } from '@/features/events/model/types';
+import type { Event } from '@/features/events/model/types';
 import Image from 'next/image';
 
 export default async function EventsPage() {
@@ -17,16 +17,21 @@ export default async function EventsPage() {
     );
   }
 
-  const { slogan, events, contact } = eventsResponse.data;
+  const { slogan, events, contact, cover } = eventsResponse.data;
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Section */}
-      <div className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div 
+        className="relative bg-white shadow-sm bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${cover})` }}
+      >
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">{slogan}</h1>
-            <p className="text-lg text-gray-600">Discover our community events and initiatives</p>
+            <h1 className="text-4xl font-bold text-white mb-4">{slogan}</h1>
+            <p className="text-lg text-gray-200">Discover our community events and initiatives</p>
           </div>
         </div>
       </div>
@@ -76,10 +81,10 @@ export default async function EventsPage() {
             <div className="px-6 py-12 md:px-8 md:py-16 text-center">
               <h2 className="text-3xl font-bold text-white mb-4">{contact.title}</h2>
               <p className="text-blue-100 mb-8">
-                Ready to learn more about our events or get involved? We'd love to hear from you!
+                {contact.message}
               </p>
               <a
-                href={`/${contact.slug}`}
+                href={`/contact?message=${encodeURIComponent(contact.message)}`}
                 className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 transition-colors duration-200"
               >
                 Get In Touch

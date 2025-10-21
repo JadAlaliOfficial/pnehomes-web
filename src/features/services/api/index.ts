@@ -1,9 +1,9 @@
 import { serviceRepository } from './file.repository';
 import { 
-  Service, 
   Services, 
   ServiceApiResponse, 
-  SingleServiceApiResponse 
+  SingleServiceApiResponse,
+  CoverApiResponse
 } from '../model/types';
 
 /**
@@ -155,6 +155,26 @@ export class ServicesAPI {
       };
     }
   }
+
+  /**
+   * Get cover image
+   */
+  static async getCover(): Promise<CoverApiResponse> {
+    try {
+      const cover = await serviceRepository.getCover();
+      return {
+        data: cover,
+        success: true,
+        message: 'Cover image retrieved successfully'
+      };
+    } catch (error) {
+      return {
+        data: '',
+        success: false,
+        message: `Failed to retrieve cover image: ${error instanceof Error ? error.message : 'Unknown error'}`
+      };
+    }
+  }
 }
 
 // Export convenience functions
@@ -164,7 +184,8 @@ export const {
   getServiceBySlug,
   searchServices,
   getPaginatedServices,
-  serviceExists
+  serviceExists,
+  getCover
 } = ServicesAPI;
 
 // Export repository for direct access if needed
@@ -175,7 +196,9 @@ export type {
   Service,
   Services,
   ServiceContentItem,
+  ServiceContact,
   ServiceRepository,
   ServiceApiResponse,
-  SingleServiceApiResponse
+  SingleServiceApiResponse,
+  CoverApiResponse
 } from '../model/types';

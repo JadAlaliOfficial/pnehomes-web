@@ -32,11 +32,9 @@ export default function SharePrintButtons({ title, text, className }: Props) {
         setTimeout(() => setCopied(false), 1500)
       } else {
         // Legacy fallback
-        // eslint-disable-next-line no-alert
         window.prompt("Copy this link:", shareData.url)
       }
     } catch {
-      // eslint-disable-next-line no-alert
       window.prompt("Copy this link:", shareData.url)
     }
   }

@@ -30,6 +30,11 @@ export const PrivacyPolicyAPI = {
   getDescription: () => PrivacyPolicyFileRepository.getDescription(),
   
   /**
+   * Get privacy policy cover
+   */
+  getCover: () => PrivacyPolicyFileRepository.getCover(),
+  
+  /**
    * Get contact information
    */
   getContact: () => PrivacyPolicyFileRepository.getContact(),

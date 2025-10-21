@@ -3,12 +3,9 @@ import {
   GalleryData, 
   GalleryAlbum, 
   GalleryAlbums,
-  SubAlbum, 
   GalleryFilterOptions, 
   GallerySearchResult,
   ContactInfo,
-  GalleryImage,
-  CoverImage
 } from '../model/types';
 
 // Create a singleton instance of the repository

@@ -46,7 +46,7 @@ export class OurTeamRepository {
 
   /**
    * Get contact information
-   * @returns Promise<Contact> - The contact information
+   * @returns Promise<Contact | undefined> - The contact information or undefined if not available
    */
   static async getContactInfo() {
     const data = await this.getOurTeamData();
@@ -54,12 +54,13 @@ export class OurTeamRepository {
   }
 
   /**
-   * Get page header information (slogan, title, subtitle, description)
+   * Get page header information (slogan, title, subtitle, description, cover)
    * @returns Promise<Omit<OurTeamData, 'team' | 'contact'>> - Header information
    */
   static async getHeaderInfo() {
     const data = await this.getOurTeamData();
     return {
+      cover: data.cover,
       slogan: data.slogan,
       title: data.title,
       subtitle: data.subtitle,

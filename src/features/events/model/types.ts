@@ -12,16 +12,17 @@ export interface Event {
  */
 export interface Contact {
   title: string;
-  slug: string;
+  message: string;
 }
 
 /**
  * Main events data structure interface
  */
 export interface EventsData {
+  cover: string;
   slogan: string;
   events: Event[];
-  contact: Contact;
+  contact?: Contact;
 }
 
 /**

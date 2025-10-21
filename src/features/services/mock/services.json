@@ -1,4 +1,7 @@
-[
+{
+  "cover": "/img/cover.jpg",
+  "services":
+  [
   {
     "id": 1,
     "slug": "custom-homes",
@@ -18,7 +21,11 @@
           "sub_title": "What is the process for building a custom home with PNE Homes?",
           "description": "The process for building a custom home with PNE Homes begins with an initial consultation to understand your vision and needs. Next, you’ll work with our design team to create a personalized floor plan and select finishes that reflect your style. Once the design is finalized, we’ll handle all the necessary permits and preparations. Throughout the construction phase, you’ll receive regular updates and have opportunities for input, ensuring the project stays on track and meets your expectations. Finally, upon completion, we conduct a thorough walkthrough with you to ensure every detail is perfect before handing over the keys to your dream home."
         }
-    ]
+      ],
+      "contact": {
+        "title": "contact",
+        "message": "I want to contact you about the {title} service."
+      }
   },
   {
     "id": 2,
@@ -31,6 +38,11 @@
         "sub_title": "With our promotion:",
         "description": "You'll receive a FREE comprehensive 3D basement finishing package that includes everything you need to create the perfect space for your needs. Our team of skilled professionals will work with you to design a layout that maximizes your available space, while incorporating your unique style and preferences."
         }
-    ]
+    ],
+      "contact": {
+        "title": "contact",
+        "message": "I want to contact you about the {title} service."
+      }
   }
 ]
+}

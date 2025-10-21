@@ -47,6 +47,14 @@ export class EventsAPI {
   }
 
   /**
+   * Get cover image path
+   * @returns Promise<string>
+   */
+  static async getCover(): Promise<string> {
+    return await fileRepository.getCover();
+  }
+
+  /**
    * Search events by keyword in title or description
    * @param keyword - Keyword to search for
    * @returns Promise<Event[]>

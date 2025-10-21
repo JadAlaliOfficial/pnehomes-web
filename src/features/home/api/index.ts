@@ -53,7 +53,7 @@ export const homeLayoutApi = {
   /**
    * Get contact phone number
    */
-  getPhone: (): number => {
+  getPhone: (): number | null => {
     return homeLayoutRepo.getContactPhone();
   },
 

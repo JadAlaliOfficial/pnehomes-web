@@ -25,7 +25,7 @@ export class BuildingOptionsFileRepository {
    */
   async getArticles(): Promise<Article[]> {
     const data = buildingOptionsData as BuildingOptionsData;
-    return Promise.resolve(data.articles);
+    return Promise.resolve(data.articles.articles);
   }
 
   /**
@@ -34,7 +34,7 @@ export class BuildingOptionsFileRepository {
    */
   getArticlesSync(): Article[] {
     const data = buildingOptionsData as BuildingOptionsData;
-    return data.articles;
+    return data.articles.articles;
   }
 
   /**
@@ -44,7 +44,7 @@ export class BuildingOptionsFileRepository {
    */
   async getArticleBySlug(slug: string): Promise<Article | undefined> {
     const data = buildingOptionsData as BuildingOptionsData;
-    return Promise.resolve(data.articles.find(article => article.slug === slug));
+    return Promise.resolve(data.articles.articles.find(article => article.slug === slug));
   }
 
   /**
@@ -54,6 +54,6 @@ export class BuildingOptionsFileRepository {
    */
   getArticleBySlugSync(slug: string): Article | undefined {
     const data = buildingOptionsData as BuildingOptionsData;
-    return data.articles.find(article => article.slug === slug);
+    return data.articles.articles.find(article => article.slug === slug);
   }
 }

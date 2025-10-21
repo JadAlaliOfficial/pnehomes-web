@@ -1,4 +1,4 @@
-import { AboutUsData, AboutUsResponse } from '../model/types';
+import { AboutUsData, AboutUsResponse, ContactInfo } from '../model/types';
 import aboutUsData from '../mock/aboutUs.json';
 
 /**
@@ -32,7 +32,7 @@ export class AboutUsFileRepository {
    * Get contact information from aboutUs data
    * @returns Promise<ContactInfo | null> - The contact information or null if not found
    */
-  static async getContactInfo() {
+  static async getContactInfo(): Promise<ContactInfo | null> {
     try {
       const response = await this.getAboutUsData();
       if (response.success && response.data.contact) {
@@ -92,6 +92,23 @@ export class AboutUsFileRepository {
       return null;
     } catch (error) {
       console.error('Error retrieving description:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get the cover image from aboutUs data
+   * @returns Promise<string | null> - The cover image path or null if not found
+   */
+  static async getCover(): Promise<string | null> {
+    try {
+      const response = await this.getAboutUsData();
+      if (response.success && response.data.cover) {
+        return response.data.cover;
+      }
+      return null;
+    } catch (error) {
+      console.error('Error retrieving cover:', error);
       return null;
     }
   }

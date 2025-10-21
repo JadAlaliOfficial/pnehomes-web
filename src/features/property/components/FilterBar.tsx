@@ -43,7 +43,11 @@ export default function FilterBar() {
     
     // Community filter - trim whitespace and handle case-insensitive comparison
     const trimmedCommunity = community.trim()
-    trimmedCommunity ? params.set("community", trimmedCommunity) : params.delete("community")
+    if (trimmedCommunity) {
+      params.set("community", trimmedCommunity)
+    } else {
+      params.delete("community")
+    }
     
     // Price filter - ensure it's a valid number
     const numericPrice = price.trim()
@@ -53,9 +57,23 @@ export default function FilterBar() {
       params.delete("price")
     }
     
-    beds ? params.set("beds", beds) : params.delete("beds")
-    baths ? params.set("baths", baths) : params.delete("baths")
-    garages ? params.set("garages", garages) : params.delete("garages")
+    if (beds) {
+      params.set("beds", beds)
+    } else {
+      params.delete("beds")
+    }
+    
+    if (baths) {
+      params.set("baths", baths)
+    } else {
+      params.delete("baths")
+    }
+    
+    if (garages) {
+      params.set("garages", garages)
+    } else {
+      params.delete("garages")
+    }
     router.push(`/floor-plans?${params.toString()}`)
   }
 

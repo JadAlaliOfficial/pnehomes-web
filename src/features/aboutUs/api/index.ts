@@ -45,6 +45,12 @@ export const getSlogan = () => AboutUsFileRepository.getSlogan();
 export const getDescription = () => AboutUsFileRepository.getDescription();
 
 /**
+ * Convenience function to get the cover image
+ * @returns Promise<string | null> - The cover image path
+ */
+export const getCover = () => AboutUsFileRepository.getCover();
+
+/**
  * Default export - AboutUs API object with all methods
  */
 const AboutUsAPI = {
@@ -53,6 +59,7 @@ const AboutUsAPI = {
   getTitle,
   getSlogan,
   getDescription,
+  getCover,
   Repository: AboutUsFileRepository
 };
 

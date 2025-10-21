@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
@@ -34,7 +34,7 @@ function SimpleCaptcha({
 }) {
   const [captchaQuestion, setCaptchaQuestion] = useState<{num1: number, num2: number, answer: number} | null>(null)
   const [userAnswer, setUserAnswer] = useState("")
-  const [isClient, setIsClient] = useState(false)
+  const [, setIsClient] = useState(false)
 
   // Initialize captcha only on client side to avoid hydration mismatch
   useEffect(() => {
@@ -93,7 +93,17 @@ function SimpleCaptcha({
   )
 }
 
+// Main page component with Suspense wrapper
 export default function ContactPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 flex items-center justify-center"><div className="text-lg">Loading...</div></div>}>
+      <ContactForm />
+    </Suspense>
+  )
+}
+
+// Contact form component that uses useSearchParams
+function ContactForm() {
   const searchParams = useSearchParams()
   const messageParam = searchParams.get('message')
   
@@ -131,7 +141,7 @@ export default function ContactPage() {
               Contact Us
             </h1>
             <p className="text-gray-600 dark:text-gray-300">
-              Get in touch with our team. We'd love to hear from you.
+              Get in touch with our team. We&apos;d love to hear from you.
             </p>
           </div>
 

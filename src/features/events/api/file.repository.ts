@@ -63,7 +63,7 @@ export class FileRepository {
    */
   async getContactInfo() {
     const response = await this.getEventsData();
-    if (response.success && response.data) {
+    if (response.success && response.data && response.data.contact) {
       return response.data.contact;
     }
     return null;
@@ -77,6 +77,18 @@ export class FileRepository {
     const response = await this.getEventsData();
     if (response.success && response.data) {
       return response.data.slogan;
+    }
+    return '';
+  }
+
+  /**
+   * Get cover image path
+   * @returns Promise<string>
+   */
+  async getCover() {
+    const response = await this.getEventsData();
+    if (response.success && response.data) {
+      return response.data.cover;
     }
     return '';
   }

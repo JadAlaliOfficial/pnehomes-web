@@ -1,4 +1,5 @@
 {
+    "cover": "/img/cover.jpg",
     "slogan":"OUR TEAM",
     "title" :"What really makes PNE HOMES",
     "subtitle":"great is our committed and professional staff",
@@ -43,6 +44,6 @@
     ],
     "contact" : {
         "title" : "Contact Us Today",
-        "slug" : "contact"
+        "message": "We'd love to hear from you! Whether you have questions, feedback, or simply want to say hello, we're here to help. Please don't hesitate to reach out to us. We value your input and look forward to connecting with you."
     }
 }

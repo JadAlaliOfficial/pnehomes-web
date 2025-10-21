@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { homeContentApi } from "@/features/home/api/home_content.api"
 
 export default function Home() {
-  const homeContent = homeContentApi.getContent();
   const firstSection = homeContentApi.getFirstSection();
   const hero = homeContentApi.getHero();
   const services = homeContentApi.getServices();
@@ -195,7 +194,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
               <div key={index} className="bg-white p-8 rounded-lg shadow-lg">
-                <p className="text-gray-600 mb-6 italic">"{testimonial.description}"</p>
+                <p className="text-gray-600 mb-6 italic">&ldquo;{testimonial.description}&rdquo;</p>
                 <p className="font-bold text-gray-900">- {testimonial.by}</p>
               </div>
             ))}

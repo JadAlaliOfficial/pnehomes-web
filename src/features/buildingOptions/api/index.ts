@@ -1,5 +1,5 @@
 import { BuildingOptionsFileRepository } from './file.repository';
-import { BuildingOptionsData, BuildingOption, Article } from '../model/types';
+import { BuildingOptionsData, BuildingOption, Article, ArticlesSection } from '../model/types';
 
 // Create a singleton instance of the repository
 const buildingOptionsRepository = new BuildingOptionsFileRepository();
@@ -55,7 +55,7 @@ export const getArticleBySlugSync = (slug: string): Article | undefined => {
 };
 
 // Export types for convenience
-export type { BuildingOptionsData, BuildingOption, Article };
+export type { BuildingOptionsData, BuildingOption, Article, ArticlesSection };
 
 // Export repository class for advanced usage
 export { BuildingOptionsFileRepository };

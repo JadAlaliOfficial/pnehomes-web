@@ -3,7 +3,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { communitiesAPI, Community } from "@/features/communities/api"
+import { communitiesAPI } from "@/features/communities/api"
 import ImageGallery from "@/components/ImageGallery"
 import RequestTourButton from "@/components/RequestTourButton"
 
