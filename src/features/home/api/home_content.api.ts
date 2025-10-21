@@ -114,6 +114,20 @@ export const homeContentApi = {
   },
 
   /**
+   * Get cover for mobile URL
+   */
+  getCoverForMobile: (): string => {
+    return homeContentRepo.getCoverForMobile();
+  },
+
+  /**
+   * Get services cover URL
+   */
+  getServicesCover: (): string => {
+    return homeContentRepo.getServicesCover();
+  },
+
+  /**
    * Update content configuration (for future use)
    */
   updateContent: (updates: Partial<HomeContent>): void => {

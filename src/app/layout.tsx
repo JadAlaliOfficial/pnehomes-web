@@ -11,7 +11,6 @@ const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
@@ -19,22 +18,24 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "PNE Homes - Quality Home Builders",
-  description: "Building quality homes with exceptional craftsmanship and attention to detail.",
+  description:
+    "Building quality homes with exceptional craftsmanship and attention to detail.",
+  icons: { icon: "/favicon.ico" },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col text-[color:var(--pne-text)]`}
+        suppressHydrationWarning={true}
       >
         <ComparisonProvider>
+          {/* Fixed, transparent header positioned above main content */}
           <Header />
-          <main className="flex-1">
+          <main className="flex-1 relative">
             {children}
           </main>
           <Footer />

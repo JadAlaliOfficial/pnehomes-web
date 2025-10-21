@@ -1,6 +1,7 @@
 {
     "first-section" :{
         "video": "/vid/first.mp4",
+        "cover-for-mobile": "/img/cove_home.jpg",
         "logo": "/img/App-Logo.png",
         "title": "Pne Homes",
         "subtitle": "",
@@ -17,6 +18,7 @@
     },
     "services" : {
         "title": "SERVICES",
+        "cover": "/img/services_home.jpg",
         "description" :"At PNE HOMES, we specialize in creating unique living spaces tailored to your style. Our skilled team combines creativity, craftsmanship, and cutting-edge technology to bring your custom build vision to life. ",
         "links": [
             {"title":"Custom Homes" , "slug":"custom-homes"} , 
@@ -47,5 +49,5 @@
             "by": "Jane D. Happy Homeowner"
         }
     ],
-    "contact": "CONTACT"
+    "contact": "CONTACT US TODAY"
 }

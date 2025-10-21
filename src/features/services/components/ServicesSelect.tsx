@@ -3,24 +3,24 @@
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu"
 import { getAllServices } from "../api"
 import type { Service } from "../model/types"
 
 interface ServicesSelectProps {
-  placeholder?: string;
+  placeholder?: string
 }
 
 export function ServicesSelect({ placeholder = "Services" }: ServicesSelectProps) {
   const router = useRouter()
   const [services, setServices] = useState<Service[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectValue, setSelectValue] = useState("")
 
   useEffect(() => {
     const loadServices = async () => {
@@ -41,32 +41,46 @@ export function ServicesSelect({ placeholder = "Services" }: ServicesSelectProps
 
   const handleServiceSelect = (slug: string) => {
     router.push(`/services/${slug}`)
-    // Reset the select value to keep showing the placeholder
-    setSelectValue("")
   }
 
   if (loading) {
     return (
-      <Select disabled>
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Loading services..." />
-        </SelectTrigger>
-      </Select>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button disabled className="w-full px-2 py-2 bg-gray-200 text-gray-500 rounded">
+            Loading services...
+          </button>
+        </DropdownMenuTrigger>
+      </DropdownMenu>
     )
   }
 
   return (
-    <Select value={selectValue} onValueChange={handleServiceSelect}>
-      <SelectTrigger className="w-full">
-        <SelectValue placeholder={placeholder} />
-      </SelectTrigger>
-      <SelectContent>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="relative text-sm font-medium transition-all duration-300 px-1 py-2
+                 md:text-white md:hover:text-[color:var(--pne-accent)] md:hover:-translate-y-0.5
+                 text-[color:var(--pne-brand)] hover:text-[color:var(--pne-brand-600)]
+                 after:absolute after:left-0 after:-bottom-0.5 after:h-[2px]
+                 after:w-0 after:bg-[color:var(--pne-accent)]
+                 after:transition-all after:duration-300 hover:after:w-full
+                 md:after:hidden">
+          {placeholder}
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-full max-w-xs">
+        <DropdownMenuLabel>Services</DropdownMenuLabel>
+        <DropdownMenuSeparator />
         {services.map((service) => (
-          <SelectItem key={service.id} value={service.slug}>
+          <DropdownMenuItem
+            key={service.id}
+            onSelect={() => handleServiceSelect(service.slug)}
+            className="cursor-pointer"
+          >
             {service.title}
-          </SelectItem>
+          </DropdownMenuItem>
         ))}
-      </SelectContent>
-    </Select>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

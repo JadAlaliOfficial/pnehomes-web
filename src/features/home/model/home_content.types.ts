@@ -17,6 +17,7 @@ export interface ServiceLink {
 
 export interface Services {
   title: string;
+  cover: string;
   description: string | null;
   links: ServiceLink[];
 }
@@ -34,6 +35,7 @@ export interface GridSection {
 
 export interface FirstSection {
   video: string;
+  "cover-for-mobile": string;
   logo: string;
   title: string;
   subtitle: string | null;

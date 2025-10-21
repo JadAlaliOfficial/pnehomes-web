@@ -129,6 +129,20 @@ export class HomeContentRepository {
   }
 
   /**
+   * Get cover for mobile from first section
+   */
+  public getCoverForMobile() {
+    return this.homeContent["first-section"]["cover-for-mobile"];
+  }
+
+  /**
+   * Get services cover
+   */
+  public getServicesCover() {
+    return this.homeContent.services.cover;
+  }
+
+  /**
    * Update home content data (for future use)
    */
   public updateHomeContent(newContent: Partial<HomeContent>): void {

@@ -1,5 +1,5 @@
 {
-    "header-logo" : "/img/App-Logo.png",
+    "header-logo" : "/img/header-logo.png",
     "header-nav":[ "Home" , "Floor Plans" , "Gallery" , "Communities" , "Building Options" , "Services" , "Contact Us"],
     "header-button" : "Book Now",
     "header-phone" : 6144998375,
