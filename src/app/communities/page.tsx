@@ -1,19 +1,25 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { communitiesAPI, Community } from "@/features/communities/api"
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { communitiesAPI, Community } from '@/features/communities/api'
 
 export default function CommunitiesPage() {
   const [communities, setCommunities] = useState<Community[]>([])
   const [filteredCommunities, setFilteredCommunities] = useState<Community[]>([])
-  const [selectedCommunity, setSelectedCommunity] = useState<string>("all")
-  const [selectedCity, setSelectedCity] = useState<string>("all")
+  const [selectedCommunity, setSelectedCommunity] = useState<string>('all')
+  const [selectedCity, setSelectedCity] = useState<string>('all')
   const [loading, setLoading] = useState(true)
-  const [zillowUrl, setZillowUrl] = useState<string>("")
-  const [coverImage, setCoverImage] = useState<string>("")
+  const [zillowUrl, setZillowUrl] = useState<string>('')
+  const [coverImage, setCoverImage] = useState<string>('')
 
   useEffect(() => {
     async function loadCommunities() {
@@ -21,16 +27,16 @@ export default function CommunitiesPage() {
         const data = await communitiesAPI.getAllCommunities()
         setCommunities(data)
         setFilteredCommunities(data)
-        
+
         // Load Zillow URL
         const zillow = await communitiesAPI.getZillowUrl()
         setZillowUrl(zillow)
-        
+
         // Load cover image
         const cover = await communitiesAPI.getCoverImage()
         setCoverImage(cover)
       } catch (error) {
-        console.error("Failed to load communities:", error)
+        console.error('Failed to load communities:', error)
       } finally {
         setLoading(false)
       }
@@ -42,11 +48,11 @@ export default function CommunitiesPage() {
   useEffect(() => {
     let filtered = communities
 
-    if (selectedCommunity !== "all") {
+    if (selectedCommunity !== 'all') {
       filtered = filtered.filter(community => community.title === selectedCommunity)
     }
 
-    if (selectedCity !== "all") {
+    if (selectedCity !== 'all') {
       filtered = filtered.filter(community => community.city === selectedCity)
     }
 
@@ -69,23 +75,15 @@ export default function CommunitiesPage() {
     <div className="min-h-screen">
       {/* Hero Section with Cover Image */}
       {coverImage && (
-        <section className="relative h-96 mb-8">
+        <section className="relative mb-8 h-96">
           <div className="absolute inset-0">
-            <Image
-              src={coverImage}
-              alt="Our Communities"
-              fill
-              className="object-cover"
-              priority
-            />
+            <Image src={coverImage} alt="Our Communities" fill className="object-cover" priority />
           </div>
-          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-          <div className="relative z-10 flex items-center justify-center h-full">
+          <div className="bg-opacity-40 absolute inset-0 bg-black"></div>
+          <div className="relative z-10 flex h-full items-center justify-center">
             <div className="text-center text-white">
-              <h1 className="text-5xl font-bold mb-4">Our Communities</h1>
-              <p className="text-xl">
-                Discover beautiful communities designed for modern living
-              </p>
+              <h1 className="mb-4 text-5xl font-bold">Our Communities</h1>
+              <p className="text-xl">Discover beautiful communities designed for modern living</p>
             </div>
           </div>
         </section>
@@ -94,19 +92,19 @@ export default function CommunitiesPage() {
       <div className="container mx-auto px-4 py-8">
         {!coverImage && (
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-center mb-4">Our Communities</h1>
-            <p className="text-lg text-gray-600 text-center mb-8">
+            <h1 className="mb-4 text-center text-4xl font-bold">Our Communities</h1>
+            <p className="mb-8 text-center text-lg text-gray-600">
               Discover beautiful communities designed for modern living
             </p>
           </div>
         )}
-        
+
         {/* Filters */}
-        <div className="max-w-2xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="mx-auto max-w-2xl">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {/* Community Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="mb-2 block text-sm font-medium text-gray-700">
                 Filter by Community
               </label>
               <Select value={selectedCommunity} onValueChange={setSelectedCommunity}>
@@ -115,7 +113,7 @@ export default function CommunitiesPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Communities</SelectItem>
-                  {uniqueCommunities.map((community) => (
+                  {uniqueCommunities.map(community => (
                     <SelectItem key={community} value={community}>
                       {community}
                     </SelectItem>
@@ -126,16 +124,14 @@ export default function CommunitiesPage() {
 
             {/* City Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Filter by City
-              </label>
+              <label className="mb-2 block text-sm font-medium text-gray-700">Filter by City</label>
               <Select value={selectedCity} onValueChange={setSelectedCity}>
                 <SelectTrigger>
                   <SelectValue placeholder="All Cities" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Cities</SelectItem>
-                  {uniqueCities.map((city) => (
+                  {uniqueCities.map(city => (
                     <SelectItem key={city} value={city}>
                       {city}
                     </SelectItem>
@@ -147,12 +143,12 @@ export default function CommunitiesPage() {
         </div>
 
         {/* Visit us on Zillow Button */}
-        <div className="text-center mt-6">
+        <div className="mt-6 text-center">
           <a
             href={zillowUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300"
+            className="inline-flex items-center rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-colors duration-300 hover:bg-blue-700"
           >
             Visit us on Zillow
           </a>
@@ -160,35 +156,29 @@ export default function CommunitiesPage() {
       </div>
 
       {/* Communities Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredCommunities.map((community) => (
-          <Link 
-            key={community.id} 
-            href={`/communities/${community.slug}`}
-            className="group block"
-          >
-            <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {filteredCommunities.map(community => (
+          <Link key={community.id} href={`/communities/${community.slug}`} className="group block">
+            <div className="overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg">
               {/* Community Image */}
               <div className="relative h-48 overflow-hidden">
                 <Image
                   src={community.card_image}
                   alt={community.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
-              
+
               {/* Community Info */}
               <div className="p-4">
-                <h3 className="text-xl font-semibold mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="mb-2 text-xl font-semibold transition-colors group-hover:text-blue-600">
                   {community.title}
                 </h3>
-                <p className="text-2xl font-bold text-green-600 mb-2">
-                  ${community["starting-price"]}
+                <p className="mb-2 text-2xl font-bold text-green-600">
+                  ${community['starting-price']}
                 </p>
-                <p className="text-gray-600">
-                  {community.city}
-                </p>
+                <p className="text-gray-600">{community.city}</p>
               </div>
             </div>
           </Link>
@@ -196,16 +186,13 @@ export default function CommunitiesPage() {
       </div>
 
       {/* No Results */}
-      {filteredCommunities.length === 0 && (selectedCommunity !== "all" || selectedCity !== "all") && (
-        <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">
-            No communities found with the selected filters
-          </p>
-          <p className="text-gray-400 mt-2">
-            Try adjusting your filter selections
-          </p>
-        </div>
-      )}
+      {filteredCommunities.length === 0 &&
+        (selectedCommunity !== 'all' || selectedCity !== 'all') && (
+          <div className="py-12 text-center">
+            <p className="text-lg text-gray-500">No communities found with the selected filters</p>
+            <p className="mt-2 text-gray-400">Try adjusting your filter selections</p>
+          </div>
+        )}
     </div>
   )
 }

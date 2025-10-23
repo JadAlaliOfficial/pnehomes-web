@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import React, { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
@@ -17,6 +17,7 @@ function CompareContent() {
   const router = useRouter()
   const [properties, setProperties] = useState<PropertyType[]>([])
   const [loading, setLoading] = useState(true)
+  const [coverImage, setCoverImage] = useState<string>('')
 
   useEffect(() => {
     const propertyIds = searchParams.get('properties')
@@ -25,212 +26,231 @@ function CompareContent() {
       return
     }
 
-    const ids = propertyIds.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id))
+    const ids = propertyIds
+      .split(',')
+      .map(id => parseInt(id.trim()))
+      .filter(id => !isNaN(id))
     if (ids.length < 2) {
       router.push('/floor-plans')
       return
     }
 
-    // Fetch properties by IDs
-    const fetchProperties = async () => {
+    // Fetch properties by IDs and cover image
+    const fetchData = async () => {
       try {
-        const allProperties = await Property.list({ limit: 1000 })
+        const [allProperties, cover] = await Promise.all([
+          Property.list({ limit: 1000 }),
+          Property.getCoverImage()
+        ])
         const selectedProperties = allProperties.filter(p => ids.includes(p.id))
         setProperties(selectedProperties)
+        setCoverImage(cover)
       } catch (error) {
-        console.error('Error fetching properties:', error)
+        console.error('Error fetching data:', error)
         router.push('/floor-plans')
       } finally {
         setLoading(false)
       }
     }
 
-    fetchProperties()
+    fetchData()
   }, [searchParams, router])
 
   if (loading) {
     return (
-      <div className="container mx-auto p-6">
-        <div className="flex items-center justify-center min-h-[400px]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading properties...</p>
+      <main className="relative">
+        {/* Hero / Title (clean and bold like pnehomes.com) */}
+        <section className="relative isolate">
+          <div className="absolute inset-0 -z-10">
+            <Image src="/img/services_home.jpg" alt="Compare Properties Cover" fill priority className="object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
+          </div>
+
+          <div className="container mx-auto px-6 pt-20 pb-10 text-center">
+            <h1 className="text-2xl font-extrabold tracking-tight uppercase sm:text-3xl md:text-4xl lg:text-5xl">
+              Compare Properties
+            </h1>
+          </div>
+        </section>
+
+        <div className="container mx-auto p-6">
+          <div className="flex min-h-[400px] items-center justify-center">
+            <div className="text-center">
+              <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
+              <p className="text-sm text-gray-600 sm:text-base">Loading properties...</p>
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     )
   }
 
   if (properties.length < 2) {
     return (
-      <div className="container mx-auto p-6">
-        <div className="text-center py-12">
-          <h1 className="text-2xl font-bold mb-4">No Properties to Compare</h1>
-          <p className="text-gray-600 mb-6">Please select at least 2 properties to compare.</p>
-          <Button onClick={() => router.push('/floor-plans')}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Floor Plans
-          </Button>
+      <main className="relative">
+        {/* Hero / Title (clean and bold like pnehomes.com) */}
+        <section className="relative isolate">
+          <div className="absolute inset-0 -z-10">
+            <Image src={coverImage || "/img/services_home.jpg"} alt="Compare Properties Cover" fill priority className="object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
+          </div>
+
+          <div className="container mx-auto px-6 pt-20 pb-10 text-center">
+            <h1 className="text-2xl font-extrabold tracking-tight uppercase sm:text-3xl md:text-4xl lg:text-5xl">
+              Compare Properties
+            </h1>
+          </div>
+        </section>
+
+        <div className="container mx-auto p-6">
+          <div className="py-12 text-center">
+            <h2 className="mb-4 text-lg font-bold sm:text-xl md:text-2xl">No Properties to Compare</h2>
+            <p className="mb-6 text-sm text-gray-600 sm:text-base">Please select at least 2 properties to compare.</p>
+            <Button onClick={() => router.push('/floor-plans')}>
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Floor Plans
+            </Button>
+          </div>
         </div>
-      </div>
+      </main>
     )
   }
 
   const comparisonFeatures = [
-    { key: 'price', label: 'Price', format: (value: string) => value ? `$${parseInt(value).toLocaleString()}` : 'Contact for price' },
+    {
+      key: 'price',
+      label: 'Price',
+      format: (value: string) =>
+        value ? `$${parseInt(value).toLocaleString()}` : 'Contact for price',
+    },
     { key: 'beds', label: 'Bedrooms' },
     { key: 'baths', label: 'Bathrooms' },
     { key: 'garages', label: 'Garages' },
-    { key: 'sqft', label: 'Square Feet', format: (value: string) => `${parseInt(value).toLocaleString()} sqft` },
-    { key: 'community', label: 'Community', format: (value: string) => value.charAt(0).toUpperCase() + value.slice(1) },
+    {
+      key: 'sqft',
+      label: 'Square Feet',
+      format: (value: string) => `${parseInt(value).toLocaleString()} sqft`,
+    },
+    {
+      key: 'community',
+      label: 'Community',
+      format: (value: string) => value.charAt(0).toUpperCase() + value.slice(1),
+    },
     { key: 'status', label: 'Status' },
   ]
 
   return (
-    <div className="container mx-auto p-6">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <Button
-            variant="ghost"
-            onClick={() => router.push('/floor-plans')}
-            className="mb-2"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Floor Plans
-          </Button>
-          <h1 className="text-3xl font-bold">Compare Properties</h1>
-          <p className="text-gray-600">Side-by-side comparison of {properties.length} properties</p>
+    <main className="relative">
+      {/* Hero / Title (clean and bold like pnehomes.com) */}
+      <section className="relative isolate">
+        <div className="absolute inset-0 -z-10">
+          <Image src={coverImage} alt="Compare Properties Cover" fill priority className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
+        </div>
+
+          <div className="container mx-auto px-6 pt-20 pb-10 text-center">
+            <h1 className="text-2xl font-extrabold tracking-tight uppercase sm:text-3xl md:text-4xl lg:text-5xl">
+              Compare Properties
+            </h1>
+          </div>
+      </section>
+
+      <div className="container mx-auto p-6">
+        {/* Header */}
+        <div className="mb-6 flex items-center justify-between">
+          <div className='w-full flex-col md:flex md:align-baseline md:justify-between'>
+            <Button variant="ghost" onClick={() => router.push('/floor-plans')} className="mb-2">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Floor Plans
+            </Button>
+            <span className="text-sm text-gray-600 p-2 inline-block md:inline sm:text-base">Side-by-side comparison of {properties.length} properties</span>
+          </div>
+        </div>
+
+        {/* Property Images */}
+        <div
+          className={`mb-8 grid gap-6 ${properties.length === 2 ? 'grid-cols-2' : properties.length === 3 ? 'grid-cols-3' : 'grid-cols-2 lg:grid-cols-4'}`}
+        >
+          {properties.map(property => (
+            <Card key={property.id} className="overflow-hidden">
+              <div className="relative aspect-[4/3]">
+                <Image
+                  src={property.gallery[0] ?? '/img/placeholder.jpg'}
+                  alt={property.title}
+                  fill
+                  className="object-cover"
+                  sizes={`${100 / properties.length}vw`}
+                />
+              </div>
+            </Card>
+          ))}
+        </div>
+
+        {/* Comparison Table */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg sm:text-xl md:text-2xl">Property Comparison</CardTitle>
+          </CardHeader>
+          <CardContent className="p-0">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b">
+                    <th className="bg-gray-50 p-2 text-left font-medium text-gray-600 text-xs sm:text-sm md:text-base sm:p-4">Feature</th>
+                    {properties.map(property => (
+                      <th
+                        key={property.id}
+                        className="min-w-[200px] bg-gray-50 p-2 text-left font-medium text-xs sm:text-sm md:text-base sm:p-4"
+                      >
+                        <div className="truncate">{property.title}</div>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {comparisonFeatures.map((feature, index) => (
+                    <tr key={feature.key} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}>
+                      <td className="border-r p-2 font-medium text-gray-700 text-xs sm:text-sm md:text-base sm:p-4">{feature.label}</td>
+                      {properties.map(property => {
+                        const value = property[feature.key as keyof PropertyType] as string
+                        const displayValue = feature.format ? feature.format(value) : value
+                        return (
+                          <td key={property.id} className="p-2 text-xs sm:text-sm md:text-base sm:p-4">
+                            {displayValue || 'N/A'}
+                          </td>
+                        )
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Action Buttons */}
+        <div className="mt-8 flex flex-wrap justify-center gap-4">
+          {properties.map(property => (
+            <Button key={property.id} asChild className='bg-pne-accent hover:bg-pne-brand text-xs sm:text-sm md:text-base'>
+              <Link href={`/property/${property.slug}`}>View {property.title}</Link>
+            </Button>
+          ))}
         </div>
       </div>
-
-      {/* Property Images */}
-      <div className={`grid gap-6 mb-8 ${properties.length === 2 ? 'grid-cols-2' : properties.length === 3 ? 'grid-cols-3' : 'grid-cols-2 lg:grid-cols-4'}`}>
-        {properties.map((property) => (
-          <Card key={property.id} className="overflow-hidden">
-            <div className="relative aspect-[4/3]">
-              <Image
-                src={property.gallery[0] ?? "/img/placeholder.jpg"}
-                alt={property.title}
-                fill
-                className="object-cover"
-                sizes={`${100 / properties.length}vw`}
-              />
-            </div>
-            <CardContent className="p-4">
-              <Link 
-                href={`/property/${property.slug}`}
-                className="font-semibold hover:text-blue-600 transition-colors"
-              >
-                {property.title}
-              </Link>
-              <div className="flex items-center gap-2 mt-2">
-                <Badge variant="secondary" className="text-xs">
-                  Available
-                </Badge>
-                <Link 
-                  href={`/property/${property.slug}`}
-                  className="text-blue-600 hover:text-blue-700"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Comparison Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Property Comparison</CardTitle>
-        </CardHeader>
-        <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b">
-                  <th className="text-left p-4 font-medium text-gray-600 bg-gray-50">Feature</th>
-                  {properties.map((property) => (
-                    <th key={property.id} className="text-left p-4 font-medium bg-gray-50 min-w-[200px]">
-                      <div className="truncate">{property.title}</div>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {comparisonFeatures.map((feature, index) => (
-                  <tr key={feature.key} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}>
-                    <td className="p-4 font-medium text-gray-700 border-r">
-                      {feature.label}
-                    </td>
-                    {properties.map((property) => {
-                      const value = property[feature.key as keyof PropertyType] as string
-                      const displayValue = feature.format ? feature.format(value) : value
-                      return (
-                        <td key={property.id} className="p-4">
-                          {displayValue || 'N/A'}
-                        </td>
-                      )
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Special Features Comparison */}
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle>Special Features</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className={`grid gap-6 ${properties.length === 2 ? 'grid-cols-2' : properties.length === 3 ? 'grid-cols-3' : 'grid-cols-2 lg:grid-cols-4'}`}>
-            {properties.map((property) => (
-              <div key={property.id}>
-                <h4 className="font-semibold mb-3 text-sm text-gray-700">
-                  {property.title}
-                </h4>
-                <div className="space-y-2">
-                  {property.Whats_special?.badges?.slice(0, 6).map((badge, index) => (
-                    <Badge key={index} variant="outline" className="text-xs">
-                      {badge}
-                    </Badge>
-                  )) || (
-                    <p className="text-xs text-gray-500">No special features listed</p>
-                  )}
-                </div>
-                {property.Whats_special?.badges && property.Whats_special.badges.length > 6 && (
-                  <p className="text-xs text-gray-500 mt-2">
-                    +{property.Whats_special.badges.length - 6} more features
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Action Buttons */}
-      <div className="flex flex-wrap gap-4 mt-8 justify-center">
-        {properties.map((property) => (
-          <Button key={property.id} asChild>
-            <Link href={`/property/${property.slug}`}>
-              View {property.title}
-            </Link>
-          </Button>
-        ))}
-      </div>
-    </div>
+    </main>
   )
 }
 
 // Main page component with Suspense wrapper
 export default function ComparePage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 flex items-center justify-center"><div className="text-lg">Loading...</div></div>}>
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-gray-50 py-12 dark:bg-gray-900">
+          <div className="text-sm sm:text-base lg:text-lg">Loading...</div>
+        </div>
+      }
+    >
       <CompareContent />
     </Suspense>
   )

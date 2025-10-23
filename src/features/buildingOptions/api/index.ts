@@ -1,40 +1,40 @@
-import { BuildingOptionsFileRepository } from './file.repository';
-import { BuildingOptionsData, BuildingOption, Article, ArticlesSection } from '../model/types';
+import { BuildingOptionsFileRepository } from './file.repository'
+import { BuildingOptionsData, BuildingOption, Article, ArticlesSection } from '../model/types'
 
 // Create a singleton instance of the repository
-const buildingOptionsRepository = new BuildingOptionsFileRepository();
+const buildingOptionsRepository = new BuildingOptionsFileRepository()
 
 /**
  * Get all building options data
  * @returns Promise<BuildingOptionsData>
  */
 export const getBuildingOptions = async (): Promise<BuildingOptionsData> => {
-  return buildingOptionsRepository.getBuildingOptions();
-};
+  return buildingOptionsRepository.getBuildingOptions()
+}
 
 /**
  * Get building options synchronously
  * @returns BuildingOptionsData
  */
 export const getBuildingOptionsSync = (): BuildingOptionsData => {
-  return buildingOptionsRepository.getBuildingOptionsSync();
-};
+  return buildingOptionsRepository.getBuildingOptionsSync()
+}
 
 /**
  * Get all articles
  * @returns Promise<Article[]>
  */
 export const getArticles = async (): Promise<Article[]> => {
-  return buildingOptionsRepository.getArticles();
-};
+  return buildingOptionsRepository.getArticles()
+}
 
 /**
  * Get articles synchronously
  * @returns Article[]
  */
 export const getArticlesSync = (): Article[] => {
-  return buildingOptionsRepository.getArticlesSync();
-};
+  return buildingOptionsRepository.getArticlesSync()
+}
 
 /**
  * Get article by slug
@@ -42,8 +42,8 @@ export const getArticlesSync = (): Article[] => {
  * @returns Promise<Article | undefined>
  */
 export const getArticleBySlug = async (slug: string): Promise<Article | undefined> => {
-  return buildingOptionsRepository.getArticleBySlug(slug);
-};
+  return buildingOptionsRepository.getArticleBySlug(slug)
+}
 
 /**
  * Get article by slug synchronously
@@ -51,11 +51,11 @@ export const getArticleBySlug = async (slug: string): Promise<Article | undefine
  * @returns Article | undefined
  */
 export const getArticleBySlugSync = (slug: string): Article | undefined => {
-  return buildingOptionsRepository.getArticleBySlugSync(slug);
-};
+  return buildingOptionsRepository.getArticleBySlugSync(slug)
+}
 
 // Export types for convenience
-export type { BuildingOptionsData, BuildingOption, Article, ArticlesSection };
+export type { BuildingOptionsData, BuildingOption, Article, ArticlesSection }
 
 // Export repository class for advanced usage
-export { BuildingOptionsFileRepository };
+export { BuildingOptionsFileRepository }

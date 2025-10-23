@@ -1,5 +1,5 @@
-import { OurTeamData } from '../model/types';
-import ourTeamData from '../mock/ourTeam.json';
+import { OurTeamData } from '../model/types'
+import ourTeamData from '../mock/ourTeam.json'
 
 /**
  * Repository class for handling ourTeam data operations
@@ -12,7 +12,7 @@ export class OurTeamRepository {
   static async getOurTeamData(): Promise<OurTeamData> {
     // In a real application, this might fetch from an API
     // For now, we return the mock data
-    return Promise.resolve(ourTeamData as OurTeamData);
+    return Promise.resolve(ourTeamData as OurTeamData)
   }
 
   /**
@@ -20,8 +20,8 @@ export class OurTeamRepository {
    * @returns Promise<TeamMember[]> - Array of team members
    */
   static async getTeamMembers() {
-    const data = await this.getOurTeamData();
-    return data.team;
+    const data = await this.getOurTeamData()
+    return data.team
   }
 
   /**
@@ -30,8 +30,8 @@ export class OurTeamRepository {
    * @returns Promise<TeamMember | undefined> - The team member or undefined if not found
    */
   static async getTeamMemberByName(name: string) {
-    const data = await this.getOurTeamData();
-    return data.team.find(member => member.name.toLowerCase() === name.toLowerCase());
+    const data = await this.getOurTeamData()
+    return data.team.find(member => member.name.toLowerCase() === name.toLowerCase())
   }
 
   /**
@@ -40,8 +40,8 @@ export class OurTeamRepository {
    * @returns Promise<TeamMember | undefined> - The team member or undefined if not found
    */
   static async getTeamMemberByPosition(position: string) {
-    const data = await this.getOurTeamData();
-    return data.team.find(member => member.position.toLowerCase().includes(position.toLowerCase()));
+    const data = await this.getOurTeamData()
+    return data.team.find(member => member.position.toLowerCase().includes(position.toLowerCase()))
   }
 
   /**
@@ -49,8 +49,8 @@ export class OurTeamRepository {
    * @returns Promise<Contact | undefined> - The contact information or undefined if not available
    */
   static async getContactInfo() {
-    const data = await this.getOurTeamData();
-    return data.contact;
+    const data = await this.getOurTeamData()
+    return data.contact
   }
 
   /**
@@ -58,13 +58,13 @@ export class OurTeamRepository {
    * @returns Promise<Omit<OurTeamData, 'team' | 'contact'>> - Header information
    */
   static async getHeaderInfo() {
-    const data = await this.getOurTeamData();
+    const data = await this.getOurTeamData()
     return {
       cover: data.cover,
       slogan: data.slogan,
       title: data.title,
       subtitle: data.subtitle,
-      description: data.description
-    };
+      description: data.description,
+    }
   }
 }

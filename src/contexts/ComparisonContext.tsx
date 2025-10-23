@@ -1,6 +1,7 @@
-"use client"
+'use client'
 
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import type { Property } from '@/features/property/model/types'
 
 interface ComparisonContextType {
@@ -18,6 +19,15 @@ const ComparisonContext = createContext<ComparisonContextType | undefined>(undef
 export function ComparisonProvider({ children }: { children: ReactNode }) {
   const [selectedProperties, setSelectedProperties] = useState<Property[]>([])
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const pathname = usePathname()
+
+  // Clear comparison when navigating away from floor-plans page
+  useEffect(() => {
+    if (!pathname.startsWith('/floor-plans')) {
+      setSelectedProperties([])
+      setIsDrawerOpen(false)
+    }
+  }, [pathname])
 
   const addToComparison = (property: Property) => {
     setSelectedProperties(prev => {
@@ -52,15 +62,17 @@ export function ComparisonProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <ComparisonContext.Provider value={{
-      selectedProperties,
-      addToComparison,
-      removeFromComparison,
-      clearComparison,
-      isInComparison,
-      isDrawerOpen,
-      setIsDrawerOpen
-    }}>
+    <ComparisonContext.Provider
+      value={{
+        selectedProperties,
+        addToComparison,
+        removeFromComparison,
+        clearComparison,
+        isInComparison,
+        isDrawerOpen,
+        setIsDrawerOpen,
+      }}
+    >
       {children}
     </ComparisonContext.Provider>
   )

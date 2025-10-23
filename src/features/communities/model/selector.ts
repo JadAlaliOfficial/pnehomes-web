@@ -1,4 +1,4 @@
-import { Community, CommunityFilter, PropertyFilter, FloorPlan } from './types';
+import { Community, CommunityFilter, PropertyFilter, FloorPlan } from './types'
 
 export class CommunitySelector {
   /**
@@ -6,20 +6,20 @@ export class CommunitySelector {
    */
   filterCommunities(communities: Community[], filters: CommunityFilter): Community[] {
     return communities.filter(community => {
-      let matches = true;
+      let matches = true
 
       // Filter by community name
       if (filters.name) {
-        matches = matches && community.title.toLowerCase().includes(filters.name.toLowerCase());
+        matches = matches && community.title.toLowerCase().includes(filters.name.toLowerCase())
       }
 
       // Filter by city
       if (filters.city) {
-        matches = matches && community.city.toLowerCase().includes(filters.city.toLowerCase());
+        matches = matches && community.city.toLowerCase().includes(filters.city.toLowerCase())
       }
 
-      return matches;
-    });
+      return matches
+    })
   }
 
   /**
@@ -30,69 +30,70 @@ export class CommunitySelector {
     if (!community['floor-plans']) {
       return {
         ...community,
-        'floor-plans': []
-      };
+        'floor-plans': [],
+      }
     }
 
     const filteredFloorPlans = community['floor-plans'].filter(floorPlan => {
-      let matches = true;
+      let matches = true
 
       // Filter by bedrooms
       if (filters.minBedrooms !== undefined) {
-        matches = matches && parseInt(floorPlan.beds) >= filters.minBedrooms;
+        matches = matches && parseInt(floorPlan.beds) >= filters.minBedrooms
       }
       if (filters.maxBedrooms !== undefined) {
-        matches = matches && parseInt(floorPlan.beds) <= filters.maxBedrooms;
+        matches = matches && parseInt(floorPlan.beds) <= filters.maxBedrooms
       }
 
       // Filter by bathrooms
       if (filters.minBaths !== undefined) {
-        matches = matches && parseFloat(floorPlan.baths) >= filters.minBaths;
+        matches = matches && parseFloat(floorPlan.baths) >= filters.minBaths
       }
       if (filters.maxBaths !== undefined) {
-        matches = matches && parseFloat(floorPlan.baths) <= filters.maxBaths;
+        matches = matches && parseFloat(floorPlan.baths) <= filters.maxBaths
       }
 
       // Filter by price
       if (filters.minPrice !== undefined) {
-        matches = matches && parseInt(floorPlan.price) >= filters.minPrice;
+        matches = matches && parseInt(floorPlan.price) >= filters.minPrice
       }
       if (filters.maxPrice !== undefined) {
-        matches = matches && parseInt(floorPlan.price) <= filters.maxPrice;
+        matches = matches && parseInt(floorPlan.price) <= filters.maxPrice
       }
 
-      return matches;
-    });
+      return matches
+    })
 
     return {
       ...community,
-      'floor-plans': filteredFloorPlans
-    };
+      'floor-plans': filteredFloorPlans,
+    }
   }
 
   /**
    * Get unique values for filter options
    */
   getFilterOptions(communities: Community[]) {
-    const cities = [...new Set(communities.map(c => c.city))];
-    
+    const cities = [...new Set(communities.map(c => c.city))]
+
     // Safely handle nullable floor-plans
-    const allFloorPlans = communities
-      .flatMap(c => c['floor-plans'] || []);
-    
-    const bedrooms = [...new Set(allFloorPlans.map(fp => parseInt(fp.beds)))].sort((a, b) => a - b);
-    const bathrooms = [...new Set(allFloorPlans.map(fp => parseFloat(fp.baths)))].sort((a, b) => a - b);
-    
-    const prices = allFloorPlans.map(fp => parseInt(fp.price)).sort((a, b) => a - b);
-    const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
-    const maxPrice = prices.length > 0 ? Math.max(...prices) : 0;
+    const allFloorPlans = communities.flatMap(c => c['floor-plans'] || [])
+
+    const bedrooms = [...new Set(allFloorPlans.map(fp => parseInt(fp.beds)))].sort((a, b) => a - b)
+    const bathrooms = [...new Set(allFloorPlans.map(fp => parseFloat(fp.baths)))].sort(
+      (a, b) => a - b
+    )
+
+    const prices = allFloorPlans.map(fp => parseInt(fp.price)).sort((a, b) => a - b)
+    const minPrice = prices.length > 0 ? Math.min(...prices) : 0
+    const maxPrice = prices.length > 0 ? Math.max(...prices) : 0
 
     return {
       cities,
       bedrooms,
       bathrooms,
-      priceRange: { min: minPrice, max: maxPrice }
-    };
+      priceRange: { min: minPrice, max: maxPrice },
+    }
   }
 
   /**
@@ -100,62 +101,65 @@ export class CommunitySelector {
    */
   searchFloorPlans(communities: Community[], filters: PropertyFilter): FloorPlan[] {
     // Safely handle nullable floor-plans
-    const allFloorPlans = communities
-      .flatMap(c => c['floor-plans'] || []);
-    
+    const allFloorPlans = communities.flatMap(c => c['floor-plans'] || [])
+
     return allFloorPlans.filter(floorPlan => {
-      let matches = true;
+      let matches = true
 
       // Filter by bedrooms
       if (filters.minBedrooms !== undefined) {
-        matches = matches && parseInt(floorPlan.beds) >= filters.minBedrooms;
+        matches = matches && parseInt(floorPlan.beds) >= filters.minBedrooms
       }
       if (filters.maxBedrooms !== undefined) {
-        matches = matches && parseInt(floorPlan.beds) <= filters.maxBedrooms;
+        matches = matches && parseInt(floorPlan.beds) <= filters.maxBedrooms
       }
 
       // Filter by bathrooms
       if (filters.minBaths !== undefined) {
-        matches = matches && parseFloat(floorPlan.baths) >= filters.minBaths;
+        matches = matches && parseFloat(floorPlan.baths) >= filters.minBaths
       }
       if (filters.maxBaths !== undefined) {
-        matches = matches && parseFloat(floorPlan.baths) <= filters.maxBaths;
+        matches = matches && parseFloat(floorPlan.baths) <= filters.maxBaths
       }
 
       // Filter by price
       if (filters.minPrice !== undefined) {
-        matches = matches && parseInt(floorPlan.price) >= filters.minPrice;
+        matches = matches && parseInt(floorPlan.price) >= filters.minPrice
       }
       if (filters.maxPrice !== undefined) {
-        matches = matches && parseInt(floorPlan.price) <= filters.maxPrice;
+        matches = matches && parseInt(floorPlan.price) <= filters.maxPrice
       }
 
-      return matches;
-    });
+      return matches
+    })
   }
 
   /**
    * Sort communities by various criteria
    */
-  sortCommunities(communities: Community[], sortBy: 'name' | 'city' | 'price', order: 'asc' | 'desc' = 'asc'): Community[] {
+  sortCommunities(
+    communities: Community[],
+    sortBy: 'name' | 'city' | 'price',
+    order: 'asc' | 'desc' = 'asc'
+  ): Community[] {
     return [...communities].sort((a, b) => {
-      let comparison = 0;
+      let comparison = 0
 
       switch (sortBy) {
         case 'name':
-          comparison = a.title.localeCompare(b.title);
-          break;
+          comparison = a.title.localeCompare(b.title)
+          break
         case 'city':
-          comparison = a.city.localeCompare(b.city);
-          break;
+          comparison = a.city.localeCompare(b.city)
+          break
         case 'price':
-          const aPrice = parseInt(a['starting-price'].replace(/[^0-9]/g, ''));
-          const bPrice = parseInt(b['starting-price'].replace(/[^0-9]/g, ''));
-          comparison = aPrice - bPrice;
-          break;
+          const aPrice = parseInt(a['starting-price'].replace(/[^0-9]/g, ''))
+          const bPrice = parseInt(b['starting-price'].replace(/[^0-9]/g, ''))
+          comparison = aPrice - bPrice
+          break
       }
 
-      return order === 'desc' ? -comparison : comparison;
-    });
+      return order === 'desc' ? -comparison : comparison
+    })
   }
 }

@@ -1,8 +1,15 @@
-import { HomeContentRepository } from './home_content.repository';
-import { HomeContent, Hero, Services, GridSection, FirstSection, Testimonial } from '../model/home_content.types';
+import { HomeContentRepository } from './home_content.repository'
+import {
+  HomeContent,
+  Hero,
+  Services,
+  GridSection,
+  FirstSection,
+  Testimonial,
+} from '../model/home_content.types'
 
 // Initialize repository instance
-const homeContentRepo = HomeContentRepository.getInstance();
+const homeContentRepo = HomeContentRepository.getInstance()
 
 /**
  * Home Content API - Main entry point for all home page content operations
@@ -12,144 +19,144 @@ export const homeContentApi = {
    * Get complete home content configuration
    */
   getContent: (): HomeContent => {
-    return homeContentRepo.getHomeContent();
+    return homeContentRepo.getHomeContent()
   },
 
   /**
    * Get first section data
    */
   getFirstSection: (): FirstSection => {
-    return homeContentRepo.getFirstSection();
+    return homeContentRepo.getFirstSection()
   },
 
   /**
    * Get hero section data
    */
   getHero: (): Hero => {
-    return homeContentRepo.getHero();
+    return homeContentRepo.getHero()
   },
 
   /**
    * Get services section data
    */
   getServices: (): Services => {
-    return homeContentRepo.getServices();
+    return homeContentRepo.getServices()
   },
 
   /**
    * Get grid section data
    */
   getGridSection: (): GridSection => {
-    return homeContentRepo.getGridSection();
+    return homeContentRepo.getGridSection()
   },
 
   /**
    * Get testimonials data
    */
   getTestimonials: (): Testimonial[] => {
-    return homeContentRepo.getTestimonials();
+    return homeContentRepo.getTestimonials()
   },
 
   /**
    * Get contact section data
    */
   getContact: (): string => {
-    return homeContentRepo.getContact();
+    return homeContentRepo.getContact()
   },
 
   /**
    * Get main video URL
    */
   getMainVideo: (): string => {
-    return homeContentRepo.getMainVideo();
+    return homeContentRepo.getMainVideo()
   },
 
   /**
    * Get logo URL
    */
   getLogo: (): string => {
-    return homeContentRepo.getLogo();
+    return homeContentRepo.getLogo()
   },
 
   /**
    * Get main title and subtitle
    */
   getMainTitle: () => {
-    return homeContentRepo.getMainTitle();
+    return homeContentRepo.getMainTitle()
   },
 
   /**
    * Get book button data
    */
   getBookButton: (): string | null => {
-    return homeContentRepo.getBookButton();
+    return homeContentRepo.getBookButton()
   },
 
   /**
    * Check if book button exists and is not null
    */
   hasBookButton: (): boolean => {
-    return homeContentRepo.hasBookButton();
+    return homeContentRepo.hasBookButton()
   },
 
   /**
    * Check if first section subtitle exists and is not null
    */
   hasFirstSectionSubtitle: (): boolean => {
-    return homeContentRepo.hasFirstSectionSubtitle();
+    return homeContentRepo.hasFirstSectionSubtitle()
   },
 
   /**
    * Check if hero subtitle exists and is not null
    */
   hasHeroSubtitle: (): boolean => {
-    return homeContentRepo.hasHeroSubtitle();
+    return homeContentRepo.hasHeroSubtitle()
   },
 
   /**
    * Check if services description exists and is not null
    */
   hasServicesDescription: (): boolean => {
-    return homeContentRepo.hasServicesDescription();
+    return homeContentRepo.hasServicesDescription()
   },
 
   /**
    * Get cover for mobile URL
    */
   getCoverForMobile: (): string => {
-    return homeContentRepo.getCoverForMobile();
+    return homeContentRepo.getCoverForMobile()
   },
 
   /**
    * Get services cover URL
    */
   getServicesCover: (): string => {
-    return homeContentRepo.getServicesCover();
+    return homeContentRepo.getServicesCover()
   },
 
   /**
    * Update content configuration (for future use)
    */
   updateContent: (updates: Partial<HomeContent>): void => {
-    homeContentRepo.updateHomeContent(updates);
-  }
-};
+    homeContentRepo.updateHomeContent(updates)
+  },
+}
 
 // Export types for external use
-export type { 
-  HomeContent, 
-  Hero, 
-  Services, 
+export type {
+  HomeContent,
+  Hero,
+  Services,
   GridSection,
   FirstSection,
   Testimonial,
   HeroSection,
   ServiceLink,
-  LinkItem
-} from '../model/home_content.types';
+  LinkItem,
+} from '../model/home_content.types'
 
 // Export repository for advanced use cases
-export { HomeContentRepository } from './home_content.repository';
+export { HomeContentRepository } from './home_content.repository'
 
 // Default export
-export default homeContentApi;
+export default homeContentApi

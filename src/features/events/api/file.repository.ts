@@ -1,16 +1,16 @@
-import { promises as fs } from 'fs';
-import path from 'path';
-import { EventsData, EventsResponse } from '../model/types';
+import { promises as fs } from 'fs'
+import path from 'path'
+import { EventsData, EventsResponse } from '../model/types'
 
 /**
  * File repository class for managing events data
  */
 export class FileRepository {
-  private readonly filePath: string;
+  private readonly filePath: string
 
   constructor() {
     // Path to the events.json file
-    this.filePath = path.join(process.cwd(), 'src', 'features', 'events', 'mock', 'events.json');
+    this.filePath = path.join(process.cwd(), 'src', 'features', 'events', 'mock', 'events.json')
   }
 
   /**
@@ -19,19 +19,19 @@ export class FileRepository {
    */
   async getEventsData(): Promise<EventsResponse> {
     try {
-      const fileContent = await fs.readFile(this.filePath, 'utf-8');
-      const data: EventsData = JSON.parse(fileContent);
-      
+      const fileContent = await fs.readFile(this.filePath, 'utf-8')
+      const data: EventsData = JSON.parse(fileContent)
+
       return {
         success: true,
-        data
-      };
+        data,
+      }
     } catch (error) {
-      console.error('Error reading events data:', error);
+      console.error('Error reading events data:', error)
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error occurred'
-      };
+        error: error instanceof Error ? error.message : 'Unknown error occurred',
+      }
     }
   }
 
@@ -40,11 +40,11 @@ export class FileRepository {
    * @returns Promise<Event[]>
    */
   async getAllEvents() {
-    const response = await this.getEventsData();
+    const response = await this.getEventsData()
     if (response.success && response.data) {
-      return response.data.events;
+      return response.data.events
     }
-    return [];
+    return []
   }
 
   /**
@@ -53,8 +53,8 @@ export class FileRepository {
    * @returns Promise<Event | null>
    */
   async getEventByTitle(title: string) {
-    const events = await this.getAllEvents();
-    return events.find(event => event.title.toLowerCase() === title.toLowerCase()) || null;
+    const events = await this.getAllEvents()
+    return events.find(event => event.title.toLowerCase() === title.toLowerCase()) || null
   }
 
   /**
@@ -62,11 +62,11 @@ export class FileRepository {
    * @returns Promise<Contact | null>
    */
   async getContactInfo() {
-    const response = await this.getEventsData();
+    const response = await this.getEventsData()
     if (response.success && response.data && response.data.contact) {
-      return response.data.contact;
+      return response.data.contact
     }
-    return null;
+    return null
   }
 
   /**
@@ -74,11 +74,11 @@ export class FileRepository {
    * @returns Promise<string>
    */
   async getSlogan() {
-    const response = await this.getEventsData();
+    const response = await this.getEventsData()
     if (response.success && response.data) {
-      return response.data.slogan;
+      return response.data.slogan
     }
-    return '';
+    return ''
   }
 
   /**
@@ -86,13 +86,13 @@ export class FileRepository {
    * @returns Promise<string>
    */
   async getCover() {
-    const response = await this.getEventsData();
+    const response = await this.getEventsData()
     if (response.success && response.data) {
-      return response.data.cover;
+      return response.data.cover
     }
-    return '';
+    return ''
   }
 }
 
 // Export a singleton instance
-export const fileRepository = new FileRepository();
+export const fileRepository = new FileRepository()

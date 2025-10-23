@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { notFound, useRouter } from 'next/navigation'
 import Image from 'next/image'
@@ -26,11 +26,11 @@ export default function ArticlePage({ params }: ArticlePageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-background py-16 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="bg-background min-h-screen px-4 py-16">
+      <div className="mx-auto max-w-4xl">
         {/* Articles Cover Image */}
         {buildingOptionsData.articles.cover && (
-          <div className="relative w-full h-48 md:h-64 lg:h-80 overflow-hidden rounded-xl mb-8">
+          <div className="relative mb-8 h-48 w-full overflow-hidden rounded-xl md:h-64 lg:h-80">
             <Image
               src={buildingOptionsData.articles.cover}
               alt="Articles Cover"
@@ -40,31 +40,29 @@ export default function ArticlePage({ params }: ArticlePageProps) {
               priority
             />
             {/* Overlay */}
-            <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-              <div className="text-center text-white px-4">
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">
-                  Featured Articles
-                </h2>
+            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+              <div className="px-4 text-center text-white">
+                <h2 className="text-2xl font-bold md:text-3xl lg:text-4xl">Featured Articles</h2>
               </div>
             </div>
           </div>
         )}
 
         {/* Article Title */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
+        <div className="mb-8 text-center">
+          <h1 className="text-foreground text-3xl leading-tight font-bold md:text-4xl lg:text-5xl">
             {article.title}
           </h1>
           {/* Article Description */}
           {article.description && (
-            <p className="text-lg text-muted-foreground mt-4 leading-relaxed">
+            <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
               {article.description}
             </p>
           )}
         </div>
 
         {/* Article Image */}
-        <div className="relative w-full h-64 md:h-96 lg:h-[500px] overflow-hidden rounded-xl mb-8">
+        <div className="relative mb-8 h-64 w-full overflow-hidden rounded-xl md:h-96 lg:h-[500px]">
           <Image
             src={article.img}
             alt={article.title}
@@ -76,7 +74,7 @@ export default function ArticlePage({ params }: ArticlePageProps) {
 
         {/* Article Content */}
         <div className="prose prose-lg max-w-none">
-          <div className="text-lg leading-relaxed text-foreground whitespace-pre-line">
+          <div className="text-foreground text-lg leading-relaxed whitespace-pre-line">
             {article.content}
           </div>
         </div>
@@ -85,7 +83,7 @@ export default function ArticlePage({ params }: ArticlePageProps) {
         <div className="mt-12 text-center">
           <button
             onClick={handleBackClick}
-            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors duration-200"
+            className="bg-primary hover:bg-primary/90 inline-flex items-center rounded-md border border-transparent px-6 py-3 text-base font-medium text-white transition-colors duration-200"
           >
             ← Back to Building Options
           </button>

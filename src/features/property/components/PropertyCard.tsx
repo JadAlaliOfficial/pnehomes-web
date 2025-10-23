@@ -1,16 +1,17 @@
-"use client"
+'use client'
 
 // src/features/property/components/PropertyCard.tsx
 
-import Link from "next/link"
-import Image from "next/image"
-import { useSearchParams } from "next/navigation"
-import type { Property } from "../model/types"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Eye, Plus, Check } from "lucide-react"
-import PropertyReviewDialog from "./PropertyReviewDialog"
-import { useComparison } from "@/contexts/ComparisonContext"
+import Link from 'next/link'
+import Image from 'next/image'
+import { useSearchParams } from 'next/navigation'
+import type { Property } from '../model/types'
+import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Eye, Plus, Check } from 'lucide-react'
+import PropertyReviewDialog from './PropertyReviewDialog'
+import { useComparison } from '@/contexts/ComparisonContext'
+import { Bed, Bath, Car, Map } from 'lucide-react'
 
 export default function PropertyCard({ p }: { p: Property }) {
   const { addToComparison, removeFromComparison, isInComparison } = useComparison()
@@ -29,82 +30,105 @@ export default function PropertyCard({ p }: { p: Property }) {
 
   // Build property URL with current filter parameters
   const propertyUrl = `/property/${p.slug}?${searchParams.toString()}`
+
+  const handleQuickReviewClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
   return (
-    <Card className="overflow-hidden group">
-      <div className="relative aspect-[4/3]">
-        <Image
-          src={p.gallery[0] ?? "/img/placeholder.jpg"}
-          alt={p.title}
-          fill
-          sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
-          className="object-cover transition-transform group-hover:scale-105"
-        />
-        {/* Review Button Overlay */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-          <PropertyReviewDialog property={p}>
-            <Button
-              variant="secondary"
-              size="sm"
-              className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 hover:bg-white text-black shadow-lg"
-            >
-              <Eye className="w-4 h-4 mr-2" />
-              Quick Review
-            </Button>
-          </PropertyReviewDialog>
-        </div>
-      </div>
-      <CardContent className="p-4">
-        <Link href={propertyUrl} className="font-semibold hover:underline">
-          {p.title}
-        </Link>
-        <div className="text-sm mt-1 opacity-60 capitalize">
-          {p.community}
-        </div>
-        <div className="text-sm mt-1 opacity-80">
-          {p.beds} bd • {p.baths} ba • {parseInt(p.sqft).toLocaleString()} sqft
-        </div>
-        <div className="mt-2 font-medium">
-          {p.price ? `$${parseInt(p.price).toLocaleString()}` : "Contact for price"}
-        </div>
-        
-        {/* Compare Button */}
-        <div className="mt-3 pt-3 border-t border-gray-100">
-          <div className="flex gap-2">
-            <Button
-              onClick={handleCompareClick}
-              size="sm"
-              variant={isSelected ? "default" : "outline"}
-              className={`flex-1 transition-all ${
-                isSelected 
-                  ? "bg-blue-600 hover:bg-blue-700 text-white" 
-                  : "hover:bg-blue-50"
-              }`}
-            >
-              {isSelected ? (
-                <>
-                  <Check className="w-4 h-4 mr-1" />
-                  Added to Compare
-                </>
-              ) : (
-                <>
-                  <Plus className="w-4 h-4 mr-1" />
-                  Add to Compare
-                </>
-              )}
-            </Button>
+    <Link href={propertyUrl} className="block">
+      <Card className="group cursor-pointer overflow-hidden p-0 transition-shadow hover:shadow-lg">
+        <div className="relative aspect-[4/3]">
+          <Image
+            src={p.gallery[0] ?? '/img/placeholder.jpg'}
+            alt={p.title}
+            fill
+            sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+            className="object-cover transition-transform group-hover:scale-105"
+          />
+          {/* Review Button - Bottom Left Corner */}
+          <div className="absolute bottom-2 left-2 z-10" onClick={handleQuickReviewClick}>
+            <PropertyReviewDialog property={p}>
+              <Button
+                variant="secondary"
+                size="sm"
+                className="bg-white/95 text-black shadow-lg backdrop-blur-sm transition-all hover:bg-white hover:scale-105 active:scale-95"
+              >
+                <Eye className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                <span className="text-xs sm:text-sm">Quick Review</span>
+              </Button>
+            </PropertyReviewDialog>
           </div>
         </div>
-        
-        {/* Alternative Review Button - Always Visible */}
-        <div className="mt-3 pt-3 border-t border-gray-100">
-          <PropertyReviewDialog property={p}>
-            <Button variant="outline" size="sm" className="w-full">
-              <Eye className="w-4 h-4 mr-2" />
-              Quick Review
-            </Button>
-          </PropertyReviewDialog>
-        </div>
-      </CardContent>
-    </Card>
+        <CardContent className="p-2">
+          <div className="text-2xl font-bold hover:underline">{p.title}</div>
+          <div className="mt-1 text-lg capitalize opacity-60">{p.community}</div>
+          <div className="mt-2 text-base font-medium">
+            {p.price ? `$${parseInt(p.price).toLocaleString()}` : 'Contact for price'}
+          </div>
+          <div className="mt-1 flex items-center justify-around text-sm opacity-80">
+            <div className="flex-col items-center justify-between">
+              <div className="text-lg">
+                <Bed className="mr-1 inline-block h-5 w-5" />
+                {p.beds}
+              </div>
+              <div className="text-xs">Bedrooms</div>
+            </div>
+            <div className="h-10 border-r border-gray-500"></div>
+            <div className="flex-col items-center justify-center">
+              <div className="text-lg">
+                <Bath className="mr-1 inline-block h-5 w-5" />
+                {p.baths}
+              </div>
+              <div className="text-xs">Bathrooms</div>
+            </div>
+            <div className="h-10 border-r border-gray-500"></div>
+            <div className="flex-col items-center justify-center">
+              <div className="text-lg">
+                <Car className="mr-1 inline-block h-5 w-5" />
+                {p.garages}
+              </div>
+              <div className="text-xs">Garages</div>
+            </div>
+            <div className="h-10 border-r border-gray-500"></div>
+            <div className="flex-col items-center justify-center">
+              <div className="text-lg">
+                <Map className="mr-1 inline-block h-5 w-5" />
+                {p.sqft}
+              </div>
+              <div className="text-xs">SQFT</div>
+            </div>
+          </div>
+
+          {/* Compare Button */}
+          <div className="mt-2 border-t border-gray-100 pt-1">
+            <div className="flex gap-2">
+              <div onClick={handleCompareClick} className="flex-1">
+                <Button
+                  size="sm"
+                  variant={isSelected ? 'default' : 'outline'}
+                  className={`w-full transition-all ${
+                    isSelected ? 'bg-pne-accent text-white hover:bg-pne-brand' : 'hover:bg-blue-50'
+                  }`}
+                >
+                  {isSelected ? (
+                    <>
+                      <Check className="mr-1 h-4 w-4" />
+                      Added to Compare
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="mr-1 h-4 w-4" />
+                      Add to Compare
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   )
 }

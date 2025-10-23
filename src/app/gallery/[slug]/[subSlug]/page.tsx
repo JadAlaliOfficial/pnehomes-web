@@ -1,8 +1,8 @@
-import { getGallerySubAlbum, getGalleryContactInfo } from "@/features/gallery/api"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { notFound } from "next/navigation"
-import GalleryContent from "@/features/gallery/components/GalleryContent"
+import { getGallerySubAlbum, getGalleryContactInfo } from '@/features/gallery/api'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import GalleryContent from '@/features/gallery/components/GalleryContent'
 
 interface SubAlbumPageProps {
   params: Promise<{ slug: string; subSlug: string }>
@@ -22,9 +22,9 @@ export default async function SubAlbumPage({ params }: SubAlbumPageProps) {
   const contactUrl = `/contact?message=${encodeURIComponent(contactMessage)}`
 
   return (
-    <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <main className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
       <div className="mb-8">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+        <div className="text-muted-foreground mb-2 flex items-center gap-2 text-sm">
           <Link href="/gallery" className="hover:text-foreground">
             Gallery
           </Link>

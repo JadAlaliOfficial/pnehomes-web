@@ -1,53 +1,65 @@
 {
-    "first-section" :{
-        "video": "/vid/first.mp4",
-        "cover-for-mobile": "/img/cove_home.jpg",
-        "logo": "/img/App-Logo.png",
-        "title": "Pne Homes",
-        "subtitle": "",
-        "book-button": "" 
+  "first-section": {
+    "video": "/vid/first.mp4",
+    "cover-for-mobile": "/img/cove_home.jpg",
+    "logo": "/img/App-Logo.png",
+    "title": "Pne Homes",
+    "subtitle": "something sub title",
+    "book-button": "contact us"
+  },
+  "hero": {
+    "title": "Pne Homes",
+    "subtitle": "Your home, your way",
+    "sections": [
+      {
+        "icon": "date",
+        "title": "BOOK AN APPOINTMENT",
+        "description": "Start your journey by booking an appointment to discuss your ideas—let's bring your dream home to life."
+      },
+      {
+        "icon": "pen",
+        "title": "Design Your Home",
+        "description": "Work closely with our experts to create a home plan that perfectly fits your style and needs."
+      },
+      {
+        "icon": "home",
+        "title": "Get Ready to Move!",
+        "description": "We handle the construction while you prepare for a smooth and exciting move-in day."
+      }
+    ]
+  },
+  "services": {
+    "title": "SERVICES",
+    "cover": "/img/services_home.jpg",
+    "description": "At PNE HOMES, we specialize in creating unique living spaces tailored to your style. Our skilled team combines creativity, craftsmanship, and cutting-edge technology to bring your custom build vision to life. ",
+    "links": [
+      { "title": "Custom Homes", "slug": "custom-homes" },
+      { "title": "Basement Design and Finish ", "slug": "basement-design-and-finish" }
+    ]
+  },
+  "grid-section": {
+    "video": "/vid/second.mp4",
+    "logo": "/img/App-Logo.png",
+    "links": [
+      { "title": "Communities", "cover": "/img/communities.jpg" },
+      { "title": "Kitchens", "cover": "/img/kitchen_2_real.jpg" },
+      { "title": "Events", "cover": "/img/beulah_park_2.jpg" },
+      { "title": "Why PNE", "cover": "/img/custom_homes_2.jpg" }
+    ]
+  },
+  "testimonials": [
+    {
+      "description": "Working with PNE HOMES was a great experience. Their professional and attentive team delivered a beautifully crafted home that suits my lifestyle perfectly. Highly recommend for anyone looking to build their dream home.",
+      "by": "David L. Happy Homeowner"
     },
-    "hero": {
-        "title": "Pne Homes",
-        "subtitle": "Your home, your way",
-        "sections": [
-            {"icon": "date", "title":"BOOK AN APPOINTMENT" , "description":"Start your journey by booking an appointment to discuss your ideas—let's bring your dream home to life."} , 
-            {"icon": "pen", "title":"Design Your Home" , "description":"Work closely with our experts to create a home plan that perfectly fits your style and needs."},
-            {"icon": "home", "title":"Get Ready to Move!" , "description":"We handle the construction while you prepare for a smooth and exciting move-in day."}
-        ]
+    {
+      "description": "PNE HOMES exceeded my expectations. The team was knowledgeable, responsive, and delivered a home that exceeded my expectations. I highly recommend them for any custom home project.",
+      "by": "John S. Happy Homeowner"
     },
-    "services" : {
-        "title": "SERVICES",
-        "cover": "/img/services_home.jpg",
-        "description" :"At PNE HOMES, we specialize in creating unique living spaces tailored to your style. Our skilled team combines creativity, craftsmanship, and cutting-edge technology to bring your custom build vision to life. ",
-        "links": [
-            {"title":"Custom Homes" , "slug":"custom-homes"} , 
-            {"title":"Basement Design and Finish " , "slug":"basement-design-and-finish"}
-        ]
-    },
-    "grid-section":{
-        "video": "/vid/second.mp4",
-        "logo": "/img/App-Logo.png",
-        "links": [
-            {"title":"Communities" ,  "cover":"/img/communities.jpg"},
-            {"title":"Kitchens" , "cover":"/img/kitchen_2_real.jpg"},
-            {"title":"Events" , "cover":"/img/beulah_park_2.jpg"},
-            {"title":"Why PNE" , "cover":"/img/custom_homes_2.jpg"}
-        ]
-    },
-    "testimonials" : [
-        {
-            "description" :"Working with PNE HOMES was a great experience. Their professional and attentive team delivered a beautifully crafted home that suits my lifestyle perfectly. Highly recommend for anyone looking to build their dream home.",
-            "by": "David L. Happy Homeowner"
-        },
-        {   
-            "description" :"PNE HOMES exceeded my expectations. The team was knowledgeable, responsive, and delivered a home that exceeded my expectations. I highly recommend them for any custom home project.",
-            "by": "John S. Happy Homeowner"
-        },
-        {
-            "description" :"PNE HOMES delivered a home that exceeded my expectations. The team was professional, responsive, and delivered a home that exceeded my expectations. I highly recommend them for any custom home project.",
-            "by": "Jane D. Happy Homeowner"
-        }
-    ],
-    "contact": "CONTACT US TODAY"
+    {
+      "description": "PNE HOMES delivered a home that exceeded my expectations. The team was professional, responsive, and delivered a home that exceeded my expectations. I highly recommend them for any custom home project.",
+      "by": "Jane D. Happy Homeowner"
+    }
+  ],
+  "contact": "CONTACT US TODAY"
 }

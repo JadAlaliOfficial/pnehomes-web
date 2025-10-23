@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
@@ -23,11 +23,11 @@ export default function BuildingOptions() {
   }
 
   return (
-    <div className="min-h-screen bg-background py-16 px-4">
-      <div className="max-w-6xl mx-auto">
+    <div className="bg-background min-h-screen px-4 py-16">
+      <div className="mx-auto max-w-6xl">
         {/* Cover Image */}
         {data.cover && (
-          <div className="relative w-full h-64 md:h-96 lg:h-[400px] overflow-hidden rounded-xl mb-12">
+          <div className="relative mb-12 h-64 w-full overflow-hidden rounded-xl md:h-96 lg:h-[400px]">
             <Image
               src={data.cover}
               alt="Building Options Cover"
@@ -37,12 +37,12 @@ export default function BuildingOptions() {
               priority
             />
             {/* Overlay with slogan */}
-            <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-              <div className="text-center text-white px-4">
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4">
+            <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+              <div className="px-4 text-center text-white">
+                <h1 className="mb-4 text-4xl leading-tight font-bold md:text-6xl lg:text-7xl">
                   {data.slogan}
                 </h1>
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-medium opacity-90">
+                <h2 className="text-xl font-medium opacity-90 md:text-2xl lg:text-3xl">
                   {data.title}
                 </h2>
               </div>
@@ -54,15 +54,15 @@ export default function BuildingOptions() {
         {!data.cover && (
           <>
             {/* Slogan - Very big font in the middle */}
-            <div className="text-center mb-8">
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
+            <div className="mb-8 text-center">
+              <h1 className="text-foreground text-4xl leading-tight font-bold md:text-6xl lg:text-7xl">
                 {data.slogan}
               </h1>
             </div>
 
             {/* Title - Smaller font under slogan */}
-            <div className="text-center mb-16">
-              <h2 className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-medium">
+            <div className="mb-16 text-center">
+              <h2 className="text-muted-foreground text-xl font-medium md:text-2xl lg:text-3xl">
                 {data.title}
               </h2>
             </div>
@@ -70,16 +70,16 @@ export default function BuildingOptions() {
         )}
 
         {/* Two main option cards next to each other */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
-          {data.options.map((option) => (
+        <div className="mx-auto mb-16 grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-2">
+          {data.options.map(option => (
             <Card
               key={option.id}
-              className="cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 border-2 hover:border-primary/50"
+              className="hover:border-primary/50 cursor-pointer border-2 transition-all duration-300 hover:scale-105 hover:shadow-lg"
               onClick={() => handleCardClick(option.id)}
             >
               <CardContent className="p-0">
                 {/* Image */}
-                <div className="relative w-full h-64 overflow-hidden rounded-t-xl">
+                <div className="relative h-64 w-full overflow-hidden rounded-t-xl">
                   <Image
                     src={option.section_img}
                     alt={option.title}
@@ -88,19 +88,15 @@ export default function BuildingOptions() {
                     sizes="(min-width: 768px) 50vw, 100vw"
                   />
                 </div>
-                
+
                 {/* Content */}
                 <div className="p-6">
                   {/* Title */}
-                  <h3 className="text-xl font-semibold text-foreground mb-3">
-                    {option.title}
-                  </h3>
-                  
+                  <h3 className="text-foreground mb-3 text-xl font-semibold">{option.title}</h3>
+
                   {/* Description */}
                   {option.description && (
-                    <p className="text-muted-foreground leading-relaxed">
-                      {option.description}
-                    </p>
+                    <p className="text-muted-foreground leading-relaxed">{option.description}</p>
                   )}
                 </div>
               </CardContent>
@@ -110,9 +106,9 @@ export default function BuildingOptions() {
 
         {/* Articles Section */}
         {data.articles && data.articles.articles && data.articles.articles.length > 0 && (
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-              <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+          <div className="mx-auto max-w-4xl">
+            <div className="mb-8 text-center">
+              <h3 className="text-foreground mb-2 text-2xl font-bold md:text-3xl">
                 Featured Articles
               </h3>
               <p className="text-muted-foreground">
@@ -121,16 +117,16 @@ export default function BuildingOptions() {
             </div>
 
             {/* Article cards - smaller cards in a grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {data.articles.articles.map((article) => (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {data.articles.articles.map(article => (
                 <Card
                   key={article.id}
-                  className="cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 border hover:border-primary/50"
+                  className="hover:border-primary/50 cursor-pointer border transition-all duration-300 hover:scale-105 hover:shadow-lg"
                   onClick={() => handleArticleClick(article.slug)}
                 >
                   <CardContent className="p-0">
                     {/* Image */}
-                    <div className="relative w-full h-48 overflow-hidden rounded-t-xl">
+                    <div className="relative h-48 w-full overflow-hidden rounded-t-xl">
                       <Image
                         src={article.img}
                         alt={article.title}
@@ -139,17 +135,17 @@ export default function BuildingOptions() {
                         sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                       />
                     </div>
-                    
+
                     {/* Content */}
                     <div className="p-4">
                       {/* Title */}
-                      <h4 className="text-lg font-semibold text-foreground mb-2 line-clamp-2">
+                      <h4 className="text-foreground mb-2 line-clamp-2 text-lg font-semibold">
                         {article.title}
                       </h4>
-                      
+
                       {/* Description */}
                       {article.description && (
-                        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                        <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed">
                           {article.description}
                         </p>
                       )}

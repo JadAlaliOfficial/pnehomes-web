@@ -1,10 +1,10 @@
-import { getGalleryAlbumBySlug, getGalleryContactInfo } from "@/features/gallery/api"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import Image from "next/image"
-import Link from "next/link"
-import { notFound } from "next/navigation"
-import GalleryContent from "@/features/gallery/components/GalleryContent"
+import { getGalleryAlbumBySlug, getGalleryContactInfo } from '@/features/gallery/api'
+import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import Image from 'next/image'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import GalleryContent from '@/features/gallery/components/GalleryContent'
 
 interface AlbumPageProps {
   params: Promise<{ slug: string }>
@@ -23,11 +23,11 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
   const contactUrl = `/contact?message=${encodeURIComponent(contactMessage)}`
 
   return (
-    <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <main className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
       <div className="mb-8">
-        <Link 
-          href="/gallery" 
-          className="text-muted-foreground hover:text-foreground text-sm mb-2 inline-block"
+        <Link
+          href="/gallery"
+          className="text-muted-foreground hover:text-foreground mb-2 inline-block text-sm"
         >
           ← Back to Gallery
         </Link>
@@ -44,9 +44,9 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
       {/* Case A: Album has sub-albums */}
       {album.sub_albums && album.sub_albums.length > 0 ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {album.sub_albums.map((subAlbum) => (
+          {album.sub_albums.map(subAlbum => (
             <Link key={subAlbum.slug} href={`/gallery/${album.slug}/${subAlbum.slug}`}>
-              <Card className="group cursor-pointer overflow-hidden border-0 shadow-md hover:shadow-lg transition-all duration-300 p-0">
+              <Card className="group cursor-pointer overflow-hidden border-0 p-0 shadow-md transition-all duration-300 hover:shadow-lg">
                 <CardContent className="p-0">
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
@@ -57,10 +57,8 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <h2 className="text-white text-xl font-semibold">
-                        {subAlbum.title}
-                      </h2>
+                    <div className="absolute right-0 bottom-0 left-0 p-6">
+                      <h2 className="text-xl font-semibold text-white">{subAlbum.title}</h2>
                     </div>
                   </div>
                 </CardContent>

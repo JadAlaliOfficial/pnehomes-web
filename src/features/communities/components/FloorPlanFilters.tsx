@@ -1,16 +1,16 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
+import { useState, useEffect } from 'react'
+import { Button } from '@/components/ui/button'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { communitiesAPI } from "../api"
-import type { Community } from "../model/types"
+} from '@/components/ui/select'
+import { communitiesAPI } from '../api'
+import type { Community } from '../model/types'
 
 interface FloorPlanFiltersProps {
   onFilterChange: (filters: { community?: string; city?: string }) => void
@@ -18,8 +18,8 @@ interface FloorPlanFiltersProps {
 
 export default function FloorPlanFilters({ onFilterChange }: FloorPlanFiltersProps) {
   const [communities, setCommunities] = useState<Community[]>([])
-  const [selectedCommunity, setSelectedCommunity] = useState<string>("")
-  const [selectedCity, setSelectedCity] = useState<string>("")
+  const [selectedCommunity, setSelectedCommunity] = useState<string>('')
+  const [selectedCity, setSelectedCity] = useState<string>('')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function FloorPlanFilters({ onFilterChange }: FloorPlanFiltersPro
         const data = await communitiesAPI.getAllCommunities()
         setCommunities(data)
       } catch (error) {
-        console.error("Failed to load communities:", error)
+        console.error('Failed to load communities:', error)
       } finally {
         setLoading(false)
       }
@@ -39,12 +39,12 @@ export default function FloorPlanFilters({ onFilterChange }: FloorPlanFiltersPro
 
   useEffect(() => {
     const filters: { community?: string; city?: string } = {}
-    
-    if (selectedCommunity && selectedCommunity !== "any") {
+
+    if (selectedCommunity && selectedCommunity !== 'any') {
       filters.community = selectedCommunity
     }
-    
-    if (selectedCity && selectedCity !== "any") {
+
+    if (selectedCity && selectedCity !== 'any') {
       filters.city = selectedCity
     }
 
@@ -52,8 +52,8 @@ export default function FloorPlanFilters({ onFilterChange }: FloorPlanFiltersPro
   }, [selectedCommunity, selectedCity, onFilterChange])
 
   function resetFilters() {
-    setSelectedCommunity("")
-    setSelectedCity("")
+    setSelectedCommunity('')
+    setSelectedCity('')
   }
 
   // Get unique values for filter options
@@ -62,16 +62,16 @@ export default function FloorPlanFilters({ onFilterChange }: FloorPlanFiltersPro
 
   if (loading) {
     return (
-      <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+      <div className="mb-6 rounded-lg bg-gray-50 p-4">
         <div className="text-center">Loading filters...</div>
       </div>
     )
   }
 
   return (
-    <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-      <h3 className="text-lg font-semibold mb-4">Filter by Location</h3>
-      
+    <div className="mb-6 rounded-lg bg-gray-50 p-4">
+      <h3 className="mb-4 text-lg font-semibold">Filter by Location</h3>
+
       <div className="flex flex-wrap gap-3">
         {/* Community Filter */}
         <Select value={selectedCommunity} onValueChange={setSelectedCommunity}>
@@ -113,17 +113,21 @@ export default function FloorPlanFilters({ onFilterChange }: FloorPlanFiltersPro
       <div className="mt-3 text-sm text-gray-600">
         {selectedCommunity || selectedCity ? (
           <>
-            Filtering by{" "}
-            {selectedCommunity && selectedCommunity !== "any" && (
+            Filtering by{' '}
+            {selectedCommunity && selectedCommunity !== 'any' && (
               <span className="font-medium">{selectedCommunity}</span>
             )}
-            {selectedCommunity && selectedCommunity !== "any" && selectedCity && selectedCity !== "any" && " in "}
-            {selectedCity && selectedCity !== "any" && (
+            {selectedCommunity &&
+              selectedCommunity !== 'any' &&
+              selectedCity &&
+              selectedCity !== 'any' &&
+              ' in '}
+            {selectedCity && selectedCity !== 'any' && (
               <span className="font-medium">{selectedCity}</span>
             )}
           </>
         ) : (
-          "Showing all communities"
+          'Showing all communities'
         )}
       </div>
     </div>

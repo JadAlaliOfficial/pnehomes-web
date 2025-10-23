@@ -1,16 +1,10 @@
-"use client"
+'use client'
 
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetFooter,
-} from '@/components/ui/sheet'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { X, ArrowRight } from 'lucide-react'
@@ -18,12 +12,12 @@ import { useComparison } from '@/contexts/ComparisonContext'
 
 export default function ComparisonDrawer() {
   const router = useRouter()
-  const { 
-    selectedProperties, 
-    removeFromComparison, 
-    clearComparison, 
-    isDrawerOpen, 
-    setIsDrawerOpen 
+  const {
+    selectedProperties,
+    removeFromComparison,
+    clearComparison,
+    isDrawerOpen,
+    setIsDrawerOpen,
   } = useComparison()
 
   const handleCompare = () => {
@@ -37,14 +31,14 @@ export default function ComparisonDrawer() {
     <Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
       <SheetContent side="right" className="w-full sm:max-w-md">
         <SheetHeader>
-          <SheetTitle className="flex items-center justify-between">
+          <SheetTitle className="flex items-center justify-between m-0 p-0">
             Compare Properties ({selectedProperties.length})
             {selectedProperties.length > 0 && (
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={clearComparison}
-                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                className="text-red-600 hover:bg-red-50 hover:text-red-700 mr-5"
               >
                 Clear All
               </Button>
@@ -54,52 +48,55 @@ export default function ComparisonDrawer() {
 
         <div className="flex-1 overflow-y-auto py-4">
           {selectedProperties.length === 0 ? (
-            <div className="text-center py-8">
-              <p className="text-gray-500 mb-2">No properties selected</p>
+            <div className="py-8 text-center">
+              <p className="mb-2 text-gray-500">No properties selected</p>
               <p className="text-sm text-gray-400">
                 Click &ldquo;Add to Compare&rdquo; on property cards to start comparing
               </p>
             </div>
           ) : (
             <div className="space-y-4">
-              {selectedProperties.map((property) => (
+              {selectedProperties.map(property => (
                 <Card key={property.id} className="relative">
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => removeFromComparison(property.id)}
-                    className="absolute top-2 right-2 z-10 h-6 w-6 p-0 text-gray-400 hover:text-red-600 hover:bg-red-50"
+                    className="absolute top-2 right-2 z-10 h-6 w-6 p-0 text-gray-400 hover:bg-red-50 hover:text-red-600"
                   >
                     <X className="h-4 w-4" />
                   </Button>
-                  
+
                   <CardContent className="p-3">
                     <div className="flex gap-3">
-                      <div className="relative w-20 h-16 flex-shrink-0 rounded overflow-hidden">
+                      <div className="relative h-16 w-20 flex-shrink-0 overflow-hidden rounded">
                         <Image
-                          src={property.gallery[0] ?? "/img/placeholder.jpg"}
+                          src={property.gallery[0] ?? '/img/placeholder.jpg'}
                           alt={property.title}
                           fill
                           className="object-cover"
                           sizes="80px"
                         />
                       </div>
-                      
-                      <div className="flex-1 min-w-0">
-                        <Link 
+
+                      <div className="min-w-0 flex-1">
+                        <Link
                           href={`/property/${property.slug}`}
-                          className="font-medium text-sm hover:text-blue-600 line-clamp-2"
+                          className="line-clamp-2 text-sm font-medium hover:text-blue-600"
                         >
                           {property.title}
                         </Link>
-                        <p className="text-xs text-gray-500 capitalize mt-1">
+                        <p className="mt-1 text-xs text-gray-500 capitalize">
                           {property.community}
                         </p>
-                        <div className="text-xs text-gray-600 mt-1">
-                          {property.beds} bd • {property.baths} ba • {parseInt(property.sqft).toLocaleString()} sqft
+                        <div className="mt-1 text-xs text-gray-600">
+                          {property.beds} bd • {property.baths} ba •{' '}
+                          {parseInt(property.sqft).toLocaleString()} sqft
                         </div>
-                        <div className="text-sm font-medium text-green-600 mt-1">
-                          {property.price ? `$${parseInt(property.price).toLocaleString()}` : "Contact for price"}
+                        <div className="mt-1 text-sm font-medium text-green-600">
+                          {property.price
+                            ? `$${parseInt(property.price).toLocaleString()}`
+                            : 'Contact for price'}
                         </div>
                       </div>
                     </div>
@@ -114,7 +111,7 @@ export default function ComparisonDrawer() {
           <SheetFooter className="border-t pt-4">
             <div className="w-full space-y-2">
               {selectedProperties.length < 2 && (
-                <p className="text-xs text-gray-500 text-center">
+                <p className="text-center text-xs text-gray-500">
                   Add at least 2 properties to compare
                 </p>
               )}
@@ -125,7 +122,7 @@ export default function ComparisonDrawer() {
                 size="lg"
               >
                 Compare Properties ({selectedProperties.length})
-                <ArrowRight className="w-4 h-4 ml-2" />
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </SheetFooter>

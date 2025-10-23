@@ -1,49 +1,49 @@
 {
-    "cover": "/img/cover.jpg",
-    "slogan":"OUR TEAM",
-    "title" :"What really makes PNE HOMES",
-    "subtitle":"great is our committed and professional staff",
-    "description" : "We're excited to introduce the great people who are at the heart of our business and do their best to make your experience at PNE homes the best it can be. Scroll down to get to know them.",
-    "team":[
-        {
-            "cover":"/img/anastasio.jpg",
-            "name":"Anastasio Alammar",
-            "position":"President",
-            "description":"Anastasio Alammar serves as the President of PNE HOMES, bringing a wealth of experience and expertise to his role."
-        },
-        {
-            "cover":"/img/amin.jpg",
-            "name":"Amin Rababah",
-            "position":"President of Construction",
-            "description":"Amin Rababah is the President of Construction at PNE HOMES, with a strong engineering background and extensive experience in construction."
-        },
-        {
-            "cover":"/img/jason.jpg",
-            "name":"Jason Lawrence",
-            "position":"Executive Adviser & President of Marketing ",
-            "description":"Jason Lawrence is an esteemed Executive Advisor and President of marketing at PNE HOMES, bringing a wealth of experience and expertise to his role."
-        },
-        {
-            "cover":"/img/kholoud.jpg",
-            "name":"Kholoud Alzilaa",
-            "position":"Designer Manager",
-            "description":"Kholoud Alzilaa is an accomplished and creative professional, serving as the Head of Design at PNE HOMES. With extensive experience in interior design and custom home building design."
-        },
-        {
-            "cover":"/img/ayham.jpg",
-            "name":"Ayham Alammar",
-            "position":"Director of Customer Relations ",
-            "description":"Ayham Alammar, the Director of Customer Relations at PNE HOMES, brings a wealth of expertise in customer service and entrepreneurship to his role."
-        },
-        {
-            "cover":"/img/theologos.jpg",
-            "name":"Theologos Sakellaris",
-            "position":"Director of Customer Acquisition",
-            "description":"Theologos Sakellaris serves as the Director of Customer Acquisition at PNE HOMES, bringing extensive experience in customer service and entrepreneurship to his role."
-        }
-    ],
-    "contact" : {
-        "title" : "Contact Us Today",
-        "message": "We'd love to hear from you! Whether you have questions, feedback, or simply want to say hello, we're here to help. Please don't hesitate to reach out to us. We value your input and look forward to connecting with you."
+  "cover": "/img/cover.jpg",
+  "slogan": "OUR TEAM",
+  "title": "What really makes PNE HOMES",
+  "subtitle": "great is our committed and professional staff",
+  "description": "We're excited to introduce the great people who are at the heart of our business and do their best to make your experience at PNE homes the best it can be. Scroll down to get to know them.",
+  "team": [
+    {
+      "cover": "/img/anastasio.jpg",
+      "name": "Anastasio Alammar",
+      "position": "President",
+      "description": "Anastasio Alammar serves as the President of PNE HOMES, bringing a wealth of experience and expertise to his role."
+    },
+    {
+      "cover": "/img/amin.jpg",
+      "name": "Amin Rababah",
+      "position": "President of Construction",
+      "description": "Amin Rababah is the President of Construction at PNE HOMES, with a strong engineering background and extensive experience in construction."
+    },
+    {
+      "cover": "/img/jason.jpg",
+      "name": "Jason Lawrence",
+      "position": "Executive Adviser & President of Marketing ",
+      "description": "Jason Lawrence is an esteemed Executive Advisor and President of marketing at PNE HOMES, bringing a wealth of experience and expertise to his role."
+    },
+    {
+      "cover": "/img/kholoud.jpg",
+      "name": "Kholoud Alzilaa",
+      "position": "Designer Manager",
+      "description": "Kholoud Alzilaa is an accomplished and creative professional, serving as the Head of Design at PNE HOMES. With extensive experience in interior design and custom home building design."
+    },
+    {
+      "cover": "/img/ayham.jpg",
+      "name": "Ayham Alammar",
+      "position": "Director of Customer Relations ",
+      "description": "Ayham Alammar, the Director of Customer Relations at PNE HOMES, brings a wealth of expertise in customer service and entrepreneurship to his role."
+    },
+    {
+      "cover": "/img/theologos.jpg",
+      "name": "Theologos Sakellaris",
+      "position": "Director of Customer Acquisition",
+      "description": "Theologos Sakellaris serves as the Director of Customer Acquisition at PNE HOMES, bringing extensive experience in customer service and entrepreneurship to his role."
     }
+  ],
+  "contact": {
+    "title": "Contact Us Today",
+    "message": "We'd love to hear from you! Whether you have questions, feedback, or simply want to say hello, we're here to help. Please don't hesitate to reach out to us. We value your input and look forward to connecting with you."
+  }
 }

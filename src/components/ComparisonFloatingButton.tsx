@@ -1,31 +1,33 @@
-"use client"
+'use client'
 
-import { useComparison } from "@/contexts/ComparisonContext"
-import { Button } from "@/components/ui/button"
-import { ShoppingCart, X } from "lucide-react"
+import { useComparison } from '@/contexts/ComparisonContext'
+import { usePathname } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { Plus, X } from 'lucide-react'
 
 export default function ComparisonFloatingButton() {
   const { selectedProperties, isDrawerOpen, setIsDrawerOpen } = useComparison()
+  const pathname = usePathname()
 
-  // Don't show the button if no properties are selected
-  if (selectedProperties.length === 0) {
+  // Don't show the button if no properties are selected or not on floor-plans page
+  if (selectedProperties.length === 0 || !pathname.startsWith('/floor-plans')) {
     return null
   }
 
   return (
-    <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50">
+    <div className="fixed top-1/2 right-4 z-50 -translate-y-1/2">
       <Button
         onClick={() => setIsDrawerOpen(!isDrawerOpen)}
         size="lg"
-        className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg rounded-full h-14 w-14 p-0"
+        className="h-14 w-14 rounded-full bg-pne-accent hover:bg-pne-brand p-0 text-white shadow-lg "
       >
         {isDrawerOpen ? (
-          <X className="w-6 h-6" />
+          <X className="h-6 w-6" />
         ) : (
           <div className="relative">
-            <ShoppingCart className="w-6 h-6" />
+            <Plus className="h-6 w-6" />
             {selectedProperties.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              <span className="absolute -top-4 -right-4 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                 {selectedProperties.length}
               </span>
             )}

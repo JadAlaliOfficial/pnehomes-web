@@ -1,5 +1,5 @@
-import { PrivacyPolicy, PrivacyPolicyResponse } from '../model/types';
-import privacyPolicyData from '../mock/privacyPolicy.json';
+import { PrivacyPolicy, PrivacyPolicyResponse } from '../model/types'
+import privacyPolicyData from '../mock/privacyPolicy.json'
 
 /**
  * Repository class for handling privacy policy data operations
@@ -12,21 +12,21 @@ export class PrivacyPolicyFileRepository {
   static async getPrivacyPolicy(): Promise<PrivacyPolicyResponse> {
     try {
       // Simulate async operation (in case of future API integration)
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
-      const data: PrivacyPolicy = privacyPolicyData as PrivacyPolicy;
-      
+      await new Promise(resolve => setTimeout(resolve, 100))
+
+      const data: PrivacyPolicy = privacyPolicyData as PrivacyPolicy
+
       return {
         data,
         success: true,
-        message: 'Privacy policy data retrieved successfully'
-      };
+        message: 'Privacy policy data retrieved successfully',
+      }
     } catch (error) {
       return {
         data: {} as PrivacyPolicy,
         success: false,
-        message: `Failed to retrieve privacy policy data: ${error instanceof Error ? error.message : 'Unknown error'}`
-      };
+        message: `Failed to retrieve privacy policy data: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      }
     }
   }
 
@@ -36,11 +36,11 @@ export class PrivacyPolicyFileRepository {
    */
   static async getSlogan(): Promise<string> {
     try {
-      const response = await this.getPrivacyPolicy();
-      return response.success ? response.data.slogan : '';
+      const response = await this.getPrivacyPolicy()
+      return response.success ? response.data.slogan : ''
     } catch (error) {
-      console.error('Error getting privacy policy slogan:', error);
-      return '';
+      console.error('Error getting privacy policy slogan:', error)
+      return ''
     }
   }
 
@@ -50,11 +50,11 @@ export class PrivacyPolicyFileRepository {
    */
   static async getTitle(): Promise<string> {
     try {
-      const response = await this.getPrivacyPolicy();
-      return response.success ? response.data.title : '';
+      const response = await this.getPrivacyPolicy()
+      return response.success ? response.data.title : ''
     } catch (error) {
-      console.error('Error getting privacy policy title:', error);
-      return '';
+      console.error('Error getting privacy policy title:', error)
+      return ''
     }
   }
 
@@ -64,11 +64,11 @@ export class PrivacyPolicyFileRepository {
    */
   static async getDescription(): Promise<string> {
     try {
-      const response = await this.getPrivacyPolicy();
-      return response.success ? response.data.description : '';
+      const response = await this.getPrivacyPolicy()
+      return response.success ? response.data.description : ''
     } catch (error) {
-      console.error('Error getting privacy policy description:', error);
-      return '';
+      console.error('Error getting privacy policy description:', error)
+      return ''
     }
   }
 
@@ -76,13 +76,13 @@ export class PrivacyPolicyFileRepository {
    * Get contact information
    * @returns Promise<{title: string, message: string} | null>
    */
-  static async getContact(): Promise<{title: string, message: string} | null> {
+  static async getContact(): Promise<{ title: string; message: string } | null> {
     try {
-      const response = await this.getPrivacyPolicy();
-      return response.success && response.data.contact ? response.data.contact : null;
+      const response = await this.getPrivacyPolicy()
+      return response.success && response.data.contact ? response.data.contact : null
     } catch (error) {
-      console.error('Error getting privacy policy contact:', error);
-      return null;
+      console.error('Error getting privacy policy contact:', error)
+      return null
     }
   }
 
@@ -92,11 +92,11 @@ export class PrivacyPolicyFileRepository {
    */
   static async getCover(): Promise<string> {
     try {
-      const response = await this.getPrivacyPolicy();
-      return response.success ? response.data.cover || '' : '';
+      const response = await this.getPrivacyPolicy()
+      return response.success ? response.data.cover || '' : ''
     } catch (error) {
-      console.error('Error getting privacy policy cover:', error);
-      return '';
+      console.error('Error getting privacy policy cover:', error)
+      return ''
     }
   }
 }

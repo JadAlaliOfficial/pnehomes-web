@@ -1,10 +1,10 @@
 {
-    "cover": "/img/cover.jpg",
-    "slogan": "ALL ABOUT PNE HOMES",
-    "title" : "Built On Trust",
-    "description" : "At PNE Homes, we are guided by our core values of excellence, quality, and customer satisfaction in everything we do. Our mission is to exceed expectations throughout the entire home-building process, ensuring each custom build reflects our commitment to perfection. Our expert team combines innovative design, meticulous craftsmanship, and the highest quality materials to create homes that are not only beautiful and functional but also built to last. We offer a comprehensive range of services, from initial design and planning to construction and finishing, all tailored to meet our customers' unique needs. Our personalized approach includes transparent pricing and detailed project management, ensuring you are informed and involved at every stage. At PNE Homes, exceptional customer service is the foundation of our success, and we strive to provide an unmatched experience for every client.Choose PNE Homes for your next custom build and experience the difference between working with a trusted builder who values your vision and delivers exceptional results. Contact us today to get started on the home of your dreams." ,
-    "contact" : {
-        "title" : "Contact Us Today",
-        "message": "I'm contacting about PNE Homes"
-    }
+  "cover": "/img/cover.jpg",
+  "slogan": "ALL ABOUT PNE HOMES",
+  "title": "Built On Trust",
+  "description": "At PNE Homes, we are guided by our core values of excellence, quality, and customer satisfaction in everything we do. Our mission is to exceed expectations throughout the entire home-building process, ensuring each custom build reflects our commitment to perfection. Our expert team combines innovative design, meticulous craftsmanship, and the highest quality materials to create homes that are not only beautiful and functional but also built to last. We offer a comprehensive range of services, from initial design and planning to construction and finishing, all tailored to meet our customers' unique needs. Our personalized approach includes transparent pricing and detailed project management, ensuring you are informed and involved at every stage. At PNE Homes, exceptional customer service is the foundation of our success, and we strive to provide an unmatched experience for every client.Choose PNE Homes for your next custom build and experience the difference between working with a trusted builder who values your vision and delivers exceptional results. Contact us today to get started on the home of your dreams.",
+  "contact": {
+    "title": "Contact Us Today",
+    "message": "I'm contacting about PNE Homes"
+  }
 }

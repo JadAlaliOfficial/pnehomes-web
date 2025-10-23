@@ -1,5 +1,5 @@
-import { BuildingOptionsData, Article } from '../model/types';
-import buildingOptionsData from '../mock/buildingOptions.json';
+import { BuildingOptionsData, Article } from '../model/types'
+import buildingOptionsData from '../mock/buildingOptions.json'
 
 export class BuildingOptionsFileRepository {
   /**
@@ -8,7 +8,7 @@ export class BuildingOptionsFileRepository {
    */
   async getBuildingOptions(): Promise<BuildingOptionsData> {
     // Simulate async operation (in case you want to add delay or error handling later)
-    return Promise.resolve(buildingOptionsData as BuildingOptionsData);
+    return Promise.resolve(buildingOptionsData as BuildingOptionsData)
   }
 
   /**
@@ -16,7 +16,7 @@ export class BuildingOptionsFileRepository {
    * @returns BuildingOptionsData
    */
   getBuildingOptionsSync(): BuildingOptionsData {
-    return buildingOptionsData as BuildingOptionsData;
+    return buildingOptionsData as BuildingOptionsData
   }
 
   /**
@@ -24,8 +24,8 @@ export class BuildingOptionsFileRepository {
    * @returns Promise<Article[]>
    */
   async getArticles(): Promise<Article[]> {
-    const data = buildingOptionsData as BuildingOptionsData;
-    return Promise.resolve(data.articles.articles);
+    const data = buildingOptionsData as BuildingOptionsData
+    return Promise.resolve(data.articles.articles)
   }
 
   /**
@@ -33,8 +33,8 @@ export class BuildingOptionsFileRepository {
    * @returns Article[]
    */
   getArticlesSync(): Article[] {
-    const data = buildingOptionsData as BuildingOptionsData;
-    return data.articles.articles;
+    const data = buildingOptionsData as BuildingOptionsData
+    return data.articles.articles
   }
 
   /**
@@ -43,8 +43,8 @@ export class BuildingOptionsFileRepository {
    * @returns Promise<Article | undefined>
    */
   async getArticleBySlug(slug: string): Promise<Article | undefined> {
-    const data = buildingOptionsData as BuildingOptionsData;
-    return Promise.resolve(data.articles.articles.find(article => article.slug === slug));
+    const data = buildingOptionsData as BuildingOptionsData
+    return Promise.resolve(data.articles.articles.find(article => article.slug === slug))
   }
 
   /**
@@ -53,7 +53,7 @@ export class BuildingOptionsFileRepository {
    * @returns Article | undefined
    */
   getArticleBySlugSync(slug: string): Article | undefined {
-    const data = buildingOptionsData as BuildingOptionsData;
-    return data.articles.articles.find(article => article.slug === slug);
+    const data = buildingOptionsData as BuildingOptionsData
+    return data.articles.articles.find(article => article.slug === slug)
   }
 }

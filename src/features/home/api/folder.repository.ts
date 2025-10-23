@@ -1,26 +1,26 @@
-import { HomeLayout } from '../model/types';
-import homeLayoutData from '../mock/home_layout.json';
+import { HomeLayout } from '../model/types'
+import homeLayoutData from '../mock/home_layout.json'
 
 export class HomeLayoutRepository {
-  private static instance: HomeLayoutRepository;
-  private homeLayout: HomeLayout;
+  private static instance: HomeLayoutRepository
+  private homeLayout: HomeLayout
 
   private constructor() {
-    this.homeLayout = homeLayoutData as HomeLayout;
+    this.homeLayout = homeLayoutData as HomeLayout
   }
 
   public static getInstance(): HomeLayoutRepository {
     if (!HomeLayoutRepository.instance) {
-      HomeLayoutRepository.instance = new HomeLayoutRepository();
+      HomeLayoutRepository.instance = new HomeLayoutRepository()
     }
-    return HomeLayoutRepository.instance;
+    return HomeLayoutRepository.instance
   }
 
   /**
    * Get the complete home layout data
    */
   public getHomeLayout(): HomeLayout {
-    return this.homeLayout;
+    return this.homeLayout
   }
 
   /**
@@ -31,8 +31,8 @@ export class HomeLayoutRepository {
       logo: this.homeLayout['header-logo'],
       navigation: this.homeLayout['header-nav'],
       button: this.homeLayout['header-button'],
-      phone: this.homeLayout['header-phone']
-    };
+      phone: this.homeLayout['header-phone'],
+    }
   }
 
   /**
@@ -42,42 +42,42 @@ export class HomeLayoutRepository {
     return {
       navigation: this.homeLayout['footer-nav'],
       phone: this.homeLayout['footer-phone'],
-      social: this.homeLayout['footer-social']
-    };
+      social: this.homeLayout['footer-social'],
+    }
   }
 
   /**
    * Get navigation items for header
    */
   public getHeaderNavigation() {
-    return this.homeLayout['header-nav'];
+    return this.homeLayout['header-nav']
   }
 
   /**
    * Get navigation items for footer
    */
   public getFooterNavigation() {
-    return this.homeLayout['footer-nav'];
+    return this.homeLayout['footer-nav']
   }
 
   /**
    * Get social media links
    */
   public getSocialMediaLinks() {
-    return this.homeLayout['footer-social'];
+    return this.homeLayout['footer-social']
   }
 
   /**
    * Get contact phone number
    */
   public getContactPhone() {
-    return this.homeLayout['header-phone'];
+    return this.homeLayout['header-phone']
   }
 
   /**
    * Update home layout data (for future use)
    */
   public updateHomeLayout(newLayout: Partial<HomeLayout>): void {
-    this.homeLayout = { ...this.homeLayout, ...newLayout };
+    this.homeLayout = { ...this.homeLayout, ...newLayout }
   }
 }

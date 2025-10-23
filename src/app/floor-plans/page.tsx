@@ -1,18 +1,58 @@
 // src/floor-plans/page.tsx
 
-import * as Property from "@/features/property/api"
-import PropertyCard from "@/features/property/components/PropertyCard"
-import FilterBar from "@/features/property/components/FilterBar"
-import { toNum } from "@/lib/url"
-import Image from "next/image"
-
-// export const dynamic = "force-static"
+import * as Property from '@/features/property/api'
+import PropertyCard from '@/features/property/components/PropertyCard'
+import FilterBar from '@/features/property/components/FilterBar'
+import { toNum } from '@/lib/url'
+import Image from 'next/image'
 
 type SP = Record<string, string | string[] | undefined>
 
+function buildQueryString(
+  searchParams: SP,
+  overrides: Record<string, string | number | undefined>
+) {
+  const base = Object.fromEntries(Object.entries(searchParams).filter(([key]) => key !== 'page'))
+  const qs = new URLSearchParams({
+    ...base,
+    ...Object.fromEntries(
+      Object.entries(overrides).filter(([, v]) => v !== undefined && v !== null)
+    ),
+  } as Record<string, string>)
+  return qs.toString()
+}
+
+function getWindowedPages(current: number, total: number) {
+  // Create a compact pagination like pnehomes.com: 1 ... 4 5 [6] 7 8 ... 20
+  const delta = 2
+  const pages: (number | '...')[] = []
+  const range = new Set<number>()
+
+  // Always include first and last
+  range.add(1)
+  range.add(total)
+
+  // Include a sliding window around current
+  for (let i = Math.max(1, current - delta); i <= Math.min(total, current + delta); i++) {
+    range.add(i)
+  }
+
+  // Build sorted array
+  const sorted = Array.from(range).sort((a, b) => a - b)
+
+  for (let i = 0; i < sorted.length; i++) {
+    const page = sorted[i]
+    pages.push(page)
+    const next = sorted[i + 1]
+    if (next && next - page > 1) pages.push('...')
+  }
+
+  return pages
+}
+
 export default async function Page({ searchParams }: { searchParams: SP }) {
   const params = {
-    community: typeof searchParams.community === "string" ? searchParams.community : undefined,
+    community: typeof searchParams.community === 'string' ? searchParams.community : undefined,
     price: toNum(searchParams.price),
     beds: toNum(searchParams.beds),
     baths: toNum(searchParams.baths),
@@ -21,98 +61,124 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
     max: toNum(searchParams.max),
     page: toNum(searchParams.page) || 1,
     limit: 9,
-    sortBy: "sqft" as const,
-    sortOrder: "desc" as const
+    sortBy: 'sqft' as const,
+    sortOrder: 'desc' as const,
   }
 
-  const [list, totalCount] = await Promise.all([
+  const [list, totalCount, coverImage] = await Promise.all([
     Property.list(params),
-    Property.getTotalFilteredCount(params)
+    Property.getTotalFilteredCount(params),
+    Property.getCoverImage(),
   ])
 
-  const totalPages = Math.ceil(totalCount / params.limit)
-  const currentPage = params.page
+  const totalPages = Math.max(1, Math.ceil(totalCount / params.limit))
+  const currentPage = Math.min(Math.max(1, params.page), totalPages)
+  const pages = getWindowedPages(currentPage, totalPages)
 
   return (
-    <main className="container mx-auto p-6">
-      {/* Cover Image */}
-      <div className="relative w-full h-64 mb-8 rounded-lg overflow-hidden">
-        <Image
-          src="/images/floor-plans-cover.jpg"
-          alt="Floor Plans Cover"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-          <div className="text-center text-white">
-            <h1 className="text-4xl font-bold mb-2">Floor Plans</h1>
-            <p className="text-lg opacity-90">Discover Your Perfect Home</p>
-          </div>
+    <main className="relative">
+      {/* Hero / Title (clean and bold like pnehomes.com) */}
+      <section className="relative isolate">
+        <div className="absolute inset-0 -z-10">
+          <Image src={coverImage} alt="Floor Plans Cover" fill priority className="object-cover" />
+          <div className="0 absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
         </div>
-      </div>
 
-      <p className="text-sm opacity-80 mb-4">Showing {list.length} of {totalCount} result{totalCount === 1 ? "" : "s"}</p>
-      <FilterBar />
+        <div className="container mx-auto px-6 pt-20 pb-10 text-center">
+          <h1 className="text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+            Floor Plans
+          </h1>
+        </div>
+      </section>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {list.map(p => <PropertyCard key={p.id} p={p} />)}
-      </div>
+      {/* Filter bar */}
+      <section className="border-y bg-white">
+        <div className="container mx-auto px-4 py-4 sm:px-6 sm:py-6">
+          <FilterBar />
+        </div>
+      </section>
 
-      {/* Pagination Controls */}
-      {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-2 mt-8">
-          {/* Previous Button */}
-          {currentPage > 1 && (
-            <a
-              href={`/floor-plans?${new URLSearchParams({
-                ...Object.fromEntries(
-                  Object.entries(searchParams).filter(([key]) => key !== 'page')
-                ),
-                page: (currentPage - 1).toString()
-              }).toString()}`}
-              className="px-3 py-2 text-sm border rounded hover:bg-gray-50"
+      {/* Results summary */}
+      <section className="container mx-auto px-6">
+        <p className="mt-6 mb-4 text-sm text-gray-600">
+          Showing <span className="font-medium">{list.length}</span> of{' '}
+          <span className="font-medium">{totalCount}</span> result{totalCount === 1 ? '' : 's'}
+        </p>
+
+        {/* Cards grid (clean, airy, like pnehomes) */}
+        <div className="my-2 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {list.map(p => (
+            <div
+              key={p.id}
+              className="group overflow-hidden rounded-xl border bg-white shadow-sm transition hover:shadow-md"
             >
-              Previous
-            </a>
-          )}
-
-          {/* Page Numbers */}
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNum => (
-            <a
-              key={pageNum}
-              href={`/floor-plans?${new URLSearchParams({
-                ...Object.fromEntries(
-                  Object.entries(searchParams).filter(([key]) => key !== 'page')
-                ),
-                page: pageNum.toString()
-              }).toString()}`}
-              className={`px-3 py-2 text-sm border rounded ${
-                pageNum === currentPage
-                  ? 'bg-blue-500 text-white border-blue-500'
-                  : 'hover:bg-gray-50'
-              }`}
-            >
-              {pageNum}
-            </a>
+              {/* Let PropertyCard render its own internals; we wrap for consistent look */}
+              <PropertyCard p={p} />
+            </div>
           ))}
-
-          {/* Next Button */}
-          {currentPage < totalPages && (
-            <a
-              href={`/floor-plans?${new URLSearchParams({
-                ...Object.fromEntries(
-                  Object.entries(searchParams).filter(([key]) => key !== 'page')
-                ),
-                page: (currentPage + 1).toString()
-              }).toString()}`}
-              className="px-3 py-2 text-sm border rounded hover:bg-gray-50"
-            >
-              Next
-            </a>
-          )}
         </div>
-      )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <nav
+            aria-label="Pagination"
+            className="mx-auto mt-10 mb-16 flex items-center justify-center gap-2"
+          >
+            {/* Prev */}
+            {currentPage > 1 && (
+              <a
+                href={`/floor-plans?${buildQueryString(searchParams, {
+                  page: currentPage - 1,
+                })}`}
+                className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                <span aria-hidden="true">‹</span>
+                <span className="hidden sm:inline">Previous</span>
+              </a>
+            )}
+
+            {/* Numbered pages with ellipses */}
+            <div className="flex items-center gap-2">
+              {pages.map((pg, idx) =>
+                pg === '...' ? (
+                  <span key={`dots-${idx}`} className="px-3 py-2 text-sm text-gray-400 select-none">
+                    …
+                  </span>
+                ) : (
+                  <a
+                    key={pg}
+                    href={`/floor-plans?${buildQueryString(searchParams, {
+                      page: pg,
+                    })}`}
+                    aria-current={pg === currentPage ? 'page' : undefined}
+                    className={[
+                      'inline-flex min-w-10 items-center justify-center rounded-full border px-3 py-2 text-sm font-medium',
+                      pg === currentPage
+                        ? 'border-blue-600 bg-blue-600 text-white'
+                        : 'text-gray-700 hover:bg-gray-50',
+                    ].join(' ')}
+                  >
+                    {pg}
+                  </a>
+                )
+              )}
+            </div>
+
+            {/* Next */}
+            {currentPage < totalPages && (
+              <a
+                href={`/floor-plans?${buildQueryString(searchParams, {
+                  page: currentPage + 1,
+                })}`}
+                className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                <span className="hidden sm:inline">Next</span>
+                <span aria-hidden="true">›</span>
+              </a>
+            )}
+          </nav>
+        )}
+      </section>
     </main>
   )
 }

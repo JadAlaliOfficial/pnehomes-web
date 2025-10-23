@@ -1,8 +1,8 @@
-import { HomeLayoutRepository } from './folder.repository';
-import { HomeLayout, SocialMediaItem } from '../model/types';
+import { HomeLayoutRepository } from './folder.repository'
+import { HomeLayout, SocialMediaItem } from '../model/types'
 
 // Initialize repository instance
-const homeLayoutRepo = HomeLayoutRepository.getInstance();
+const homeLayoutRepo = HomeLayoutRepository.getInstance()
 
 /**
  * Home Layout API - Main entry point for all home layout operations
@@ -12,64 +12,64 @@ export const homeLayoutApi = {
    * Get complete home layout configuration
    */
   getLayout: (): HomeLayout => {
-    return homeLayoutRepo.getHomeLayout();
+    return homeLayoutRepo.getHomeLayout()
   },
 
   /**
    * Get header configuration including logo, navigation, button, and phone
    */
   getHeader: () => {
-    return homeLayoutRepo.getHeaderConfig();
+    return homeLayoutRepo.getHeaderConfig()
   },
 
   /**
    * Get footer configuration including navigation, phone, and social links
    */
   getFooter: () => {
-    return homeLayoutRepo.getFooterConfig();
+    return homeLayoutRepo.getFooterConfig()
   },
 
   /**
    * Get header navigation items
    */
   getHeaderNav: (): string[] => {
-    return homeLayoutRepo.getHeaderNavigation();
+    return homeLayoutRepo.getHeaderNavigation()
   },
 
   /**
    * Get footer navigation items
    */
   getFooterNav: (): string[] => {
-    return homeLayoutRepo.getFooterNavigation();
+    return homeLayoutRepo.getFooterNavigation()
   },
 
   /**
    * Get social media links
    */
   getSocialLinks: (): SocialMediaItem[] => {
-    return homeLayoutRepo.getSocialMediaLinks();
+    return homeLayoutRepo.getSocialMediaLinks()
   },
 
   /**
    * Get contact phone number
    */
   getPhone: (): number | null => {
-    return homeLayoutRepo.getContactPhone();
+    return homeLayoutRepo.getContactPhone()
   },
 
   /**
    * Update layout configuration (for future use)
    */
   updateLayout: (updates: Partial<HomeLayout>): void => {
-    homeLayoutRepo.updateHomeLayout(updates);
-  }
-};
+    homeLayoutRepo.updateHomeLayout(updates)
+  },
+}
 
 // Export types for external use
-export type { HomeLayout, SocialMediaItem } from '../model/types';
+export type { HomeLayout, SocialMediaItem } from '../model/types'
 
 // Export repository for advanced use cases
-export { HomeLayoutRepository } from './folder.repository';
+export { HomeLayoutRepository } from './folder.repository'
 
 // Default export
-export default homeLayoutApi;
+export default homeLayoutApi

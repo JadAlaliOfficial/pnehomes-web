@@ -1,8 +1,9 @@
 // src/components/SharePrintButtons.tsx
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Share, Printer } from 'lucide-react'
 
 type Props = {
   title: string
@@ -32,30 +33,32 @@ export default function SharePrintButtons({ title, text, className }: Props) {
         setTimeout(() => setCopied(false), 1500)
       } else {
         // Legacy fallback
-        window.prompt("Copy this link:", shareData.url)
+        window.prompt('Copy this link:', shareData.url)
       }
     } catch {
-      window.prompt("Copy this link:", shareData.url)
+      window.prompt('Copy this link:', shareData.url)
     }
   }
 
   function handlePrint() {
-    try { window.print() } catch {}
+    try {
+      window.print()
+    } catch {}
   }
 
   return (
-    <div className={`flex gap-2 ${className || ""}`}>
+    <div className={`flex gap-2 ${className || ''}`}>
       <div className="w-full">
-      <Button
-        type="button"
-        variant="outline"
-        onClick={handleShare}
-        className="w-full"
-        aria-label="Share this property"
-      >
-        <span aria-hidden>🔗</span>
-        <span className="ml-2">{copied ? "Link copied!" : "Share"}</span>
-      </Button>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleShare}
+          className="w-full"
+          aria-label="Share this property"
+        >
+          <Share className="size-4" aria-hidden />
+          <span className="ml-2">{copied ? 'Link copied!' : 'Share'}</span>
+        </Button>
       </div>
       <div className="w-full">
         <Button
@@ -65,7 +68,7 @@ export default function SharePrintButtons({ title, text, className }: Props) {
           className="w-full"
           aria-label="Print this page"
         >
-          <span aria-hidden>🖨️</span>
+          <Printer className="size-4" aria-hidden />
           <span className="ml-2">Print</span>
         </Button>
       </div>

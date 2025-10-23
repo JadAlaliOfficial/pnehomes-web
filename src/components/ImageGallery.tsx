@@ -1,11 +1,18 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import Image from "next/image"
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel"
-import { Badge } from "@/components/ui/badge"
-import { useEffect } from "react"
+import { useState } from 'react'
+import Image from 'next/image'
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from '@/components/ui/carousel'
+import { Badge } from '@/components/ui/badge'
+import { useEffect } from 'react'
 
 interface ImageGalleryProps {
   images: string[]
@@ -25,7 +32,7 @@ export default function ImageGallery({ images, title, maxVisibleImages = 3 }: Im
 
     setCurrent(api.selectedScrollSnap())
 
-    api.on("select", () => {
+    api.on('select', () => {
       setCurrent(api.selectedScrollSnap())
     })
   }, [api])
@@ -35,7 +42,7 @@ export default function ImageGallery({ images, title, maxVisibleImages = 3 }: Im
       <div>
         {/* Main image */}
         <DialogTrigger asChild>
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg cursor-pointer group">
+          <div className="group relative aspect-[16/9] w-full cursor-pointer overflow-hidden rounded-lg">
             <Image
               src={visibleImages[0]}
               alt={title}
@@ -49,10 +56,10 @@ export default function ImageGallery({ images, title, maxVisibleImages = 3 }: Im
 
         {/* Thumbnails (if more than 1) */}
         {visibleImages.length > 1 && (
-          <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {visibleImages.slice(1).map((src, i) => (
               <DialogTrigger key={i} asChild>
-                <div className="relative aspect-[4/3] overflow-hidden rounded-md cursor-pointer group">
+                <div className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-md">
                   <Image
                     src={src}
                     alt={`${title} photo ${i + 2}`}
@@ -62,8 +69,8 @@ export default function ImageGallery({ images, title, maxVisibleImages = 3 }: Im
                   />
                   {/* Badge overlay on the last visible image if there are more images */}
                   {i === visibleImages.slice(1).length - 1 && remainingCount > 0 && (
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                      <Badge variant="secondary" className="bg-white/90 text-black font-semibold">
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                      <Badge variant="secondary" className="bg-white/90 font-semibold text-black">
                         +{remainingCount} more
                       </Badge>
                     </div>
@@ -75,31 +82,30 @@ export default function ImageGallery({ images, title, maxVisibleImages = 3 }: Im
         )}
       </div>
 
-      <DialogContent className="max-w-4xl w-full p-0">
+      <DialogContent className="w-full max-w-4xl p-0">
         <DialogTitle className="sr-only">{title} Image Gallery</DialogTitle>
         <div className="relative w-full">
-    <Carousel setApi={setApi} className="w-full">
-      <CarouselContent>
-        {images.map((src, i) => (
-          <CarouselItem key={i}>
-            <div className="relative aspect-[16/9] w-full bg-black">
-              <Image
-                src={src}
-                alt={`${title} photo ${i + 1}`}
-                fill
-                className="object-contain"
-                sizes="90vw"
-              />
-            </div>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <CarouselPrevious className="left-4" />
-      <CarouselNext className="right-4" />
-    </Carousel>
-  </div>
-</DialogContent>
-
+          <Carousel setApi={setApi} className="w-full">
+            <CarouselContent>
+              {images.map((src, i) => (
+                <CarouselItem key={i}>
+                  <div className="relative aspect-[16/9] w-full bg-black">
+                    <Image
+                      src={src}
+                      alt={`${title} photo ${i + 1}`}
+                      fill
+                      className="object-contain"
+                      sizes="90vw"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-4" />
+            <CarouselNext className="right-4" />
+          </Carousel>
+        </div>
+      </DialogContent>
     </Dialog>
   )
 }

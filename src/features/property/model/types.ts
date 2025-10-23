@@ -1,46 +1,44 @@
 /**
  * Property Data Models and Type Definitions
- * 
+ *
  * This module defines the core data structures for the property management system
  * using Zod schemas for runtime validation and TypeScript types for compile-time safety.
- * 
+ *
  * The schemas ensure data integrity by validating incoming data from external sources
  * (JSON files, APIs, user input) and provide automatic type inference for TypeScript.
  */
 
 // src/app/features/property/model/types.ts
 
-import { z } from "zod"
-
-
+import { z } from 'zod'
 
 /**
  * Schema for the "What's Special" section of a property
- * 
+ *
  * Contains marketing highlights and unique selling points:
  * @property {string[]} badges - Array of feature badges/tags (e.g., "New Construction", "Luxury")
  * @property {string} description - Detailed description of what makes this property special
  */
 const WhatsSpecialSchema = z.object({
   badges: z.array(z.string()),
-  description: z.string()
+  description: z.string(),
 })
 
 /**
  * Schema for property facts and features sections
- * 
+ *
  * Represents categorized lists of property features:
  * @property {string} title - Category title (e.g., "Interior Features", "Exterior Features")
  * @property {string[]} list - Array of specific features in this category
  */
 const FactsFeatureSchema = z.object({
   title: z.string(),
-  list: z.array(z.string())
+  list: z.array(z.string()),
 })
 
 /**
  * Schema for contact information
- * 
+ *
  * Contains contact details for the property:
  * @property {string} name - Contact person's name
  * @property {string} phone - Contact phone number
@@ -49,12 +47,12 @@ const FactsFeatureSchema = z.object({
 const ContactSchema = z.object({
   name: z.string(),
   phone: z.string(),
-  email: z.string()
+  email: z.string(),
 })
 
 /**
  * Schema for property floor plan information
- * 
+ *
  * Contains details about different floor plan options:
  * @property {string} title - Floor plan name/title (e.g., "The Madison", "Plan A")
  * @property {string} img - Image URL or path for the floor plan
@@ -63,14 +61,14 @@ const ContactSchema = z.object({
 const FloorPlanSchema = z.object({
   title: z.string(),
   img: z.string(),
-  Description: z.string()
+  Description: z.string(),
 })
 
 /**
  * Main Property Schema
- * 
+ *
  * Defines the complete structure of a property object with validation rules:
- * 
+ *
  * @property {number} id - Unique numeric identifier for the property
  * @property {string} slug - URL-friendly unique identifier for routing
  * @property {string} title - Display name/title of the property
@@ -107,7 +105,7 @@ export const PropertySchema = z.object({
   floor_plans: z.array(FloorPlanSchema).optional(),
   contact: ContactSchema.optional().nullable(),
   next_property_slug: z.string().optional(),
-  prev_property_slug: z.string().optional()
+  prev_property_slug: z.string().optional(),
 })
 
 // TypeScript type inference from Zod schemas

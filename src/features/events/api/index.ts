@@ -1,5 +1,5 @@
-import { fileRepository } from './file.repository';
-import type { Event, Contact, EventsData, EventsResponse } from '../model/types';
+import { fileRepository } from './file.repository'
+import type { Event, Contact, EventsData, EventsResponse } from '../model/types'
 
 /**
  * Events API - Main entry point for events-related operations
@@ -10,7 +10,7 @@ export class EventsAPI {
    * @returns Promise<EventsResponse>
    */
   static async getEventsData(): Promise<EventsResponse> {
-    return await fileRepository.getEventsData();
+    return await fileRepository.getEventsData()
   }
 
   /**
@@ -18,7 +18,7 @@ export class EventsAPI {
    * @returns Promise<Event[]>
    */
   static async getAllEvents(): Promise<Event[]> {
-    return await fileRepository.getAllEvents();
+    return await fileRepository.getAllEvents()
   }
 
   /**
@@ -27,7 +27,7 @@ export class EventsAPI {
    * @returns Promise<Event | null>
    */
   static async getEventByTitle(title: string): Promise<Event | null> {
-    return await fileRepository.getEventByTitle(title);
+    return await fileRepository.getEventByTitle(title)
   }
 
   /**
@@ -35,7 +35,7 @@ export class EventsAPI {
    * @returns Promise<Contact | null>
    */
   static async getContactInfo(): Promise<Contact | null> {
-    return await fileRepository.getContactInfo();
+    return await fileRepository.getContactInfo()
   }
 
   /**
@@ -43,7 +43,7 @@ export class EventsAPI {
    * @returns Promise<string>
    */
   static async getSlogan(): Promise<string> {
-    return await fileRepository.getSlogan();
+    return await fileRepository.getSlogan()
   }
 
   /**
@@ -51,7 +51,7 @@ export class EventsAPI {
    * @returns Promise<string>
    */
   static async getCover(): Promise<string> {
-    return await fileRepository.getCover();
+    return await fileRepository.getCover()
   }
 
   /**
@@ -60,13 +60,14 @@ export class EventsAPI {
    * @returns Promise<Event[]>
    */
   static async searchEvents(keyword: string): Promise<Event[]> {
-    const events = await fileRepository.getAllEvents();
-    const searchTerm = keyword.toLowerCase();
-    
-    return events.filter(event => 
-      event.title.toLowerCase().includes(searchTerm) ||
-      event.description.toLowerCase().includes(searchTerm)
-    );
+    const events = await fileRepository.getAllEvents()
+    const searchTerm = keyword.toLowerCase()
+
+    return events.filter(
+      event =>
+        event.title.toLowerCase().includes(searchTerm) ||
+        event.description.toLowerCase().includes(searchTerm)
+    )
   }
 
   /**
@@ -74,16 +75,16 @@ export class EventsAPI {
    * @returns Promise<number>
    */
   static async getEventsCount(): Promise<number> {
-    const events = await fileRepository.getAllEvents();
-    return events.length;
+    const events = await fileRepository.getAllEvents()
+    return events.length
   }
 }
 
 // Export types for external use
-export type { Event, Contact, EventsData, EventsResponse };
+export type { Event, Contact, EventsData, EventsResponse }
 
 // Export repository for advanced use cases
-export { fileRepository };
+export { fileRepository }
 
 // Default export
-export default EventsAPI;
+export default EventsAPI
