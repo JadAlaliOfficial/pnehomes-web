@@ -67,14 +67,16 @@ export function Footer() {
           {/* Company / Phone */}
           <div>
             {footerConfig.phone && (
-              <div className="flex items-center justify-center text-lg text-[color:var(--pne-accent)]">
-                <span>Call Us :</span>
-                <Phone className="mx-2 h-5 w-5" />
+              <div className="flex items-center justify-center text-xl text-[color:var(--pne-accent)]">
                 <a
                   href={`tel:${footerConfig.phone}`}
-                  className="transition-colors hover:text-white"
+                  className="text-xl transition-colors hover:text-white flex"
                 >
+                <span className="text-xl mr-2">Call Us :</span>
+                <Phone className="h-6 w-6" />
+                <span className="text-xl ml-2">
                   {footerConfig.phone}
+                </span>
                 </a>
               </div>
             )}

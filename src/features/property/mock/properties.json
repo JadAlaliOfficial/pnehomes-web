@@ -15,6 +15,10 @@
         "/img/avalon-1.jpg",
         "/img/avalon-1.jpg",
         "/img/avalon-1.jpg",
+        "/img/avalon-1.jpg",
+        "/img/avalon-1.jpg",
+        "/img/avalon-1.jpg",
+        "/img/avalon-1.jpg",
         "/img/avalon-1.jpg"
       ],
       "zillow_link": "https://www.zillow.com/community/beulah-park/2053928148_zpid/",
@@ -37,6 +41,14 @@
         {
           "title": "Heating",
           "list": ["Natural Gas", "Forced Air"]
+        },
+        {
+          "title": "Bedrooms & bathrooms",
+          "list": ["Bedrooms: 3", "Bathrooms: 3", "Full bathrooms: 2", "1/2 bathrooms: 1"]
+        },
+        {
+          "title": "Bedrooms & bathrooms",
+          "list": ["Bedrooms: 3", "Bathrooms: 3", "Full bathrooms: 2", "1/2 bathrooms: 1"]
         }
       ],
       "floor_plans": [

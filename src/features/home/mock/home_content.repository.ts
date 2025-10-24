@@ -1,5 +1,5 @@
 import { HomeContent } from '../model/home_content.types'
-import homeContentData from '../mock/home.json'
+import homeContentData from './home.json'
 
 export class HomeContentRepository {
   private static instance: HomeContentRepository

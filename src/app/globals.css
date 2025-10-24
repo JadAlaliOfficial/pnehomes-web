@@ -134,3 +134,34 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Make iframe/video behave like background-cover (16:9) */
+.video-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.video-bg > .cover-iframe,
+.video-bg > .cover-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* default: fill width */
+  width: 100vw;
+  height: 56.25vw; /* 9/16 * 100vw */
+
+  min-width: 100%;
+  min-height: 100%;
+}
+
+@media (min-aspect-ratio: 16/9) {
+  .video-bg > .cover-iframe,
+  .video-bg > .cover-video {
+    /* when screen is wider than 16:9, fill height instead */
+    width: 177.78vh; /* 16/9 * 100vh */
+    height: 100vh;
+  }
+}
+

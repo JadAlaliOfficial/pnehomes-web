@@ -90,12 +90,6 @@ export function Header() {
     }
   }
 
-  const isActiveLink = (href: string) => {
-    if (href === '/' && pathname === '/') return true
-    if (href !== '/' && pathname.startsWith(href)) return true
-    return false
-  }
-
   const NavLink = ({
     href,
     children,
@@ -107,13 +101,23 @@ export function Header() {
     onClick?: () => void
     isMobile?: boolean
   }) => {
-    const isActive = isActiveLink(href)
+    const [isActive, setIsActive] = useState(false)
+
+    useEffect(() => {
+      // Only calculate active state on client side to prevent hydration mismatch
+      const checkActive = () => {
+        if (href === '/' && pathname === '/') return true
+        if (href !== '/' && pathname.startsWith(href)) return true
+        return false
+      }
+      setIsActive(checkActive())
+    }, [href, pathname])
 
     return (
       <Link
         href={href}
         onClick={onClick}
-        className={`relative px-1 py-2 text-sm font-medium transition-all duration-300 ${
+        className={`relative px-2 py-3 text-base font-medium transition-all duration-300 ${
           isMobile
             ? `text-[color:var(--pne-brand)] after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[color:var(--pne-accent)] after:transition-all after:duration-300 hover:text-[color:var(--pne-brand-600)] hover:after:w-full ${isActive ? 'text-[color:var(--pne-accent)] after:w-full' : ''}`
             : `text-white hover:-translate-y-0.5 hover:text-[color:var(--pne-accent)] ${isActive ? '-translate-y-0.5 text-[color:var(--pne-accent)]' : ''}`
@@ -210,11 +214,11 @@ export function Header() {
               {headerConfig.phone && (
                 <Button
                   asChild
-                  size="sm"
-                  className="rounded-md border border-transparent bg-[color:var(--pne-accent)] text-white shadow-sm transition-all hover:shadow hover:brightness-110 active:brightness-95"
+                  size="default"
+                  className="rounded-md border border-transparent bg-[color:var(--pne-accent)] px-4 py-2 text-base text-white shadow-sm transition-all hover:shadow hover:brightness-110 active:brightness-95"
                 >
                   <a href={`tel:${headerConfig.phone}`}>
-                    <Phone className="mr-2 h-4 w-4" />
+                    <Phone className="mr-2 h-5 w-5" />
                     <span>{headerConfig.phone}</span>
                   </a>
                 </Button>
@@ -222,8 +226,8 @@ export function Header() {
               {headerConfig.button && (
                 <Link href="/contact">
                   <Button
-                    size="sm"
-                    className="rounded-md border border-transparent bg-[color:var(--pne-accent)] text-white shadow-sm transition-all hover:shadow hover:brightness-110 active:brightness-95"
+                    size="default"
+                    className="rounded-md border border-transparent bg-[color:var(--pne-accent)] px-4 py-2 text-base text-white shadow-sm transition-all hover:shadow hover:brightness-110 active:brightness-95"
                   >
                     {headerConfig.button}
                   </Button>

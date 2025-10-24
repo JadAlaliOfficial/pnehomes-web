@@ -7,6 +7,9 @@ import SharePrintButtons from '@/features/property/components/SharePrintButtons'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import ImageGallery from '@/components/ImageGallery'
+import { Card, CardContent } from '@/components/ui/card'
+import { CircleDollarSignIcon, Bed, Bath, Car, Map } from 'lucide-react'
+import { FloorPlanCollapsible } from '@/features/property/components/FloorPlanCollapsible'
 
 export async function generateStaticParams() {
   const slugs = await Property.allSlugs()
@@ -117,7 +120,7 @@ export default async function Page({
       {/* Header Title block */}
       <header className="container mx-auto max-w-6xl px-4 pt-6 pb-5 sm:px-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className='text-left'>
+          <div className="text-left">
             <h1 className="mb-2 text-3xl leading-tight font-semibold sm:text-4xl">{p.title}</h1>
             <p className="text-muted-foreground/80 text-lg font-semibold tracking-wider uppercase">
               {p.community || 'Featured Property'}
@@ -136,65 +139,105 @@ export default async function Page({
       <section className="container mx-auto max-w-6xl px-4 pb-12 sm:px-6">
         <div className="grid gap-8 lg:grid-cols-[1fr,380px]">
           {/* Gallery */}
-          <div className="bg-card rounded-xl border shadow-sm">
-            <ImageGallery images={gallery} title={p.title} maxVisibleImages={5} />
-          </div>
+          <Card>
+            <CardContent className="p-2">
+              <ImageGallery images={gallery} title={p.title} maxVisibleImages={5} />
 
-          {/* Sticky facts / price card (right rail) */}
-          <aside className="lg:pl-2">
-            <div className="bg-card sticky top-24 rounded-xl border shadow-sm">
-              <div className="border-b p-6">
-                <div className="text-3xl font-semibold">{money(p.price)}</div>
-                <div className="text-muted-foreground mt-1 text-sm opacity-80">
-                  {beds} {beds && baths ? '•' : ''} {baths}
-                  {(beds || baths) && sqft(p.sqft) ? ' • ' : ''}
-                  {sqft(p.sqft)}
+              {/* Responsive Property Stats */}
+              <div className="mt-5">
+                {/* Mobile Layout: 2 rows */}
+                <div className="block text-sm opacity-80 lg:hidden">
+                  {/* First Row: Price and SQFT */}
+                  <div className="mb-4 flex items-center justify-around border-b border-gray-200 pb-4">
+                    <div className="flex-col items-center justify-center">
+                      <div className="mt-2 text-base font-medium">
+                        <CircleDollarSignIcon className="mr-1 inline-block h-5 w-5" />
+                        {p.price ? `$${parseInt(p.price).toLocaleString()}` : 'Contact for price'}
+                      </div>
+                      <div className="text-xs">Price</div>
+                    </div>
+                    <div className="h-10 border-r border-gray-300"></div>
+                    <div className="flex-col items-center justify-center">
+                      <div className="text-lg">
+                        <Map className="mr-1 inline-block h-5 w-5" />
+                        {p.sqft}
+                      </div>
+                      <div className="text-xs">SQFT</div>
+                    </div>
+                  </div>
+                  {/* Second Row: Beds, Baths, Garages */}
+                  <div className="flex items-center justify-around">
+                    <div className="flex-col items-center justify-center">
+                      <div className="text-lg">
+                        <Bed className="mr-1 inline-block h-5 w-5" />
+                        {p.beds}
+                      </div>
+                      <div className="text-xs">Bedrooms</div>
+                    </div>
+                    <div className="h-10 border-r border-gray-300"></div>
+                    <div className="flex-col items-center justify-center">
+                      <div className="text-lg">
+                        <Bath className="mr-1 inline-block h-5 w-5" />
+                        {p.baths}
+                      </div>
+                      <div className="text-xs">Bathrooms</div>
+                    </div>
+                    <div className="h-10 border-r border-gray-300"></div>
+                    <div className="flex-col items-center justify-center">
+                      <div className="text-lg">
+                        <Car className="mr-1 inline-block h-5 w-5" />
+                        {p.garages}
+                      </div>
+                      <div className="text-xs">Garages</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Desktop Layout: Single row */}
+                <div className="hidden text-sm opacity-80 lg:flex lg:items-center lg:justify-around">
+                  <div className="flex-col items-center justify-between">
+                    <div className="mt-2 text-base font-medium">
+                      <CircleDollarSignIcon className="mr-1 inline-block h-5 w-5" />
+                      {p.price ? `$${parseInt(p.price).toLocaleString()}` : 'Contact for price'}
+                    </div>
+                    <div className="text-xs">Price</div>
+                  </div>
+                  <div className="h-10 border-r border-gray-500"></div>
+                  <div className="flex-col items-center justify-between">
+                    <div className="text-lg">
+                      <Bed className="mr-1 inline-block h-5 w-5" />
+                      {p.beds}
+                    </div>
+                    <div className="text-xs">Bedrooms</div>
+                  </div>
+                  <div className="h-10 border-r border-gray-500"></div>
+                  <div className="flex-col items-center justify-center">
+                    <div className="text-lg">
+                      <Bath className="mr-1 inline-block h-5 w-5" />
+                      {p.baths}
+                    </div>
+                    <div className="text-xs">Bathrooms</div>
+                  </div>
+                  <div className="h-10 border-r border-gray-500"></div>
+                  <div className="flex-col items-center justify-center">
+                    <div className="text-lg">
+                      <Car className="mr-1 inline-block h-5 w-5" />
+                      {p.garages}
+                    </div>
+                    <div className="text-xs">Garages</div>
+                  </div>
+                  <div className="h-10 border-r border-gray-500"></div>
+                  <div className="flex-col items-center justify-center">
+                    <div className="text-lg">
+                      <Map className="mr-1 inline-block h-5 w-5" />
+                      {p.sqft}
+                    </div>
+                    <div className="text-xs">SQFT</div>
+                  </div>
                 </div>
               </div>
-
-              <div className="p-6">
-                {/* Quick Specs grid like PNE */}
-                <h3 className="text-muted-foreground mb-3 text-xs font-semibold tracking-wider uppercase">
-                  Quick Facts
-                </h3>
-                <ul className="grid grid-cols-2 gap-y-2 text-sm">
-                  <li className="opacity-70">Community</li>
-                  <li className="text-right font-medium capitalize">{p.community || '-'}</li>
-                  <li className="opacity-70">Bedrooms</li>
-                  <li className="text-right font-medium">{p.beds || '-'}</li>
-                  <li className="opacity-70">Bathrooms</li>
-                  <li className="text-right font-medium">{p.baths || '-'}</li>
-                  <li className="opacity-70">Garages</li>
-                  <li className="text-right font-medium">{p.garages || '-'}</li>
-                  <li className="opacity-70">Square Feet</li>
-                  <li className="text-right font-medium">{num(p.sqft)?.toLocaleString() ?? '-'}</li>
-                </ul>
-
-                {/* CTA row */}
-                <div className="mt-6 flex flex-col gap-2 print:hidden">
-                  {p.zillow_link && (
-                    <Button
-                      asChild
-                      variant="outline"
-                      className="border-orange-200 bg-orange-50 text-orange-700 hover:bg-orange-100"
-                    >
-                      <a href={p.zillow_link} target="_blank" rel="noopener noreferrer">
-                        View on Zillow
-                      </a>
-                    </Button>
-                  )}
-
-                  <Button asChild size="lg" className="w-full">
-                    <Link
-                      href={`/contact?message=I'm interested in ${encodeURIComponent(p.title)}`}
-                    >
-                      Contact Us About This Property
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </aside>
+            </CardContent>
+          </Card>
         </div>
 
         {/* What's Special / Highlights */}
@@ -246,36 +289,41 @@ export default async function Page({
           </section>
         )}
 
-        {/* Floor Plans */}
+        {/* Floor Plans - Collapsible */}
         {Array.isArray(p.floor_plans) && p.floor_plans.length > 0 && (
           <section className="mt-12">
             <div className="mb-5">
               <h2 className="text-xl font-semibold">Floor Plans</h2>
               <div className="bg-primary/60 mt-2 h-px w-16" />
             </div>
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="space-y-4">
               {p.floor_plans.map((plan, i) => (
-                <div key={i} className="bg-card overflow-hidden rounded-xl border shadow-sm">
-                  <div className="relative aspect-[4/3]">
-                    <Image
-                      src={plan.img}
-                      alt={plan.title}
-                      fill
-                      className="object-cover"
-                      sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-medium">{plan.title}</h3>
-                    {plan.Description && (
-                      <p className="text-muted-foreground mt-1 text-sm">{plan.Description}</p>
-                    )}
-                  </div>
-                </div>
+                <FloorPlanCollapsible key={i} plan={plan} />
               ))}
             </div>
           </section>
         )}
+
+        {/* Responsive Buttons */}
+        <div className="mt-6 flex flex-col gap-2 print:hidden sm:flex-row">
+          {p.zillow_link && (
+            <Button
+              asChild
+              variant="outline"
+              className="w-full border-orange-200 bg-orange-50 text-orange-700 hover:bg-orange-100 sm:w-auto sm:flex-1"
+            >
+              <a href={p.zillow_link} target="_blank" rel="noopener noreferrer">
+                View on Zillow
+              </a>
+            </Button>
+          )}
+
+          <Button asChild size="lg" className="w-full sm:flex-1">
+            <Link href={`/contact?message=I'm interested in ${encodeURIComponent(p.title)}`}>
+              Contact Us About This Property
+            </Link>
+          </Button>
+        </div>
 
         {/* Prev / Next property navigation */}
         {(prevProperty || nextProperty) && (
