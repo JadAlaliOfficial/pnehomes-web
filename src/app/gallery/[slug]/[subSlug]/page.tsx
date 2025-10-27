@@ -1,7 +1,8 @@
-import { getGallerySubAlbum, getGalleryContactInfo } from '@/features/gallery/api'
+import { getGallerySubAlbum, getGalleryContactInfo , getGalleryCover } from '@/features/gallery/api'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import Image from 'next/image'
 import GalleryContent from '@/features/gallery/components/GalleryContent'
 
 interface SubAlbumPageProps {
@@ -18,34 +19,60 @@ export default async function SubAlbumPage({ params }: SubAlbumPageProps) {
   }
 
   const { album, subAlbum } = result
+  const cover = await getGalleryCover()
   const contactMessage = contactInfo.message.replace('{title}', subAlbum.title)
   const contactUrl = `/contact?message=${encodeURIComponent(contactMessage)}`
 
   return (
-    <main className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
-      <div className="mb-8">
-        <div className="text-muted-foreground mb-2 flex items-center gap-2 text-sm">
-          <Link href="/gallery" className="hover:text-foreground">
-            Gallery
-          </Link>
-          <span>→</span>
-          <Link href={`/gallery/${slug}`} className="hover:text-foreground">
-            {album?.title}
-          </Link>
-          <span>→</span>
-          <span className="text-foreground">{subAlbum.title}</span>
+    <main className="relative">
+      {/* Hero / Title (clean and bold like pnehomes.com) */}
+      <section className="relative isolate">
+        <div className="absolute inset-0 -z-10">
+          <Image 
+            src={cover} 
+            alt={`${subAlbum.title} Cover`} 
+            fill 
+            priority 
+            className="object-cover" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
         </div>
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight">{subAlbum.title}</h1>
+
+        <div className="container mx-auto px-6 pt-20 pb-10 text-center">
+          <h1 className="text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+            {subAlbum.title}
+          </h1>
+        </div>
+      </section>
+
+      <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+        <div className="mb-8">
+          <Link href={`/gallery/${slug}`}>
+            <Button 
+              variant="outline" 
+              size="sm"
+              className="bg-pne-accent text-white border-pne-accent hover:bg-pne-brand hover:border-pne-brand hover:text-white transition-colors"
+            >
+              ← Go back to {album?.title}
+            </Button>
+          </Link>
+        </div>
+
+        <GalleryContent images={subAlbum.gallery} albumTitle={subAlbum.title} />
+        
+        {/* Contact button at bottom center */}
+        <div className="flex justify-center mt-12">
           <Link href={contactUrl}>
-            <Button variant="outline" size="sm">
+            <Button 
+              variant="outline" 
+              size="lg"
+              className="bg-pne-accent text-white border-pne-accent hover:bg-pne-brand hover:border-pne-brand hover:text-white transition-colors px-8 py-3 text-lg"
+            >
               {contactInfo.title}
             </Button>
           </Link>
         </div>
       </div>
-
-      <GalleryContent images={subAlbum.gallery} albumTitle={subAlbum.title} />
     </main>
   )
 }

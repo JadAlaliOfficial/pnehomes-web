@@ -210,7 +210,7 @@ export function Header() {
             </nav>
 
             {/* Desktop: Contact + CTA */}
-            <div className="hidden items-center gap-3 lg:flex">
+            <div className="hidden items-center gap-3 xl:flex">
               {headerConfig.phone && (
                 <Button
                   asChild

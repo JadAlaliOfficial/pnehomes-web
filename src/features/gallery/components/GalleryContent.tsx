@@ -15,14 +15,27 @@ interface ImageState {
   [key: number]: 'virtual' | 'real'
 }
 
+interface TransitionState {
+  [key: number]: boolean
+}
+
 export default function GalleryContent({ images, albumTitle }: GalleryContentProps) {
   const [imageStates, setImageStates] = useState<ImageState>({})
+  const [isTransitioning, setIsTransitioning] = useState<TransitionState>({})
 
   const toggleImage = (index: number) => {
-    setImageStates(prev => ({
-      ...prev,
-      [index]: prev[index] === 'real' ? 'virtual' : 'real',
-    }))
+    setIsTransitioning(prev => ({ ...prev, [index]: true }))
+    
+    setTimeout(() => {
+      setImageStates(prev => ({
+        ...prev,
+        [index]: prev[index] === 'real' ? 'virtual' : 'real',
+      }))
+      
+      setTimeout(() => {
+        setIsTransitioning(prev => ({ ...prev, [index]: false }))
+      }, 50)
+    }, 200)
   }
 
   const getCurrentImage = (image: GalleryImage, index: number) => {
@@ -54,7 +67,9 @@ export default function GalleryContent({ images, albumTitle }: GalleryContentPro
                   albumTitle ? `${albumTitle} - Image ${index + 1}` : `Gallery image ${index + 1}`
                 }
                 fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                className={`object-cover transition-all duration-500 ease-in-out group-hover:scale-105 ${
+                  isTransitioning[index] ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+                }`}
                 sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
               />
 
@@ -66,7 +81,8 @@ export default function GalleryContent({ images, albumTitle }: GalleryContentPro
                       onClick={() => toggleImage(index)}
                       variant="secondary"
                       size="sm"
-                      className="bg-white/90 text-black shadow-lg hover:bg-white"
+                      className="bg-white/90 text-black shadow-lg hover:bg-white transform transition-all duration-200 hover:scale-105"
+                      disabled={isTransitioning[index]}
                     >
                       {getToggleLabel(image, index)}
                     </Button>

@@ -1,4 +1,4 @@
-import { getGalleryAlbumBySlug, getGalleryContactInfo } from '@/features/gallery/api'
+import { getGalleryAlbumBySlug, getGalleryContactInfo, getGalleryCover } from '@/features/gallery/api'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
@@ -14,6 +14,7 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
   const { slug } = await params
   const album = await getGalleryAlbumBySlug(slug)
   const contactInfo = await getGalleryContactInfo()
+  const cover = await getGalleryCover()
 
   if (!album) {
     return notFound()
@@ -23,53 +24,81 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
   const contactUrl = `/contact?message=${encodeURIComponent(contactMessage)}`
 
   return (
-    <main className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
-      <div className="mb-8">
-        <Link
-          href="/gallery"
-          className="text-muted-foreground hover:text-foreground mb-2 inline-block text-sm"
-        >
-          ← Back to Gallery
-        </Link>
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight">{album.title}</h1>
+    <main className="relative">
+      {/* Hero / Title (clean and bold like pnehomes.com) */}
+      <section className="relative isolate">
+        <div className="absolute inset-0 -z-10">
+          <Image src={cover} alt="Gallery Cover" fill priority className="object-cover" />
+          <div className="0 absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
+        </div>
+
+        <div className="container mx-auto px-6 pt-20 pb-10 text-center">
+          <h1 className="text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+            {album.title}
+          </h1>
+        </div>
+      </section>
+
+      <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-start mb-6">
+          <Link href="/gallery">
+            <Button 
+              variant="outline" 
+              size="sm"
+              className="bg-pne-accent text-white border-pne-accent hover:bg-pne-brand hover:border-pne-brand hover:text-white transition-colors"
+            >
+              ← Back to Gallery
+            </Button>
+          </Link>
+        </div>
+
+        {/* Case A: Album has sub-albums */}
+        {album.sub_albums && album.sub_albums.length > 0 ? (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-12">
+            {album.sub_albums.map(subAlbum => (
+              <Link key={subAlbum.slug} href={`/gallery/${album.slug}/${subAlbum.slug}`}>
+                <Card className="group cursor-pointer overflow-hidden border-0 p-0 shadow-md transition-all duration-300 hover:shadow-lg h-80">
+                  <CardContent className="p-0 h-full">
+                    <div className="relative h-full overflow-hidden">
+                      <Image
+                        src={subAlbum.cover_img.virtual_img}
+                        alt={subAlbum.title}
+                        fill
+                        className="object-cover transition-all duration-300 group-hover:scale-105 group-hover:brightness-110"
+                        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <h2 className="text-2xl font-bold text-white text-center px-4 transition-transform duration-300 group-hover:-translate-y-2">
+                          {subAlbum.title}
+                        </h2>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          /* Case B: Album has direct gallery images */
+          <div className="mb-12">
+            {album.gallery && <GalleryContent images={album.gallery} albumTitle={album.title} />}
+          </div>
+        )}
+
+        {/* Contact Button - Centered at bottom */}
+        <div className="flex justify-center pt-8">
           <Link href={contactUrl}>
-            <Button variant="outline" size="sm">
+            <Button 
+              variant="outline" 
+              size="lg"
+              className="bg-pne-accent text-white border-pne-accent hover:bg-pne-brand hover:border-pne-brand hover:text-white transition-colors px-8 py-3 text-lg"
+            >
               {contactInfo.title}
             </Button>
           </Link>
         </div>
       </div>
-
-      {/* Case A: Album has sub-albums */}
-      {album.sub_albums && album.sub_albums.length > 0 ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {album.sub_albums.map(subAlbum => (
-            <Link key={subAlbum.slug} href={`/gallery/${album.slug}/${subAlbum.slug}`}>
-              <Card className="group cursor-pointer overflow-hidden border-0 p-0 shadow-md transition-all duration-300 hover:shadow-lg">
-                <CardContent className="p-0">
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={subAlbum.cover_img.virtual_img}
-                      alt={subAlbum.title}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                    <div className="absolute right-0 bottom-0 left-0 p-6">
-                      <h2 className="text-xl font-semibold text-white">{subAlbum.title}</h2>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      ) : (
-        /* Case B: Album has direct gallery images */
-        album.gallery && <GalleryContent images={album.gallery} albumTitle={album.title} />
-      )}
     </main>
   )
 }
