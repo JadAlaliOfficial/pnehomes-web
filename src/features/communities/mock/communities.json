@@ -7,6 +7,8 @@
       "title": "Beulah Park",
       "city": "Grove",
       "address": "3648 Beulah Park Dr, Grove City, OH 43123",
+      "latitude": 39.8814,
+      "longitude": -83.0930,
       "card_image": "/img/beulah_park_1.jpg",
       "gallery": [
         "/img/beulah_park_1.jpg",
@@ -48,6 +50,8 @@
       "title": "Edgewater",
       "city": "Hilliard",
       "address": "Hilliard, OH 43026",
+      "latitude": 40.0334,
+      "longitude": -83.1582,
       "card_image": "/img/edgewater_1.jpg",
       "gallery": ["/img/edgewater_1.jpg", "/img/edgewater_2.jpg", "/img/edgewater_3.jpg"],
       "community-features": "Welcome to this well-established Hilliard, Ohio community, perfectly situated near the intersection of I-270 and Hilliard Rome Road. Here, residents revel in the convenience of nearby shopping centers, including a Sam's Club, while also enjoying the expansive park with its soccer field and picturesque walking trails. A tight-knit neighborhood thrives on a sense of unity and camaraderie, and whether you seek a charming home, you'll find a range of housing options tailored to your lifestyle. Embrace the inviting ambiance where the intersection of convenience and leisure creates an ideal place to call home in Hilliard, Ohio.",

@@ -17,6 +17,8 @@ export interface Community {
   title: string
   city: string
   address: string
+  latitude: number
+  longitude: number
   card_image: string
   gallery: string[]
   video?: string | null
@@ -24,6 +26,7 @@ export interface Community {
   'floor-plans'?: FloorPlan[] | null
   'starting-price': string
 }
+
 
 export interface CommunityFilter {
   name?: string

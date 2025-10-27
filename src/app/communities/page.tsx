@@ -11,10 +11,10 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { communitiesAPI, Community } from '@/features/communities/api'
-// import dynamic from 'next/dynamic'
-// const CommunityMap = dynamic(() => import('@/features/communities/components/CommunityMap'), {
-//   ssr: false,
-// })
+import dynamic from 'next/dynamic'
+const CommunityMap = dynamic(() => import('@/features/communities/components/CommunityMap'), {
+  ssr: false,
+})
 
 export default function CommunitiesPage() {
   const [communities, setCommunities] = useState<Community[]>([])
@@ -200,7 +200,7 @@ export default function CommunitiesPage() {
           <div className="order-1 lg:order-2 lg:col-span-2">
             <h2 className="mb-4 text-2xl font-semibold">Map View</h2>
             <div className="h-[600px] overflow-hidden rounded-lg">
-              {/* <CommunityMap items={filteredCommunities} /> */}
+              <CommunityMap items={filteredCommunities} />
             </div>
           </div>
         </div>
