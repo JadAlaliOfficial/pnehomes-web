@@ -33,7 +33,7 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
         </div>
 
         <div className="container mx-auto px-6 pt-20 pb-10 text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+          <h1 className="text-4xl text-pne-brand font-extrabold tracking-tight uppercase sm:text-5xl">
             {album.title}
           </h1>
         </div>
@@ -92,7 +92,7 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
             <Button 
               variant="outline" 
               size="lg"
-              className="bg-pne-accent text-white border-pne-accent hover:bg-pne-brand hover:border-pne-brand hover:text-white transition-colors px-8 py-3 text-lg"
+              className="bg-pne-accent border-pne-accent hover:bg-pne-brand hover:border-pne-brand hover:text-white transition-colors px-8 py-3 text-lg"
             >
               {contactInfo.title}
             </Button>

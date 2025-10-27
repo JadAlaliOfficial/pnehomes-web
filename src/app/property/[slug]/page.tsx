@@ -99,7 +99,7 @@ export default async function Page({
         </div>
 
         <div className="container mx-auto px-6 pt-20 pb-10 text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+          <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
             {p.title}
           </h1>
         </div>

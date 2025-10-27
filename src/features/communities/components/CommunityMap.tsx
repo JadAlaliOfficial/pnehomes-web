@@ -29,7 +29,7 @@ export default function CommunityMap({ items }: Props) {
 
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
-      <div className="h-[60vh] w-full overflow-hidden rounded-lg shadow">
+      <div className="h-full w-full overflow-hidden rounded-lg shadow">
         <Map
           id="communities-map"
           mapId="DEMO_MAP_ID"

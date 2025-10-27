@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { communitiesAPI, Community } from '@/features/communities/api'
+import { Button } from '@/components/ui/button'
 import dynamic from 'next/dynamic'
 const CommunityMap = dynamic(() => import('@/features/communities/components/CommunityMap'), {
   ssr: false,
@@ -79,16 +80,16 @@ export default function CommunitiesPage() {
     <div className="min-h-screen">
       {/* Hero Section with Cover Image */}
       {coverImage && (
-        <section className="relative mb-8 h-96">
-          <div className="absolute inset-0">
-            <Image src={coverImage} alt="Our Communities" fill className="object-cover" priority />
+        <section className="relative isolate">
+          <div className="absolute inset-0 -z-10">
+            <Image src={coverImage} alt="Our Communities" fill priority className="object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
           </div>
-          <div className="bg-opacity-40 absolute inset-0 bg-black"></div>
-          <div className="relative z-10 flex h-full items-center justify-center">
-            <div className="text-center text-white">
-              <h1 className="mb-4 text-5xl font-bold">Our Communities</h1>
-              <p className="text-xl">Discover beautiful communities designed for modern living</p>
-            </div>
+
+          <div className="container mx-auto px-6 pt-20 pb-10 text-center">
+            <h1 className="text-4xl font-extrabold tracking-tight uppercase sm:text-5xl text-pne-brand">
+              Our Communities
+            </h1>
           </div>
         </section>
       )}
@@ -147,37 +148,37 @@ export default function CommunitiesPage() {
         </div>
 
         {/* Main Content: Two Column Layout */}
-        <div className="grid min-h-[600px] grid-cols-1 gap-8 lg:grid-cols-3">
+        <div className="grid min-h-[600px] grid-cols-1 gap-8 lg:grid-cols-4">
           {/* Left Column: Communities Cards in Scrollable Area */}
           <div className="order-2 lg:order-1">
             <h2 className="mb-4 text-2xl font-semibold">Communities</h2>
-            <div className="h-[600px] space-y-6 overflow-y-auto pr-4">
+            <div className="h-[600px] space-y-4 overflow-y-auto pr-4">
               {filteredCommunities.map(community => (
                 <Link
                   key={community.id}
                   href={`/communities/${community.slug}`}
-                  className="group block"
+                  className="group block mx-2"
                 >
-                  <div className="overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg">
+                  <div className="overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-xl hover:scale-105 hover:-translate-y-1">
                     {/* Community Image */}
-                    <div className="relative h-48 overflow-hidden">
+                    <div className="relative h-32 overflow-hidden">
                       <Image
                         src={community.card_image}
                         alt={community.title}
                         fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        className="object-cover transition-transform duration-300 group-hover:scale-110"
                       />
                     </div>
 
                     {/* Community Info */}
-                    <div className="p-4">
-                      <h3 className="mb-2 text-xl font-semibold transition-colors group-hover:text-blue-600">
+                    <div className="p-3">
+                      <h3 className="mb-1 text-lg font-semibold transition-colors group-hover:text-blue-600">
                         {community.title}
                       </h3>
-                      <p className="mb-2 text-2xl font-bold text-green-600">
+                      <p className="mb-1 text-xl font-bold text-green-600">
                         ${community['starting-price']}
                       </p>
-                      <p className="text-gray-600">{community.city}</p>
+                      <p className="text-sm text-gray-600">{community.city}</p>
                     </div>
                   </div>
                 </Link>
@@ -197,9 +198,9 @@ export default function CommunitiesPage() {
           </div>
 
           {/* Right Column: Map */}
-          <div className="order-1 lg:order-2 lg:col-span-2">
+          <div className=" order-1 lg:order-2 lg:col-span-3">
             <h2 className="mb-4 text-2xl font-semibold">Map View</h2>
-            <div className="h-[600px] overflow-hidden rounded-lg">
+            <div className="h-[600px] overflow-hidden rounded-lg border-2">
               <CommunityMap items={filteredCommunities} />
             </div>
           </div>
@@ -208,14 +209,18 @@ export default function CommunitiesPage() {
 
       {/* Visit us on Zillow Button - Bottom Center */}
       <div className="mt-12 pb-8 text-center">
-        <a
-          href={zillowUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-colors duration-300 hover:bg-blue-700"
+        <Button
+          asChild
+          className="bg-pne-accent text-white hover:bg-pne-brand"
         >
-          Visit us on Zillow
-        </a>
+          <a
+            href={zillowUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Visit us on Zillow
+          </a>
+        </Button>
       </div>
     </div>
   )

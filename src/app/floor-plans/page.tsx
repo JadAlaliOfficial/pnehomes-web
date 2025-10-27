@@ -85,7 +85,7 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
         </div>
 
         <div className="container mx-auto px-6 pt-20 pb-10 text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+          <h1 className=" text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
             Floor Plans
           </h1>
         </div>
@@ -123,7 +123,7 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
           <nav
             aria-label="Pagination"
             className="mx-auto mt-10 mb-16 flex items-center justify-center gap-2"
-          >
+          > 
             {/* Prev */}
             {currentPage > 1 && (
               <a
