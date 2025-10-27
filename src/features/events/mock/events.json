@@ -1,11 +1,11 @@
 {
-  "cover": "/img/cover.jpg",
+  "cover": "/img/services_home.jpg",
   "slogan": "EVENTS",
   "events": [
     {
       "title": "Kemba Charity Event",
       "description": "Thrilled to be part of the Kemba Charity Event! We were honored to participate in this year's event, which was filled with incredible generosity and community spirit. A huge thank you to everyone who helped make it a success. ",
-      "gallery": ["/img/event1_1.jpg", "/img/event2_1.jpg", "/img/event3_1.jpg"]
+      "gallery": ["/img/avalon-1.jpg", "/img/communities.jpg", "/img/communities.jpg" ,"/img/communities.jpg","/img/communities.jpg","/img/communities.jpg","/img/communities.jpg"]
     },
     {
       "title": "Make-A-Day",

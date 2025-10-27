@@ -145,15 +145,26 @@ function ContactForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 dark:bg-gray-900">
-      <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800">
-          <div className="mb-8 text-center">
-            <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Contact Us</h1>
-            <p className="text-gray-600 dark:text-gray-300">
-              Get in touch with our team. We&apos;d love to hear from you.
-            </p>
-          </div>
+    <div className="bg-background min-h-screen">
+      {/* Hero Section with pne-brand Background */}
+      <section className="relative isolate">
+        <div className="absolute inset-0 -z-10 bg-[color:var(--pne-brand)]">
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/10" />
+        </div>
+
+        <div className="container mx-auto px-6 pt-20 pb-10 text-center">
+          <h1 className="text-white mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+            Contact Us
+          </h1>
+          <p className="text-white/90 text-xl font-medium opacity-90 md:text-2xl">
+            Get in touch with our team. We&apos;d love to hear from you.
+          </p>
+        </div>
+      </section>
+
+      <div className="bg-gray-50 py-12 dark:bg-gray-900">
+        <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800">
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* First Name */}
@@ -268,7 +279,8 @@ function ContactForm() {
                 {isSubmitting ? 'Submitting...' : 'Submit'}
               </Button>
             </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>

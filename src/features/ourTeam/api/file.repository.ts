@@ -67,4 +67,13 @@ export class OurTeamRepository {
       description: data.description,
     }
   }
+
+  /**
+   * Get cover image
+   * @returns Promise<string> - The cover image URL
+   */
+  static async getCover(): Promise<string> {
+    const data = await this.getOurTeamData()
+    return data.cover
+  }
 }

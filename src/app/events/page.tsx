@@ -1,5 +1,6 @@
 import { EventsAPI } from '@/features/events/api'
 import type { Event } from '@/features/events/model/types'
+import ImageGallery from '@/components/ImageGallery'
 import Image from 'next/image'
 
 export default async function EventsPage() {
@@ -21,57 +22,56 @@ export default async function EventsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header Section */}
-      <div
-        className="relative bg-white bg-cover bg-center bg-no-repeat shadow-sm"
-        style={{ backgroundImage: `url(${cover})` }}
-      >
-        {/* Overlay for better text readability */}
-        <div className="bg-opacity-50 absolute inset-0 bg-black"></div>
-        <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="mb-4 text-4xl font-bold text-white">{slogan}</h1>
-            <p className="text-lg text-gray-200">Discover our community events and initiatives</p>
+      {/* Hero Section with Cover Image */}
+      {cover && (
+        <section className="relative isolate">
+          <div className="absolute inset-0 -z-10">
+            <Image src={cover} alt="Events Cover" fill priority className="object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
           </div>
-        </div>
-      </div>
+
+          <div className="container mx-auto px-6 pt-20 pb-10 text-center">
+            <h1 className="text-pne-brand mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+              {slogan}
+            </h1>
+            <p className="text-pne-brand text-xl font-medium opacity-90 md:text-2xl lg:text-3xl">
+              Discover our community events and initiatives
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Events Section */}
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-8 md:gap-12">
-          {events.map((event: Event, index: number) => (
-            <div key={index} className="overflow-hidden rounded-lg bg-white shadow-lg">
-              {/* Event Header */}
-              <div className="p-6 md:p-8">
-                <h2 className="mb-4 text-2xl font-bold text-gray-900 md:text-3xl">{event.title}</h2>
-                {event.description && (
-                  <p className="mb-6 leading-relaxed text-gray-700">{event.description}</p>
-                )}
-              </div>
-
-              {/* Event Gallery */}
-              {event.gallery && event.gallery.length > 0 && (
-                <div className="px-6 pb-6 md:px-8 md:pb-8">
-                  <h3 className="mb-4 text-lg font-semibold text-gray-900">Gallery</h3>
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {event.gallery.map((imagePath: string, imgIndex: number) => (
-                      <div
-                        key={imgIndex}
-                        className="relative aspect-video overflow-hidden rounded-lg bg-gray-200"
-                      >
-                        <Image
-                          src={imagePath}
-                          alt={`${event.title} - Image ${imgIndex + 1}`}
-                          fill
-                          className="object-cover transition-transform duration-300 hover:scale-105"
-                        />
-                      </div>
-                    ))}
+        <div className="space-y-16">
+          {events.map((event: Event, index: number) => {
+            const isEven = index % 2 === 0
+            
+            return (
+              <div key={index} className="overflow-hidden rounded-lg bg-white shadow-lg">
+                <div className={`grid gap-8 lg:grid-cols-2 ${isEven ? '' : 'lg:grid-cols-2'}`}>
+                  {/* Content Section */}
+                  <div className={`p-6 md:p-8 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
+                    <h2 className="mb-4 text-2xl font-bold text-gray-900 md:text-3xl">{event.title}</h2>
+                    {event.description && (
+                      <p className="leading-relaxed text-gray-700">{event.description}</p>
+                    )}
                   </div>
+
+                  {/* Images Section */}
+                  {event.gallery && event.gallery.length > 0 && (
+                    <div className={`p-6 md:p-8 ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
+                      <ImageGallery 
+                        images={event.gallery} 
+                        title={event.title}
+                        maxVisibleImages={4}
+                      />
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          ))}
+              </div>
+            )
+          })}
         </div>
 
         {/* Contact Section */}
