@@ -11,6 +11,10 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { communitiesAPI, Community } from '@/features/communities/api'
+// import dynamic from 'next/dynamic'
+// const CommunityMap = dynamic(() => import('@/features/communities/components/CommunityMap'), {
+//   ssr: false,
+// })
 
 export default function CommunitiesPage() {
   const [communities, setCommunities] = useState<Community[]>([])
@@ -65,7 +69,7 @@ export default function CommunitiesPage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto max-w-6xl px-4 py-8">
         <div className="text-center">Loading communities...</div>
       </div>
     )
@@ -89,7 +93,7 @@ export default function CommunitiesPage() {
         </section>
       )}
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto max-w-6xl px-4 py-8">
         {!coverImage && (
           <div className="mb-8">
             <h1 className="mb-4 text-center text-4xl font-bold">Our Communities</h1>
@@ -100,8 +104,8 @@ export default function CommunitiesPage() {
         )}
 
         {/* Filters */}
-        <div className="mx-auto max-w-2xl">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="mx-auto mb-8 max-w-2xl">
+          <div className="grid grid-cols-1 gap-4 items-center md:grid-cols-2 ">
             {/* Community Filter */}
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -142,57 +146,77 @@ export default function CommunitiesPage() {
           </div>
         </div>
 
-        {/* Visit us on Zillow Button */}
-        <div className="mt-6 text-center">
-          <a
-            href={zillowUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-colors duration-300 hover:bg-blue-700"
-          >
-            Visit us on Zillow
-          </a>
+        {/* Main Content: Two Column Layout */}
+        <div className="grid min-h-[600px] grid-cols-1 gap-8 lg:grid-cols-3">
+          {/* Left Column: Communities Cards in Scrollable Area */}
+          <div className="order-2 lg:order-1">
+            <h2 className="mb-4 text-2xl font-semibold">Communities</h2>
+            <div className="h-[600px] space-y-6 overflow-y-auto pr-4">
+              {filteredCommunities.map(community => (
+                <Link
+                  key={community.id}
+                  href={`/communities/${community.slug}`}
+                  className="group block"
+                >
+                  <div className="overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg">
+                    {/* Community Image */}
+                    <div className="relative h-48 overflow-hidden">
+                      <Image
+                        src={community.card_image}
+                        alt={community.title}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+
+                    {/* Community Info */}
+                    <div className="p-4">
+                      <h3 className="mb-2 text-xl font-semibold transition-colors group-hover:text-blue-600">
+                        {community.title}
+                      </h3>
+                      <p className="mb-2 text-2xl font-bold text-green-600">
+                        ${community['starting-price']}
+                      </p>
+                      <p className="text-gray-600">{community.city}</p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+
+              {/* No Results */}
+              {filteredCommunities.length === 0 &&
+                (selectedCommunity !== 'all' || selectedCity !== 'all') && (
+                  <div className="py-12 text-center">
+                    <p className="text-lg text-gray-500">
+                      No communities found with the selected filters
+                    </p>
+                    <p className="mt-2 text-gray-400">Try adjusting your filter selections</p>
+                  </div>
+                )}
+            </div>
+          </div>
+
+          {/* Right Column: Map */}
+          <div className="order-1 lg:order-2 lg:col-span-2">
+            <h2 className="mb-4 text-2xl font-semibold">Map View</h2>
+            <div className="h-[600px] overflow-hidden rounded-lg">
+              {/* <CommunityMap items={filteredCommunities} /> */}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Communities Grid */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {filteredCommunities.map(community => (
-          <Link key={community.id} href={`/communities/${community.slug}`} className="group block">
-            <div className="overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg">
-              {/* Community Image */}
-              <div className="relative h-48 overflow-hidden">
-                <Image
-                  src={community.card_image}
-                  alt={community.title}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-
-              {/* Community Info */}
-              <div className="p-4">
-                <h3 className="mb-2 text-xl font-semibold transition-colors group-hover:text-blue-600">
-                  {community.title}
-                </h3>
-                <p className="mb-2 text-2xl font-bold text-green-600">
-                  ${community['starting-price']}
-                </p>
-                <p className="text-gray-600">{community.city}</p>
-              </div>
-            </div>
-          </Link>
-        ))}
+      {/* Visit us on Zillow Button - Bottom Center */}
+      <div className="mt-12 pb-8 text-center">
+        <a
+          href={zillowUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-colors duration-300 hover:bg-blue-700"
+        >
+          Visit us on Zillow
+        </a>
       </div>
-
-      {/* No Results */}
-      {filteredCommunities.length === 0 &&
-        (selectedCommunity !== 'all' || selectedCity !== 'all') && (
-          <div className="py-12 text-center">
-            <p className="text-lg text-gray-500">No communities found with the selected filters</p>
-            <p className="mt-2 text-gray-400">Try adjusting your filter selections</p>
-          </div>
-        )}
     </div>
   )
 }

@@ -127,7 +127,7 @@ export class HomeContentRepository {
   }
 
   // Kept for API parity (no-op merge in-memory). In a real app you'd POST/PATCH to CMS.
-  public updateHomeContent(_: Partial<HomeContent>): void {
-    // intentionally left blank
+  public updateHomeContent(_updates: Partial<HomeContent>): void {
+    // intentionally left blank - no-op for CMS-based repository
   }
 }

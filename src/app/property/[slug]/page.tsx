@@ -80,8 +80,6 @@ export default async function Page({
 
   const beds = p.beds ? `${p.beds} bd` : ''
   const baths = p.baths ? `${p.baths} ba` : ''
-  const garages = p.garages ? `${p.garages} garage${parseInt(p.garages) === 1 ? '' : 's'}` : ''
-  const metaBits = [beds, baths, sqft(p.sqft), garages].filter(Boolean)
 
   const gallery =
     Array.isArray(p.gallery) && p.gallery.length > 0 ? p.gallery : ['/img/placeholder.jpg']
@@ -90,16 +88,6 @@ export default async function Page({
     p?.Whats_special?.description?.slice(0, 140)?.trim() ||
     '' ||
     [beds, baths, sqft(p.sqft)].filter(Boolean).join(' • ')
-
-  // Build "Back to results" URL preserving filters
-  const backToResultsHref = (() => {
-    const queryParams = new URLSearchParams()
-    Object.entries(sp).forEach(([key, value]) => {
-      if (value && typeof value === 'string') queryParams.set(key, value)
-    })
-    const qs = queryParams.toString()
-    return qs ? `/search?${qs}` : '/search'
-  })()
 
   return (
     <main className="relative">

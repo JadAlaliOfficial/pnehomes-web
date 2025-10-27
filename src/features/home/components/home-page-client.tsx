@@ -15,10 +15,10 @@ import {
 } from '@/components/ui/carousel'
 import { Calendar, Pencil, Home as HomeIcon } from 'lucide-react'
 import { ResponsiveMedia } from '@/features/home/components/ResponsiveMedia'
-import { HomeContent } from '@/features/home/model/home_content.types'
+import { HomeContent, Testimonial } from '@/features/home/model/home_content.types'
 
 // --- Testimonials Carousel (unchanged) ---
-function TestimonialsCarousel({ testimonials }: { testimonials: any[] }) {
+function TestimonialsCarousel({ testimonials }: { testimonials: Testimonial[] }) {
   const [api, setApi] = React.useState<CarouselApi>()
   const [current, setCurrent] = React.useState(0)
   const [count, setCount] = React.useState(0)
@@ -78,7 +78,7 @@ function TestimonialsCarousel({ testimonials }: { testimonials: any[] }) {
         onMouseLeave={startAutoPlay}
       >
         <CarouselContent className="-ml-2 md:-ml-4">
-          {testimonials.map((testimonial: any, index: number) => (
+          {testimonials.map((testimonial: Testimonial, index: number) => (
             <CarouselItem key={index} className="basis-full pl-2 md:pl-4">
               <div className="h-full rounded-xl bg-white p-8 shadow-sm">
                 <p className="mb-6 text-lg text-gray-700 italic">

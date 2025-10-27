@@ -21,7 +21,7 @@ import { Phone, Menu, X } from 'lucide-react'
 export function Header() {
   const headerConfig = homeLayoutApi.getHeader()
   const [open, setOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+  const [, setScrolled] = useState(false)
   const pathname = usePathname()
   const headerRef = useRef<HTMLElement>(null)
 
@@ -111,7 +111,7 @@ export function Header() {
         return false
       }
       setIsActive(checkActive())
-    }, [href, pathname])
+    }, [href])
 
     return (
       <Link

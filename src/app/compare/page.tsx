@@ -8,8 +8,7 @@ import * as Property from '@/features/property/api'
 import type { Property as PropertyType } from '@/features/property/model/types'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { ArrowLeft, ExternalLink } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 
 // Compare component that uses useSearchParams
 function CompareContent() {
