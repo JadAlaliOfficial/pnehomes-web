@@ -1,12 +1,16 @@
-import { getGalleryData } from '@/features/gallery/api'
+import { getGalleryData, getGalleryTitle , getGalleryCover } from '@/features/gallery/api'
 import { Card, CardContent } from '@/components/ui/card'
 import Image from 'next/image'
 import Link from 'next/link'
 
 
 export default async function GalleryPage() {
-  const galleryData = await getGalleryData()
-  const { cover, gallery: albums } = galleryData
+  const [galleryData, galleryCover, galleryTitle] = await Promise.all([
+    getGalleryData(),
+    getGalleryCover(),
+    getGalleryTitle(),
+  ])
+  const { gallery: albums } = galleryData
 
 
   return (
@@ -14,14 +18,14 @@ export default async function GalleryPage() {
       {/* Hero / Title (clean and bold like pnehomes.com) */}
       <section className="relative isolate">
         <div className="absolute inset-0 -z-10">
-          <Image src={cover} alt="Gallery Cover" fill priority className="object-cover" />
+          <Image src={galleryCover} alt="Gallery Cover" fill priority className="object-cover" />
           <div className="0 absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
         </div>
 
 
         <div className="container mx-auto px-6 pt-20 pb-10 text-center">
           <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
-            Gallery
+            {galleryTitle}
           </h1>
         </div>
       </section>
@@ -36,7 +40,7 @@ export default async function GalleryPage() {
                 <CardContent className="p-0">
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
-                      src={album.cover_img.virtual_img}
+                      src={album.cover_img}
                       alt={album.title}
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -81,7 +85,7 @@ export default async function GalleryPage() {
                     <CardContent className="p-0 h-full">
                       <div className="relative h-full overflow-hidden">
                         <Image
-                          src={album.cover_img.virtual_img}
+                          src={album.cover_img}
                           alt={album.title}
                           fill
                           className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -132,7 +136,7 @@ export default async function GalleryPage() {
                     <CardContent className="p-0 h-full">
                       <div className="relative h-full overflow-hidden">
                         <Image
-                          src={album.cover_img.virtual_img}
+                          src={album.cover_img}
                           alt={album.title}
                           fill
                           className="object-cover transition-transform duration-300 group-hover:scale-105"

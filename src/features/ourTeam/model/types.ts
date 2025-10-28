@@ -14,7 +14,6 @@ export interface OurTeamData {
   cover: string
   slogan: string
   title: string
-  subtitle?: string
   description?: string
   team: TeamMember[]
   contact?: Contact

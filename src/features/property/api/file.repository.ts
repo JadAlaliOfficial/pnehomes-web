@@ -9,7 +9,7 @@
 // src/features/property/api/file.repository.ts
 import raw from '../mock/properties.json'
 import { z } from 'zod'
-import { PropertySchema, type Property } from '../model/types'
+import { PropertySchema, type Property, type Contact, type PropertyData } from '../model/types'
 import {
   applyFiltersAndSort,
   getTotalCount,
@@ -21,7 +21,18 @@ import {
  * Parsed and validated property data from the JSON file
  * Uses Zod schema validation to ensure data integrity at runtime
  */
-const Properties = z.array(PropertySchema).parse(raw.properties)
+const PropertyDataSchema = z.object({
+  title: z.string(),
+  cover: z.string(),
+  properties: z.array(PropertySchema),
+  contact: z.object({
+    title: z.string(),
+    message: z.string(),
+  }),
+})
+
+const PropertyDataParsed = PropertyDataSchema.parse(raw)
+const Properties = PropertyDataParsed.properties
 
 /**
  * Retrieves a filtered, sorted, and paginated list of properties
@@ -107,7 +118,34 @@ export async function getCommunities(): Promise<string[]> {
  * const coverImage = await getCoverImage()
  */
 export async function getCoverImage(): Promise<string> {
-  return raw.cover
+  return PropertyDataParsed.cover
+}
+
+/**
+ * Gets the page title for the floor plans page
+ *
+ * @returns Promise resolving to the page title string
+ *
+ * @example
+ * // Get the page title for the floor plans page
+ * const title = await getPageTitle()
+ */
+export async function getPageTitle(): Promise<string> {
+  return PropertyDataParsed.title
+}
+
+/**
+ * Gets the contact information including title and message template
+ *
+ * @returns Promise resolving to the Contact object with title and message
+ *
+ * @example
+ * // Get contact information
+ * const contact = await getContactInfo()
+ * const message = contact.message.replace('{propertyTitle}', 'Sample Property')
+ */
+export async function getContactInfo(): Promise<Contact> {
+  return PropertyDataParsed.contact
 }
 
 // Re-export the ListParams type for external consumption

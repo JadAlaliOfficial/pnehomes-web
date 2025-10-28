@@ -17,49 +17,45 @@ export default async function OurTeamPage() {
           </div>
 
           <div className="container mx-auto px-6 pt-20 pb-10 text-center">
+            <h1 className="text-pne-brand mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+              {teamData?.title || 'Our Team'}
+            </h1>
+          </div>
+        </section>
+      )}
+
+      {/* Slogan section */}
+      {teamData?.slogan && (
+        <div className="py-2 text-center">
+          <div className="container mx-auto px-6">
+            <p className="text-pne-brand mb-3 text-lg font-bold tracking-[0.2em] uppercase">
+              {teamData.slogan}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Title section when no cover image */}
+      {!coverImage && (
+        <div className="pb-16 text-center">
+          <div className="container mx-auto px-6">
             {teamData?.slogan && (
-              <p className="text-pne-accent mb-3 text-xs font-semibold tracking-[0.2em] uppercase">
+              <p className="text-pne-brand mb-3 text-xs font-semibold tracking-[0.2em] uppercase">
                 {teamData.slogan}
               </p>
             )}
             <h1 className="text-pne-brand mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
               {teamData?.title || 'Our Team'}
             </h1>
-            {teamData?.subtitle && (
-              <h2 className="text-pne-brand text-xl font-medium opacity-90 md:text-2xl lg:text-3xl">
-                {teamData.subtitle}
-              </h2>
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* Title section when no cover image */}
-      {!coverImage && (
-        <div className="py-16 text-center">
-          <div className="container mx-auto px-6">
-            {teamData?.slogan && (
-              <p className="text-pne-accent mb-3 text-xs font-semibold tracking-[0.2em] uppercase">
-                {teamData.slogan}
-              </p>
-            )}
-            <h1 className="text-gray-900 mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
-              {teamData?.title || 'Our Team'}
-            </h1>
-            {teamData?.subtitle && (
-              <h2 className="text-gray-700 text-xl font-medium md:text-2xl lg:text-3xl">
-                {teamData.subtitle}
-              </h2>
-            )}
           </div>
         </div>
       )}
 
       {/* Description section */}
       {teamData?.description && (
-        <div className="py-8 text-center">
+        <div className="py-2 text-center">
           <div className="container mx-auto px-6">
-            <p className="text-gray-600 mx-auto max-w-3xl text-base/7 sm:text-lg/8">
+            <p className="text-pne-brand mx-auto max-w-3xl text-base/7 sm:text-lg/8">
               {teamData.description}
             </p>
           </div>
@@ -118,19 +114,15 @@ export default async function OurTeamPage() {
 
           {/* ===== Contact CTA ===== */}
           {teamData?.contact && (
-            <div className="mx-auto mt-16 max-w-4xl">
-              <div className="rounded-2xl bg-white p-8 shadow-xl ring-1 ring-black/5 md:p-12">
-                <div className="text-center">
-                  <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-                    {teamData.contact.title}
-                  </h2>
-                  <Link
-                    href={`/contact?message=${encodeURIComponent(teamData.contact.message)}`}
-                    className="mt-8 inline-flex items-center justify-center rounded-md bg-pne-accent px-7 py-3 text-base font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-pne-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-pne-accent focus-visible:ring-offset-2"
-                  >
-                    Get In Touch
-                  </Link>
-                </div>
+            <div className="mt-12 border-t border-gray-200 pt-8">
+              <div className="text-center">
+                <h2 className="mb-6 text-2xl font-bold text-gray-900">{teamData.contact.title}</h2>
+                <Link
+                  href={`/contact?message=${encodeURIComponent(teamData.contact.message)}`}
+                  className="inline-flex items-center rounded-md border border-transparent bg-pne-accent px-6 py-3 text-base font-medium text-white transition-colors duration-200 hover:bg-pne-brand focus:ring-2 focus:ring-pne-accent focus:ring-offset-2 focus:outline-none"
+                >
+                  Get In Touch
+                </Link>
               </div>
             </div>
           )}

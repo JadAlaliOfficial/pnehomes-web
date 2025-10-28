@@ -1,5 +1,5 @@
 import { FileRepository } from './file.repository'
-import { Community, CommunityFilter, PropertyFilter, SearchFilters } from '../model/types'
+import { Community, CommunityFilter, PropertyFilter, SearchFilters, CommunitiesPageData } from '../model/types'
 import { CommunitySelector } from '../model/selector'
 
 export class CommunitiesAPI {
@@ -100,6 +100,13 @@ export class CommunitiesAPI {
    */
   async getCoverImage(): Promise<string> {
     return this.repository.getCoverImage()
+  }
+
+  /**
+   * Get communities page data (title, cover, zillow link, contact)
+   */
+  async getCommunitiesPageData(): Promise<CommunitiesPageData> {
+    return this.repository.getCommunitiesPageData()
   }
 }
 

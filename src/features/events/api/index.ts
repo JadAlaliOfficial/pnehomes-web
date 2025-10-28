@@ -47,6 +47,14 @@ export class EventsAPI {
   }
 
   /**
+   * Get events page title
+   * @returns Promise<string>
+   */
+  static async getTitle(): Promise<string> {
+    return await fileRepository.getTitle()
+  }
+
+  /**
    * Get cover image path
    * @returns Promise<string>
    */

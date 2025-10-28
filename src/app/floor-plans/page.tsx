@@ -65,10 +65,11 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
     sortOrder: 'desc' as const,
   }
 
-  const [list, totalCount, coverImage] = await Promise.all([
+  const [list, totalCount, coverImage, pageTitle] = await Promise.all([
     Property.list(params),
     Property.getTotalFilteredCount(params),
     Property.getCoverImage(),
+    Property.getPageTitle(),
   ])
 
   const totalPages = Math.max(1, Math.ceil(totalCount / params.limit))
@@ -86,7 +87,7 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
 
         <div className="container mx-auto px-6 pt-20 pb-10 text-center">
           <h1 className=" text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
-            Floor Plans
+            {pageTitle}
           </h1>
         </div>
       </section>

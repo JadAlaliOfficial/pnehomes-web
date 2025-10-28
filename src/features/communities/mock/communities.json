@@ -1,5 +1,6 @@
 {
-  "cover": "/img/services_home.jpg",
+  "title":"Communities",
+  "cover": "/img/servis_home.jpg",
   "communities": [
     {
       "id": 1,

@@ -28,6 +28,9 @@ export default async function Page({
   const p = await Property.getBySlug(slug)
   if (!p) return notFound()
 
+  // Get contact information for dynamic message
+  const contactInfo = await Property.getContactInfo()
+
   // Get filter parameters from search params to maintain context
   const filterParams = {
     community: typeof sp.community === 'string' ? sp.community : undefined,
@@ -307,7 +310,7 @@ export default async function Page({
           )}
 
           <Button asChild size="lg" className="w-full sm:flex-1">
-            <Link href={`/contact?message=I'm interested in ${encodeURIComponent(p.title)}`}>
+            <Link href={`/contact?message=${encodeURIComponent(contactInfo.message.replace('{propertyTitle}', p.title))}`}>
               Contact Us About This Property
             </Link>
           </Button>

@@ -1,22 +1,17 @@
 {
+  "title": "Gallery",
   "cover": "/img/services_home.jpg",
   "gallery": [
     {
       "id": 1,
       "slug": "exteriors",
       "title": "Exteriors",
-      "cover_img": {
-        "virtual_img": "/img/avalon-1.jpg",
-        "real_img": "/img/avalon-1.jpg"
-      },
+      "cover_img": "/img/avalon-1.jpg",
       "sub_albums": [
         {
           "slug": "lot-38",
           "title": "Lot 38",
-          "cover_img": {
-            "virtual_img": "/img/lot_38_1_virtual.jpg",
-            "real_img": ""
-          },
+          "cover_img": "/img/lot_38_1_virtual.jpg",
           "gallery": [
             { "virtual_img": "/img/lot_38_1_virtual.jpg", "real_img": "" },
             { "virtual_img": "/img/lot_38_2_virtual.jpg", "real_img": "" },
@@ -27,10 +22,7 @@
         {
           "slug": "lot-49",
           "title": "Lot 49",
-          "cover_img": {
-            "virtual_img": "/img/lot_49_2_virtual.jpg",
-            "real_img": "/img/lot_49_2_real.jpg"
-          },
+          "cover_img": "/img/lot_49_2_virtual.jpg",
           "gallery": [
             { "virtual_img": "/img/lot_49_1_virtual.jpg", "real_img": "/img/lot_49_1_real.jpg" },
             { "virtual_img": "/img/lot_49_2_virtual.jpg", "real_img": "/img/lot_49_2_real.jpg" },
@@ -43,10 +35,7 @@
       "id": 2,
       "slug": "living-rooms",
       "title": "Living Rooms",
-      "cover_img": {
-        "virtual_img": "/img/living_room.jpg",
-        "real_img": ""
-      },
+      "cover_img": "/img/living_room.jpg",
       "gallery": [
         { "virtual_img": "/img/living_1_virtual.jpg", "real_img": "" },
         { "virtual_img": "/img/living_2_virtual.jpg", "real_img": "" },
@@ -58,10 +47,7 @@
       "id": 3,
       "slug": "kitchens",
       "title": "Kitchens",
-      "cover_img": {
-        "virtual_img": "/img/kitchen_1_virtual.jpg",
-        "real_img": "/img/kitchen_1_real.jpg"
-      },
+      "cover_img": "/img/kitchen_1_virtual.jpg",
       "gallery": [
         { "virtual_img": "/img/kitchen_1_virtual.jpg", "real_img": "/img/kitchen_1_real.jpg" },
         { "virtual_img": "/img/kitchen_2_virtual.jpg", "real_img": "/img/kitchen_2_real.jpg" },
@@ -73,10 +59,7 @@
       "id": 4,
       "slug": "bathrooms",
       "title": "Bathrooms",
-      "cover_img": {
-        "virtual_img": "/img/bathrooms.jpg",
-        "real_img": ""
-      },
+      "cover_img": "/img/bathrooms.jpg",
       "gallery": [
         { "virtual_img": "/img/bathroom_1_virtual.jpg", "real_img": "/img/bathroom_1_real.jpg" },
         { "virtual_img": "/img/bathroom_2_virtual.jpg", "real_img": "/img/bathroom_2_real.jpg" },
@@ -87,10 +70,7 @@
       "id": 5,
       "slug": "bedrooms",
       "title": "Bedrooms",
-      "cover_img": {
-        "virtual_img": "/img/bathrooms.jpg",
-        "real_img": ""
-      },
+      "cover_img": "/img/bathrooms.jpg",
       "gallery": [
         { "virtual_img": "/img/bedroom_1_virtual.jpg", "real_img": "/img/bedroom_1_real.jpg" },
         { "virtual_img": "/img/bedroom_2_virtual.jpg", "real_img": "/img/bedroom_2_real.jpg" },
@@ -101,10 +81,7 @@
       "id": 6,
       "slug": "interiors",
       "title": "Interiors",
-      "cover_img": {
-        "virtual_img": "/img/interiors.jpg",
-        "real_img": ""
-      },
+      "cover_img": "/img/interiors.jpg",
       "gallery": [
         { "virtual_img": "/img/interior_1_virtual.jpg", "real_img": "/img/interior_1_real.jpg" },
         { "virtual_img": "/img/interior_2_virtual.jpg", "real_img": "/img/interior_2_real.jpg" },
@@ -115,18 +92,12 @@
       "id": 7,
       "slug": "exteriors",
       "title": "Exteriors",
-      "cover_img": {
-        "virtual_img": "/img/avalon-1.jpg",
-        "real_img": "/img/avalon-1.jpg"
-      },
+      "cover_img": "/img/avalon-1.jpg",
       "sub_albums": [
         {
           "slug": "lot-38",
           "title": "Lot 38",
-          "cover_img": {
-            "virtual_img": "/img/lot_38_1_virtual.jpg",
-            "real_img": "/img/lot_38_1_real.jpg"
-          },
+          "cover_img": "/img/lot_38_1_virtual.jpg",
           "gallery": [
             { "virtual_img": "/img/lot_38_1_virtual.jpg", "real_img": "/img/lot_38_1_real.jpg" },
             { "virtual_img": "/img/lot_38_2_virtual.jpg", "real_img": "/img/lot_38_2_real.jpg" },
@@ -137,10 +108,7 @@
         {
           "slug": "lot-49",
           "title": "Lot 49",
-          "cover_img": {
-            "virtual_img": "/img/lot_49_2_virtual.jpg",
-            "real_img": "/img/lot_49_2_real.jpg"
-          },
+          "cover_img": "/img/lot_49_2_virtual.jpg",
           "gallery": [
             { "virtual_img": "/img/lot_49_1_virtual.jpg", "real_img": "/img/lot_49_1_real.jpg" },
             { "virtual_img": "/img/lot_49_2_virtual.jpg", "real_img": "/img/lot_49_2_real.jpg" },
@@ -150,88 +118,13 @@
         {
           "slug": "lot-56",
           "title": "Lot 56",
-          "cover_img": {
-            "virtual_img": "/img/lot_56_1_virtual.jpg",
-            "real_img": "/img/lot_56_1_real.jpg"
-          },
+          "cover_img": "/img/lot_56_1_virtual.jpg",
           "gallery": [
             { "virtual_img": "/img/lot_56_1_virtual.jpg", "real_img": "/img/lot_56_1_real.jpg" },
             { "virtual_img": "/img/lot_56_2_virtual.jpg", "real_img": "/img/lot_56_2_real.jpg" },
             { "virtual_img": "/img/lot_56_3_virtual.jpg", "real_img": "/img/lot_56_3_real.jpg" }
           ]
         }
-      ]
-    },
-    {
-      "id": 8,
-      "slug": "living-rooms",
-      "title": "Living Rooms",
-      "cover_img": {
-        "virtual_img": "/img/living_room.jpg",
-        "real_img": ""
-      },
-      "gallery": [
-        { "virtual_img": "/img/living_1_virtual.jpg", "real_img": "/img/living_1_real.jpg" },
-        { "virtual_img": "/img/living_2_virtual.jpg", "real_img": "/img/living_2_real.jpg" },
-        { "virtual_img": "/img/living_3_virtual.jpg", "real_img": "/img/living_3_real.jpg" },
-        { "virtual_img": "/img/living_4_virtual.jpg", "real_img": "/img/living_4_real.jpg" }
-      ]
-    },
-    {
-      "id": 9,
-      "slug": "kitchens",
-      "title": "Kitchens",
-      "cover_img": {
-        "virtual_img": "/img/kitchen_1_virtual.jpg",
-        "real_img": "/img/kitchen_1_real.jpg"
-      },
-      "gallery": [
-        { "virtual_img": "/img/kitchen_1_virtual.jpg", "real_img": "/img/kitchen_1_real.jpg" },
-        { "virtual_img": "/img/kitchen_2_virtual.jpg", "real_img": "/img/kitchen_2_real.jpg" },
-        { "virtual_img": "/img/kitchen_3_virtual.jpg", "real_img": "/img/kitchen_3_real.jpg" },
-        { "virtual_img": "/img/kitchen_4_virtual.jpg", "real_img": "/img/kitchen_4_real.jpg" }
-      ]
-    },
-    {
-      "id": 10,
-      "slug": "bathrooms",
-      "title": "Bathrooms",
-      "cover_img": {
-        "virtual_img": "/img/bathrooms.jpg",
-        "real_img": ""
-      },
-      "gallery": [
-        { "virtual_img": "/img/bathroom_1_virtual.jpg", "real_img": "/img/bathroom_1_real.jpg" },
-        { "virtual_img": "/img/bathroom_2_virtual.jpg", "real_img": "/img/bathroom_2_real.jpg" },
-        { "virtual_img": "/img/bathroom_3_virtual.jpg", "real_img": "/img/bathroom_3_real.jpg" }
-      ]
-    },
-    {
-      "id": 11,
-      "slug": "bedrooms",
-      "title": "Bedrooms",
-      "cover_img": {
-        "virtual_img": "/img/bathrooms.jpg",
-        "real_img": ""
-      },
-      "gallery": [
-        { "virtual_img": "/img/bedroom_1_virtual.jpg", "real_img": "/img/bedroom_1_real.jpg" },
-        { "virtual_img": "/img/bedroom_2_virtual.jpg", "real_img": "/img/bedroom_2_real.jpg" },
-        { "virtual_img": "/img/bedroom_3_virtual.jpg", "real_img": "/img/bedroom_3_real.jpg" }
-      ]
-    },
-    {
-      "id": 12,
-      "slug": "interiors",
-      "title": "Interiors",
-      "cover_img": {
-        "virtual_img": "/img/interiors.jpg",
-        "real_img": ""
-      },
-      "gallery": [
-        { "virtual_img": "/img/interior_1_virtual.jpg", "real_img": "/img/interior_1_real.jpg" },
-        { "virtual_img": "/img/interior_2_virtual.jpg", "real_img": "/img/interior_2_real.jpg" },
-        { "virtual_img": "/img/interior_3_virtual.jpg", "real_img": "/img/interior_3_real.jpg" }
       ]
     }
   ],

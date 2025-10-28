@@ -46,3 +46,13 @@ export interface SearchFilters {
   community?: CommunityFilter
   property?: PropertyFilter
 }
+
+export interface CommunitiesPageData {
+  title: string
+  cover: string
+  zillowLink: string
+  contact: {
+    title?: string
+    message?: string
+  }
+}

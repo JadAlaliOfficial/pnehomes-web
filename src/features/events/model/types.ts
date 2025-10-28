@@ -20,6 +20,7 @@ export interface Contact {
  */
 export interface EventsData {
   cover: string
+  title: string
   slogan: string
   events: Event[]
   contact?: Contact

@@ -61,7 +61,7 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
                   <CardContent className="p-0 h-full">
                     <div className="relative h-full overflow-hidden">
                       <Image
-                        src={subAlbum.cover_img.virtual_img}
+                        src={subAlbum.cover_img}
                         alt={subAlbum.title}
                         fill
                         className="object-cover transition-all duration-300 group-hover:scale-105 group-hover:brightness-110"

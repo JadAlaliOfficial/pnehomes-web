@@ -1,4 +1,4 @@
-import { Community } from '../model/types'
+import { Community, CommunitiesPageData } from '../model/types'
 import communitiesData from '../mock/communities.json'
 
 export class FileRepository {
@@ -75,5 +75,20 @@ export class FileRepository {
   async getCoverImage(): Promise<string> {
     // Use communities.jpg as fallback since cover.jpg doesn't exist
     return Promise.resolve(communitiesData.cover || '/img/communities.jpg')
+  }
+
+  /**
+   * Get communities page data (title, cover, zillow link, contact)
+   */
+  async getCommunitiesPageData(): Promise<CommunitiesPageData> {
+    return Promise.resolve({
+      title: communitiesData.title,
+      cover: communitiesData.cover || '/img/communities.jpg',
+      zillowLink: communitiesData.zillow,
+      contact: {
+        title: communitiesData.contact?.title,
+        message: communitiesData.contact?.message
+      }
+    })
   }
 }

@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { communitiesAPI } from '@/features/communities/api'
 import ImageGallery from '@/components/ImageGallery'
 import RequestTourButton from '@/components/RequestTourButton'
+import { Bed, Bath, Car, Map } from 'lucide-react'
 
 interface CommunityPageProps {
   params: Promise<{ slug: string }>
@@ -13,9 +14,9 @@ interface CommunityPageProps {
 
 export default async function CommunityPage({ params }: CommunityPageProps) {
   const { slug } = await params
-  const [community, coverImage] = await Promise.all([
+  const [community, pageData] = await Promise.all([
     communitiesAPI.getCommunityBySlug(slug),
-    communitiesAPI.getCoverImage(),
+    communitiesAPI.getCommunitiesPageData(),
   ])
 
   if (!community) {
@@ -32,7 +33,7 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
       {/* Hero / Title (clean and bold like pnehomes.com) */}
       <section className="relative isolate">
         <div className="absolute inset-0 -z-10">
-          <Image src={coverImage} alt="Community Cover" fill priority className="object-cover" />
+          <Image src={pageData.cover} alt="Community Cover" fill priority className="object-cover" />
           <div className="0 absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
         </div>
 
@@ -117,27 +118,64 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {displayedFloorPlans.map(floorPlan => (
-              <Card key={floorPlan.slug} className="overflow-hidden">
-                <div className="relative h-48 overflow-hidden">
-                  <Image
-                    src={floorPlan.cover}
-                    alt={floorPlan.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <CardContent className="p-4">
-                  <h3 className="mb-2 font-semibold">{floorPlan.title}</h3>
-                  <div className="mb-3 text-2xl font-bold text-green-600">
-                    ${parseInt(floorPlan.price).toLocaleString()}
-                  </div>
-                  <div className="flex justify-between text-sm text-gray-600">
-                    <span>{floorPlan.beds} beds</span>
-                    <span>{floorPlan.baths} baths</span>
-                    <span>{parseInt(floorPlan.sqft).toLocaleString()} sqft</span>
-                  </div>
-                </CardContent>
-              </Card>
+              <div
+                key={floorPlan.slug}
+                className="group overflow-hidden rounded-xl border bg-white shadow-sm transition hover:shadow-md"
+              >
+                <Link href={`/property/${floorPlan.slug}`} className="block">
+                  <Card className="group cursor-pointer overflow-hidden p-0 transition-shadow hover:shadow-lg">
+                    <div className="relative aspect-[4/3]">
+                      <Image
+                        src={floorPlan.cover}
+                        alt={floorPlan.title}
+                        fill
+                        sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+                        className="object-cover transition-transform group-hover:scale-105"
+                      />
+                    </div>
+                    <CardContent className="p-2">
+                      <div className="text-2xl font-bold hover:underline">{floorPlan.title}</div>
+                      <div className="mt-1 text-lg capitalize opacity-60">{community.title}</div>
+                      <div className="mt-2 text-base font-medium">
+                        ${parseInt(floorPlan.price).toLocaleString()}
+                      </div>
+                      <div className="mt-1 flex items-center justify-around text-sm opacity-80">
+                        <div className="flex-col items-center justify-between">
+                          <div className="text-lg">
+                            <Bed className="mr-1 inline-block h-5 w-5" />
+                            {floorPlan.beds}
+                          </div>
+                          <div className="text-xs">Bedrooms</div>
+                        </div>
+                        <div className="h-10 border-r border-gray-500"></div>
+                        <div className="flex-col items-center justify-center">
+                          <div className="text-lg">
+                            <Bath className="mr-1 inline-block h-5 w-5" />
+                            {floorPlan.baths}
+                          </div>
+                          <div className="text-xs">Bathrooms</div>
+                        </div>
+                        <div className="h-10 border-r border-gray-500"></div>
+                        <div className="flex-col items-center justify-center">
+                          <div className="text-lg">
+                            <Car className="mr-1 inline-block h-5 w-5" />
+                            {floorPlan.garages}
+                          </div>
+                          <div className="text-xs">Garages</div>
+                        </div>
+                        <div className="h-10 border-r border-gray-500"></div>
+                        <div className="flex-col items-center justify-center">
+                          <div className="text-lg">
+                            <Map className="mr-1 inline-block h-5 w-5" />
+                            {parseInt(floorPlan.sqft).toLocaleString()}
+                          </div>
+                          <div className="text-xs">SQFT</div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </div>
             ))}
           </div>
 

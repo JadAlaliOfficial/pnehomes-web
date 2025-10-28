@@ -69,32 +69,35 @@ function SimpleCaptcha({
   return (
     <div className="space-y-2">
       <Label htmlFor="captcha">Security Check *</Label>
-      <div className="flex items-center gap-3">
-        <div className="rounded-md border bg-gray-100 p-3 dark:bg-gray-800">
-          <span className="font-mono text-lg">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+        <div className="rounded-md border bg-gray-100 p-2 sm:p-3 dark:bg-gray-800 w-full sm:w-auto">
+          <span className="font-mono text-base sm:text-lg">
             {captchaQuestion
               ? `${captchaQuestion.num1} + ${captchaQuestion.num2} = ?`
               : 'Loading...'}
           </span>
         </div>
-        <Input
-          id="captcha"
-          type="number"
-          placeholder="Answer"
-          value={userAnswer}
-          onChange={e => handleAnswerChange(e.target.value)}
-          className="w-24"
-          disabled={!captchaQuestion}
-        />
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={refreshCaptcha}
-          disabled={!captchaQuestion}
-        >
-          Refresh
-        </Button>
+        <div className="flex gap-2 w-full sm:w-auto">
+          <Input
+            id="captcha"
+            type="number"
+            placeholder="Answer"
+            value={userAnswer}
+            onChange={e => handleAnswerChange(e.target.value)}
+            className="w-20 sm:w-24"
+            disabled={!captchaQuestion}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={refreshCaptcha}
+            disabled={!captchaQuestion}
+            className="text-xs sm:text-sm"
+          >
+            Refresh
+          </Button>
+        </div>
       </div>
       {error && <p className="text-sm text-red-600">{error}</p>}
     </div>
@@ -154,106 +157,112 @@ function OwnLandContactForm() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/10" />
         </div>
 
-        <div className="container mx-auto px-6 pt-20 pb-10 text-center">
-          <h1 className="text-white mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-24 pb-8 sm:pb-10 lg:pb-12 text-center">
+          <h1 className="text-white mb-3 sm:mb-4 text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight uppercase">
             Contact Us - Own Land
           </h1>
-          <p className="text-white/90 text-xl font-medium opacity-90 md:text-2xl">
-            Tell us about your land and let&apos;s build your dream home together.
-          </p>
         </div>
       </section>
 
-      <div className="bg-gray-50 py-12 dark:bg-gray-900">
-        <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800">
+      <div className="bg-gray-50 py-8 sm:py-12 lg:py-16 dark:bg-gray-900">
+        <div className="mx-auto max-w-sm sm:max-w-md lg:max-w-2xl xl:max-w-4xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-lg bg-white p-4 sm:p-6 lg:p-8 shadow-lg dark:bg-gray-800">
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* First Name */}
-            <div>
-              <Label htmlFor="firstName">First Name *</Label>
-              <Input
-                id="firstName"
-                type="text"
-                {...register('firstName')}
-                className="mt-1"
-                placeholder="Enter your first name"
-              />
-              {errors.firstName && (
-                <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
-              )}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
+            {/* Name Fields - Side by side on larger screens */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              {/* First Name */}
+              <div>
+                <Label htmlFor="firstName">First Name *</Label>
+                <Input
+                  id="firstName"
+                  type="text"
+                  {...register('firstName')}
+                  className="mt-1"
+                  placeholder="Enter your first name"
+                />
+                {errors.firstName && (
+                  <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
+                )}
+              </div>
+
+              {/* Last Name */}
+              <div>
+                <Label htmlFor="lastName">Last Name *</Label>
+                <Input
+                  id="lastName"
+                  type="text"
+                  {...register('lastName')}
+                  className="mt-1"
+                  placeholder="Enter your last name"
+                />
+                {errors.lastName && (
+                  <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
+                )}
+              </div>
             </div>
 
-            {/* Last Name */}
-            <div>
-              <Label htmlFor="lastName">Last Name *</Label>
-              <Input
-                id="lastName"
-                type="text"
-                {...register('lastName')}
-                className="mt-1"
-                placeholder="Enter your last name"
-              />
-              {errors.lastName && (
-                <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
-              )}
+            {/* Contact Fields - Side by side on larger screens */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              {/* Email */}
+              <div>
+                <Label htmlFor="email">Email *</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  {...register('email')}
+                  className="mt-1"
+                  placeholder="Enter your email address"
+                />
+                {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
+              </div>
+
+              {/* Phone */}
+              <div>
+                <Label htmlFor="phone">Phone *</Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  {...register('phone')}
+                  className="mt-1"
+                  placeholder="Enter your phone number"
+                />
+                {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>}
+              </div>
             </div>
 
-            {/* Email */}
-            <div>
-              <Label htmlFor="email">Email *</Label>
-              <Input
-                id="email"
-                type="email"
-                {...register('email')}
-                className="mt-1"
-                placeholder="Enter your email address"
-              />
-              {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
-            </div>
+            {/* Land Fields - Side by side on larger screens */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              {/* Land Area */}
+              <div>
+                <Label htmlFor="landArea">Land Area (sqft) *</Label>
+                <Input
+                  id="landArea"
+                  type="number"
+                  {...register('landArea')}
+                  className="mt-1"
+                  placeholder="Enter land area in square feet"
+                  min="1"
+                />
+                {errors.landArea && (
+                  <p className="mt-1 text-sm text-red-600">{errors.landArea.message}</p>
+                )}
+              </div>
 
-            {/* Phone */}
-            <div>
-              <Label htmlFor="phone">Phone *</Label>
-              <Input
-                id="phone"
-                type="tel"
-                {...register('phone')}
-                className="mt-1"
-                placeholder="Enter your phone number"
-              />
-              {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>}
-            </div>
-
-            {/* Land Area */}
-            <div>
-              <Label htmlFor="landArea">Land Area (sqft) *</Label>
-              <Input
-                id="landArea"
-                type="number"
-                {...register('landArea')}
-                className="mt-1"
-                placeholder="Enter land area in square feet"
-                min="1"
-              />
-              {errors.landArea && (
-                <p className="mt-1 text-sm text-red-600">{errors.landArea.message}</p>
-              )}
-            </div>
-
-            {/* Land Address */}
-            <div>
-              <Label htmlFor="landAddress">Land Address *</Label>
-              <Input
-                id="landAddress"
-                type="text"
-                {...register('landAddress')}
-                className="mt-1"
-                placeholder="Enter the full address of your land"
-              />
-              {errors.landAddress && (
-                <p className="mt-1 text-sm text-red-600">{errors.landAddress.message}</p>
-              )}
+              {/* Land Address - Takes full width on small screens, half on larger */}
+              <div className="sm:col-span-1">
+                <Label htmlFor="landAddress">Land Address *</Label>
+                <Input
+                  id="landAddress"
+                  type="text"
+                  {...register('landAddress')}
+                  className="mt-1"
+                  placeholder="Enter the full address of your land"
+                />
+                {errors.landAddress && (
+                  <p className="mt-1 text-sm text-red-600">{errors.landAddress.message}</p>
+                )}
+              </div>
             </div>
 
             {/* Message */}

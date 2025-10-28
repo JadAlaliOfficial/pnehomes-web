@@ -36,6 +36,14 @@ export class GalleryFileRepository {
   }
 
   /**
+   * Get gallery title
+   * @returns Promise<string>
+   */
+  async getGalleryTitle(): Promise<string> {
+    return Promise.resolve(this.data.title)
+  }
+
+  /**
    * Get contact information
    * @returns Promise<ContactInfo>
    */

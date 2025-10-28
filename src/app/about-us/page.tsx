@@ -32,7 +32,6 @@ export default async function AboutUsPage() {
           </div>
 
           <div className="container mx-auto px-6 pt-20 pb-10 text-center">
-            <p className="text-pne-brand mb-2 text-sm font-semibold tracking-wide uppercase opacity-90">{data.slogan}</p>
             <h1 className="text-pne-brand mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
               {data.title}
             </h1>
@@ -40,7 +39,16 @@ export default async function AboutUsPage() {
         </section>
       )}
 
-      <div className="px-4 py-16">
+      {/* Slogan Section - Right under cover */}
+      {coverImage && (
+        <div className="bg-white py-8">
+          <div className="container mx-auto px-6 text-center">
+            <p className="text-pne-brand text-lg font-semibold tracking-wide uppercase">{data.slogan}</p>
+          </div>
+        </div>
+      )}
+
+      <div className="px-4 pb-16">
         <div className="mx-auto max-w-6xl">
           {/* Header Section - Only show if no cover */}
           {!coverImage && (
@@ -56,7 +64,10 @@ export default async function AboutUsPage() {
           <div className="mx-auto max-w-4xl">
             <div className="rounded-lg bg-white p-8 shadow-lg md:p-12">
               <div className="prose prose-lg max-w-none">
-                <p className="text-lg leading-relaxed text-gray-700">{data.description}</p>
+                <div 
+                  className="text-lg leading-relaxed text-gray-700"
+                  dangerouslySetInnerHTML={{ __html: data.description }}
+                />
               </div>
 
               {/* Contact Section */}

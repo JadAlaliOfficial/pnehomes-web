@@ -1,6 +1,7 @@
 {
   "cover": "/img/services_home.jpg",
-  "slogan": "EVENTS",
+  "title": "EVENTS",
+  "slogan":"Discover our community events and initiatives",
   "events": [
     {
       "title": "Kemba Charity Event",

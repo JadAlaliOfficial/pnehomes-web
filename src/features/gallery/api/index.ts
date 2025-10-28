@@ -33,6 +33,14 @@ export const getGalleryCover = async (): Promise<string> => {
 }
 
 /**
+ * Get gallery title
+ * @returns Promise<string>
+ */
+export const getGalleryTitle = async (): Promise<string> => {
+  return galleryRepository.getGalleryTitle()
+}
+
+/**
  * Get contact information
  * @returns Promise<ContactInfo>
  */
@@ -140,7 +148,6 @@ export type {
   GalleryFilterOptions,
   GallerySearchResult,
   GalleryImage,
-  CoverImage,
   ContactInfo,
 } from '../model/types'
 

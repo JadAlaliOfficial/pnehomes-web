@@ -13,6 +13,7 @@ export interface AboutUsData {
   cover: string
   slogan: string
   title: string
+  /** Description text that may contain HTML tags for formatting */
   description: string
   contact?: ContactInfo
 }

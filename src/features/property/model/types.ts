@@ -36,19 +36,7 @@ const FactsFeatureSchema = z.object({
   list: z.array(z.string()),
 })
 
-/**
- * Schema for contact information
- *
- * Contains contact details for the property:
- * @property {string} name - Contact person's name
- * @property {string} phone - Contact phone number
- * @property {string} email - Contact email address
- */
-const ContactSchema = z.object({
-  name: z.string(),
-  phone: z.string(),
-  email: z.string(),
-})
+
 
 /**
  * Schema for property floor plan information
@@ -65,6 +53,19 @@ const FloorPlanSchema = z.object({
 })
 
 /**
+ * Schema for contact information
+ *
+ * Contains contact-related data and message templates:
+ * @property {string} title - Contact section title (e.g., "Contact Us")
+ * @property {string} message - Message template with placeholder for property title
+ */
+const ContactSchema = z.object({
+  title: z.string(),
+  message: z.string(),
+})
+
+
+/**
  * Main Property Schema
  *
  * Defines the complete structure of a property object with validation rules:
@@ -73,7 +74,6 @@ const FloorPlanSchema = z.object({
  * @property {string} slug - URL-friendly unique identifier for routing
  * @property {string} title - Display name/title of the property
  * @property {string} community - Community or neighborhood name the floor plan can be built in
- * @property {PropertyStatus} status - Current availability status
  * @property {string} price - Property price (stored as string to preserve formatting)
  * @property {string} beds - Number of bedrooms (string to handle "2+" format)
  * @property {string} baths - Number of bathrooms (string to handle "2.5" format)
@@ -84,9 +84,6 @@ const FloorPlanSchema = z.object({
  * @property {WhatsSpecial} Whats_special - Marketing highlights and unique features
  * @property {FactsFeature[]} Facts_features - Categorized lists of property features
  * @property {FloorPlan[]} floor_plans - Available floor plan options
- * @property {Contact} contact - Contact information for the property
- * @property {string} next_property_slug - Slug of the next property for navigation
- * @property {string} prev_property_slug - Slug of the previous property for navigation
  */
 export const PropertySchema = z.object({
   id: z.number(),
@@ -102,12 +99,26 @@ export const PropertySchema = z.object({
   zillow_link: z.string().optional().nullable(),
   Whats_special: WhatsSpecialSchema.optional().nullable(),
   Facts_features: z.array(FactsFeatureSchema).optional(),
-  floor_plans: z.array(FloorPlanSchema).optional(),
-  contact: ContactSchema.optional().nullable(),
-  next_property_slug: z.string().optional(),
-  prev_property_slug: z.string().optional(),
+  floor_plans: z.array(FloorPlanSchema).optional()
 })
 
+
+
+/**
+ * Schema for the complete property data structure
+ *
+ * Contains the main data structure including title, cover, properties array, and contact info:
+ * @property {string} title - Page title (e.g., "Floor Plans")
+ * @property {string} cover - Cover image URL for the page
+ * @property {Property[]} properties - Array of property objects
+ * @property {Contact} contact - Contact information and message templates
+ */
+const PropertyDataSchema = z.object({
+  title: z.string(),
+  cover: z.string(),
+  properties: z.array(PropertySchema),
+  contact: ContactSchema,
+})
 // TypeScript type inference from Zod schemas
 // These types are automatically generated and stay in sync with the schemas
 
@@ -140,3 +151,9 @@ export type FloorPlan = z.infer<typeof FloorPlanSchema>
  * Inferred from ContactSchema
  */
 export type Contact = z.infer<typeof ContactSchema>
+
+/**
+ * TypeScript type for the complete Property Data structure
+ * Inferred from PropertyDataSchema
+ */
+export type PropertyData = z.infer<typeof PropertyDataSchema>

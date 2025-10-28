@@ -34,10 +34,18 @@ export default function BuildingOptions() {
 
           <div className="container mx-auto px-6 pt-20 pb-10 text-center">
             <h1 className="text-pne-brand mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
-              {data.slogan}
-            </h1>
-            <h2 className="text-pne-brand text-xl font-medium opacity-90 md:text-2xl lg:text-3xl">
               {data.title}
+            </h1>
+          </div>
+        </section>
+      )}
+
+      {/* Slogan Section - Under Cover */}
+      {data.cover && (
+        <section className="bg-background py-8">
+          <div className="container mx-auto px-6 text-center">
+            <h2 className="text-pne-brand text-xl font-medium opacity-90 md:text-2xl lg:text-3xl">
+              {data.slogan}
             </h2>
           </div>
         </section>
@@ -65,16 +73,16 @@ export default function BuildingOptions() {
           )}
 
           {/* Two main option cards next to each other - Now Fully Responsive */}
-          <div className="mx-auto mb-16 grid max-w-7xl grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 md:max-w-4xl lg:max-w-6xl">
+          <div className="mx-auto mb-16 grid max-w-7xl grid-cols-1 gap-6 sm:gap-8 md:max-w-4xl md:grid-cols-2 lg:max-w-6xl">
             {data.options.map(option => (
               <Card
                 key={option.id}
-                className="hover:border-primary/50 cursor-pointer border-2 transition-all duration-300 hover:scale-105 hover:shadow-lg p-0 m-0 w-full"
+                className="hover:border-primary/50 m-0 w-full cursor-pointer border-2 p-0 transition-all duration-300 hover:scale-105 hover:shadow-lg"
                 onClick={() => handleCardClick(option.id)}
               >
                 <CardContent className="p-0">
                   {/* Image - Responsive Heights */}
-                  <div className="relative h-48 sm:h-56 md:h-64 lg:h-80 xl:h-96 w-full overflow-hidden rounded-t-xl">
+                  <div className="relative h-48 w-full overflow-hidden rounded-t-xl sm:h-56 md:h-64 lg:h-80 xl:h-96">
                     <Image
                       src={option.section_img}
                       alt={option.title}
@@ -87,13 +95,13 @@ export default function BuildingOptions() {
                   {/* Content - Responsive Padding */}
                   <div className="p-4 sm:p-6 md:p-8">
                     {/* Title - Responsive Text Size */}
-                    <h3 className="text-foreground mb-2 sm:mb-3 text-lg sm:text-xl md:text-2xl font-semibold">
+                    <h3 className="text-foreground mb-2 text-lg font-semibold sm:mb-3 sm:text-xl md:text-2xl">
                       {option.title}
                     </h3>
 
                     {/* Description - Responsive Text Size */}
                     {option.description && (
-                      <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
+                      <p className="text-muted-foreground text-sm leading-relaxed sm:text-base">
                         {option.description}
                       </p>
                     )}

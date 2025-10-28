@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { communitiesAPI, Community } from '@/features/communities/api'
+import { communitiesAPI, Community, CommunitiesPageData } from '@/features/communities/api'
 import { Button } from '@/components/ui/button'
 import dynamic from 'next/dynamic'
 const CommunityMap = dynamic(() => import('@/features/communities/components/CommunityMap'), {
@@ -23,23 +23,19 @@ export default function CommunitiesPage() {
   const [selectedCommunity, setSelectedCommunity] = useState<string>('all')
   const [selectedCity, setSelectedCity] = useState<string>('all')
   const [loading, setLoading] = useState(true)
-  const [zillowUrl, setZillowUrl] = useState<string>('')
-  const [coverImage, setCoverImage] = useState<string>('')
+  const [pageData, setPageData] = useState<CommunitiesPageData | null>(null)
 
   useEffect(() => {
     async function loadCommunities() {
       try {
-        const data = await communitiesAPI.getAllCommunities()
-        setCommunities(data)
-        setFilteredCommunities(data)
-
-        // Load Zillow URL
-        const zillow = await communitiesAPI.getZillowUrl()
-        setZillowUrl(zillow)
-
-        // Load cover image
-        const cover = await communitiesAPI.getCoverImage()
-        setCoverImage(cover)
+        const [communitiesData, pageDataResult] = await Promise.all([
+          communitiesAPI.getAllCommunities(),
+          communitiesAPI.getCommunitiesPageData()
+        ])
+        
+        setCommunities(communitiesData)
+        setFilteredCommunities(communitiesData)
+        setPageData(pageDataResult)
       } catch (error) {
         console.error('Failed to load communities:', error)
       } finally {
@@ -79,25 +75,25 @@ export default function CommunitiesPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section with Cover Image */}
-      {coverImage && (
+      {pageData?.cover && (
         <section className="relative isolate">
           <div className="absolute inset-0 -z-10">
-            <Image src={coverImage} alt="Our Communities" fill priority className="object-cover" />
+            <Image src={pageData.cover} alt="Our Communities" fill priority className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
           </div>
 
           <div className="container mx-auto px-6 pt-20 pb-10 text-center">
             <h1 className="text-4xl font-extrabold tracking-tight uppercase sm:text-5xl text-pne-brand">
-              Our Communities
+              {pageData.title}
             </h1>
           </div>
         </section>
       )}
 
       <div className="container mx-auto max-w-6xl px-4 py-8">
-        {!coverImage && (
+        {!pageData?.cover && (
           <div className="mb-8">
-            <h1 className="mb-4 text-center text-4xl font-bold">Our Communities</h1>
+            <h1 className="mb-4 text-center text-4xl font-bold">{pageData?.title || 'Our Communities'}</h1>
             <p className="mb-8 text-center text-lg text-gray-600">
               Discover beautiful communities designed for modern living
             </p>
@@ -214,7 +210,7 @@ export default function CommunitiesPage() {
           className="bg-pne-accent text-white hover:bg-pne-brand"
         >
           <a
-            href={zillowUrl}
+            href={pageData?.zillowLink || '#'}
             target="_blank"
             rel="noopener noreferrer"
           >

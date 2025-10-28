@@ -54,7 +54,7 @@ export class OurTeamRepository {
   }
 
   /**
-   * Get page header information (slogan, title, subtitle, description, cover)
+   * Get page header information (slogan, title, description, cover)
    * @returns Promise<Omit<OurTeamData, 'team' | 'contact'>> - Header information
    */
   static async getHeaderInfo() {
@@ -63,7 +63,6 @@ export class OurTeamRepository {
       cover: data.cover,
       slogan: data.slogan,
       title: data.title,
-      subtitle: data.subtitle,
       description: data.description,
     }
   }

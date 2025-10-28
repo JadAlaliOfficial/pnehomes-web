@@ -82,6 +82,18 @@ export class FileRepository {
   }
 
   /**
+   * Get events title
+   * @returns Promise<string>
+   */
+  async getTitle() {
+    const response = await this.getEventsData()
+    if (response.success && response.data) {
+      return response.data.title
+    }
+    return ''
+  }
+
+  /**
    * Get cover image path
    * @returns Promise<string>
    */

@@ -18,7 +18,7 @@ export default async function EventsPage() {
     )
   }
 
-  const { slogan, events, contact, cover } = eventsResponse.data
+  const { title, slogan, events, contact, cover } = eventsResponse.data
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -32,14 +32,20 @@ export default async function EventsPage() {
 
           <div className="container mx-auto px-6 pt-20 pb-10 text-center">
             <h1 className="text-pne-brand mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
-              {slogan}
+              {title}
             </h1>
-            <p className="text-pne-brand text-xl font-medium opacity-90 md:text-2xl lg:text-3xl">
-              Discover our community events and initiatives
-            </p>
           </div>
         </section>
       )}
+
+      {/* Slogan Section */}
+      <section className="bg-gray-50 py-8">
+        <div className="container mx-auto px-6 text-center">
+          <p className="text-gray-800 text-xl font-medium md:text-2xl lg:text-3xl">
+            {slogan}
+          </p>
+        </div>
+      </section>
 
       {/* Events Section */}
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">

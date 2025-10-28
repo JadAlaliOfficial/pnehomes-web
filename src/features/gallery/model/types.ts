@@ -8,22 +8,13 @@ export interface GalleryImage {
 }
 
 /**
- * Cover Image Interface
- * Represents a cover image for albums and sub-albums
- */
-export interface CoverImage {
-  virtual_img: string
-  real_img: string
-}
-
-/**
  * Sub Album Interface
  * Represents a sub-album within a main gallery album
  */
 export interface SubAlbum {
   slug: string
   title: string
-  cover_img: CoverImage
+  cover_img: string
   gallery: GalleryImage[]
 }
 
@@ -35,7 +26,7 @@ export interface GalleryAlbum {
   id: number
   slug: string
   title: string
-  cover_img: CoverImage
+  cover_img: string
   sub_albums?: SubAlbum[]
   gallery?: GalleryImage[]
 }
@@ -51,9 +42,10 @@ export interface ContactInfo {
 
 /**
  * Gallery Data Interface
- * Represents the complete gallery data structure with cover and albums
+ * Represents the complete gallery data structure with title, cover and albums
  */
 export interface GalleryData {
+  title: string
   cover: string
   gallery: GalleryAlbum[]
   contact: ContactInfo
