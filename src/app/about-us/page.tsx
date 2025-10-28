@@ -23,16 +23,22 @@ export default async function AboutUsPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      {/* Hero Section with Cover Image */}
+      {/* Hero Section with fixed background */}
+      {/* Hero Section with fixed background */}
       {coverImage && (
         <section className="relative isolate">
-          <div className="absolute inset-0 -z-10">
-            <Image src={coverImage} alt="About Us Cover" fill priority className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
-          </div>
+          {/* Background image (fixed) */}
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
+            style={{ backgroundImage: `url(${coverImage})` }}
+          />
+          {/* Overlay */}
+          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
 
-          <div className="container mx-auto px-6 pt-20 pb-10 text-center">
-            <h1 className="text-pne-brand mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+          {/* Centered content */}
+          <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-6 text-center">
+            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
               {data.title}
             </h1>
           </div>
@@ -43,7 +49,9 @@ export default async function AboutUsPage() {
       {coverImage && (
         <div className="bg-white py-8">
           <div className="container mx-auto px-6 text-center">
-            <p className="text-pne-brand text-lg font-semibold tracking-wide uppercase">{data.slogan}</p>
+            <p className="text-pne-brand text-lg font-semibold tracking-wide uppercase">
+              {data.slogan}
+            </p>
           </div>
         </div>
       )}
@@ -64,7 +72,7 @@ export default async function AboutUsPage() {
           <div className="mx-auto max-w-4xl">
             <div className="rounded-lg bg-white p-8 shadow-lg md:p-12">
               <div className="prose prose-lg max-w-none">
-                <div 
+                <div
                   className="text-lg leading-relaxed text-gray-700"
                   dangerouslySetInnerHTML={{ __html: data.description }}
                 />
@@ -77,7 +85,7 @@ export default async function AboutUsPage() {
                     <h2 className="mb-6 text-2xl font-bold text-gray-900">{data.contact.title}</h2>
                     <Link
                       href={`/contact?message=${encodeURIComponent(data.contact.message)}`}
-                      className="inline-flex items-center rounded-md border border-transparent bg-pne-accent px-6 py-3 text-base font-medium text-white transition-colors duration-200 hover:bg-pne-brand focus:ring-2 focus:ring-pne-accent focus:ring-offset-2 focus:outline-none"
+                      className="bg-pne-accent hover:bg-pne-brand focus:ring-pne-accent inline-flex items-center rounded-md border border-transparent px-6 py-3 text-base font-medium text-white transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none"
                     >
                       Get In Touch
                     </Link>

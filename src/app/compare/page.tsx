@@ -60,13 +60,18 @@ function CompareContent() {
       <main className="relative">
         {/* Hero / Title (clean and bold like pnehomes.com) */}
         <section className="relative isolate">
-          <div className="absolute inset-0 -z-10">
-            <Image src="/img/services_home.jpg" alt="Compare Properties Cover" fill priority className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
-          </div>
+          {/* Background image (fixed) */}
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
+            style={{ backgroundImage: `url(/img/services_home.jpg)` }}
+          />
+          {/* Overlay */}
+          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
 
-          <div className="container mx-auto px-6 pt-20 pb-10 text-center">
-            <h1 className="text-pne-brand text-2xl font-extrabold tracking-tight uppercase sm:text-3xl md:text-4xl lg:text-5xl">
+          {/* Centered content */}
+          <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-6 text-center">
+            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
               Compare Properties
             </h1>
           </div>
@@ -89,13 +94,18 @@ function CompareContent() {
       <main className="relative">
         {/* Hero / Title (clean and bold like pnehomes.com) */}
         <section className="relative isolate">
-          <div className="absolute inset-0 -z-10">
-            <Image src={coverImage || "/img/services_home.jpg"} alt="Compare Properties Cover" fill priority className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
-          </div>
+          {/* Background image (fixed) */}
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
+            style={{ backgroundImage: `url(${coverImage || "/img/services_home.jpg"})` }}
+          />
+          {/* Overlay */}
+          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
 
-          <div className="container mx-auto px-6 pt-20 pb-10 text-center">
-            <h1 className="text-pne-brand text-2xl font-extrabold tracking-tight uppercase sm:text-3xl md:text-4xl lg:text-5xl">
+          {/* Centered content */}
+          <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-6 text-center">
+            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
               Compare Properties
             </h1>
           </div>
@@ -142,16 +152,21 @@ function CompareContent() {
     <main className="relative">
       {/* Hero / Title (clean and bold like pnehomes.com) */}
       <section className="relative isolate">
-        <div className="absolute inset-0 -z-10">
-          <Image src={coverImage} alt="Compare Properties Cover" fill priority className="object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
-        </div>
+        {/* Background image (fixed) */}
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
+          style={{ backgroundImage: `url(${coverImage})` }}
+        />
+        {/* Overlay */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
 
-          <div className="container mx-auto px-6 pt-20 pb-10 text-center">
-            <h1 className="text-pne-brand text-2xl font-extrabold tracking-tight uppercase sm:text-3xl md:text-4xl lg:text-5xl">
-              Compare Properties
-            </h1>
-          </div>
+        {/* Centered content */}
+        <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-6 text-center">
+          <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+            Compare Properties
+          </h1>
+        </div>
       </section>
 
       <div className="container mx-auto p-6">

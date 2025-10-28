@@ -28,13 +28,13 @@ export default async function PrivacyPolicyPage() {
     <div className="bg-background min-h-screen">
       {/* Hero Section with Cover Image */}
       {coverImage && (
-        <section className="relative isolate">
-          <div className="absolute inset-0 -z-10">
-            <Image src={coverImage} alt="Privacy Policy Cover" fill priority className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
-          </div>
+        <section 
+          className="relative isolate flex min-h-[60vh] items-center justify-center bg-cover bg-center bg-no-repeat md:bg-fixed"
+          style={{ backgroundImage: `url(${coverImage})` }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
 
-          <div className="container mx-auto px-6 pt-20 pb-10 text-center">
+          <div className="container mx-auto px-6 pt-20 pb-10 text-center relative z-10">
             <h1 className="text-pne-brand mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
               {data.title}
             </h1>

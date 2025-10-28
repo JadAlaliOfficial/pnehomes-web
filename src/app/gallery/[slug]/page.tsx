@@ -27,15 +27,19 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
     <main className="relative">
       {/* Hero / Title (clean and bold like pnehomes.com) */}
       <section className="relative isolate">
-        <div className="absolute inset-0 -z-10">
-          <Image src={cover} alt="Gallery Cover" fill priority className="object-cover" />
-          <div className="0 absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
+        <div 
+          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
+          style={{ backgroundImage: `url(${cover})` }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
         </div>
 
-        <div className="container mx-auto px-6 pt-20 pb-10 text-center">
-          <h1 className="text-4xl text-pne-brand font-extrabold tracking-tight uppercase sm:text-5xl">
-            {album.title}
-          </h1>
+        <div className="flex min-h-[60vh] items-center justify-center">
+          <div className="container mx-auto px-6 text-center">
+            <h1 className="text-4xl text-pne-brand font-extrabold tracking-tight uppercase sm:text-5xl">
+              {album.title}
+            </h1>
+          </div>
         </div>
       </section>
 

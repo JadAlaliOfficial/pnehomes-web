@@ -29,13 +29,18 @@ export default function ArticlePage({ params }: ArticlePageProps) {
       {/* Hero Section with Cover Image */}
       {buildingOptionsData.cover && (
         <section className="relative isolate">
-          <div className="absolute inset-0 -z-10">
-            <Image src={buildingOptionsData.cover} alt="Building Options" fill priority className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
-          </div>
+          {/* Background image (fixed) */}
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
+            style={{ backgroundImage: `url(${buildingOptionsData.cover})` }}
+          />
+          {/* Overlay */}
+          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
 
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-24 pb-8 sm:pb-10 lg:pb-12 text-center">
-            <h1 className="text-pne-brand mb-3 sm:mb-4 lg:mb-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight uppercase leading-tight">
+          {/* Centered content */}
+          <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-6 text-center">
+            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
               {article.title}
             </h1>
           </div>

@@ -77,13 +77,18 @@ export default function CommunitiesPage() {
       {/* Hero Section with Cover Image */}
       {pageData?.cover && (
         <section className="relative isolate">
-          <div className="absolute inset-0 -z-10">
-            <Image src={pageData.cover} alt="Our Communities" fill priority className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
-          </div>
+          {/* Background image (fixed) */}
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
+            style={{ backgroundImage: `url(${pageData.cover})` }}
+          />
+          {/* Overlay */}
+          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
 
-          <div className="container mx-auto px-6 pt-20 pb-10 text-center">
-            <h1 className="text-4xl font-extrabold tracking-tight uppercase sm:text-5xl text-pne-brand">
+          {/* Centered content */}
+          <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-6 text-center">
+            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
               {pageData.title}
             </h1>
           </div>
