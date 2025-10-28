@@ -15,7 +15,7 @@ export interface Article {
 }
 
 export interface ArticlesSection {
-  cover: string
+  cover?: string | null
   articles: Article[]
 }
 

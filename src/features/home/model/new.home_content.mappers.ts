@@ -34,7 +34,7 @@ const mapServices = (src: ApiServicesDto): Services => ({
 
 
 const mapGrid = (src: ApiGrid): GridSection => ({
-  video: src.video,
+  video: src.video ?? '/vid/second.mp4', // Use local video file as fallback if API value is null/undefined
   logo: normalizeDriveImageUrl(src.logo),
   links: src.links.map(l => ({ title: l.title, cover: normalizeDriveCoverImage(l.cover) })),
 })

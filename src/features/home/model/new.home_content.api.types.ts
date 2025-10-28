@@ -15,7 +15,7 @@ export interface ApiHomeData {
 }
 
 export interface ApiFirstSection {
-  video: string
+  video?: string | null
   mobile_cover: string
   logo: string
   title: string
@@ -52,7 +52,7 @@ export interface ApiGridLink {
 }
 
 export interface ApiGridSection {
-  video: string
+  video?: string | null
   logo: string
   links: ApiGridLink[]
 }
