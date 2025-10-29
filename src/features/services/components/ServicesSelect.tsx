@@ -48,7 +48,7 @@ export function ServicesSelect({ placeholder = 'Services' }: ServicesSelectProps
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button disabled className="relative px-2 py-3 text-base font-medium text-gray-500 transition-all duration-300">
+          <button disabled className="relative px-2 py-3 text-base font-medium text-gray-500 transition-all duration-300 opacity-70">
             Loading services...
           </button>
         </DropdownMenuTrigger>
@@ -64,7 +64,7 @@ export function ServicesSelect({ placeholder = 'Services' }: ServicesSelectProps
           <ChevronDown className="h-4 w-4 text-white" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-full max-w-xs">
+      <DropdownMenuContent className="w-full max-w-xs bg-gray-200">
         <DropdownMenuLabel>Services</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {services.map(service => (

@@ -9,8 +9,17 @@ export default function ComparisonFloatingButton() {
   const { selectedProperties, isDrawerOpen, setIsDrawerOpen } = useComparison()
   const pathname = usePathname()
 
-  // Don't show the button if no properties are selected or not on floor-plans page
-  if (selectedProperties.length === 0 || !pathname.startsWith('/floor-plans')) {
+  // Only show the button on specific routes: /floor-plans, /property/[slug], and /compare
+  const allowedRoutes = ['/floor-plans', '/property/', '/compare']
+  const isOnAllowedRoute = allowedRoutes.some(route => pathname.startsWith(route))
+  
+  // Don't show the button if not on allowed routes
+  if (!isOnAllowedRoute) {
+    return null
+  }
+
+  // Don't show the button if no properties are selected
+  if (selectedProperties.length === 0) {
     return null
   }
 

@@ -125,61 +125,59 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
             {displayedFloorPlans.map(floorPlan => (
               <div
                 key={floorPlan.slug}
-                className="group overflow-hidden rounded-xl border bg-white shadow-sm transition hover:shadow-md"
+                className="overflow-hidden rounded-xl border bg-white shadow-sm"
               >
-                <Link href={`/property/${floorPlan.slug}`} className="block">
-                  <Card className="group cursor-pointer overflow-hidden p-0 transition-shadow hover:shadow-lg">
-                    <div className="relative aspect-[4/3]">
-                      <Image
-                        src={floorPlan.cover}
-                        alt={floorPlan.title}
-                        fill
-                        sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
-                        className="object-cover transition-transform group-hover:scale-105"
-                      />
+                <Card className="overflow-hidden p-0">
+                  <div className="relative aspect-[4/3]">
+                    <Image
+                      src={floorPlan.cover}
+                      alt={floorPlan.title}
+                      fill
+                      sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <CardContent className="p-2">
+                    <div className="text-2xl font-bold">{floorPlan.title}</div>
+                    <div className="mt-1 text-lg capitalize opacity-60">{community.title}</div>
+                    <div className="mt-2 text-base font-medium">
+                      ${parseInt(floorPlan.price).toLocaleString()}
                     </div>
-                    <CardContent className="p-2">
-                      <div className="text-2xl font-bold hover:underline">{floorPlan.title}</div>
-                      <div className="mt-1 text-lg capitalize opacity-60">{community.title}</div>
-                      <div className="mt-2 text-base font-medium">
-                        ${parseInt(floorPlan.price).toLocaleString()}
+                    <div className="mt-1 flex items-center justify-around text-sm opacity-80">
+                      <div className="flex-col items-center justify-between">
+                        <div className="text-lg">
+                          <Bed className="mr-1 inline-block h-5 w-5" />
+                          {floorPlan.beds}
+                        </div>
+                        <div className="text-xs">Bedrooms</div>
                       </div>
-                      <div className="mt-1 flex items-center justify-around text-sm opacity-80">
-                        <div className="flex-col items-center justify-between">
-                          <div className="text-lg">
-                            <Bed className="mr-1 inline-block h-5 w-5" />
-                            {floorPlan.beds}
-                          </div>
-                          <div className="text-xs">Bedrooms</div>
+                      <div className="h-10 border-r border-gray-500"></div>
+                      <div className="flex-col items-center justify-center">
+                        <div className="text-lg">
+                          <Bath className="mr-1 inline-block h-5 w-5" />
+                          {floorPlan.baths}
                         </div>
-                        <div className="h-10 border-r border-gray-500"></div>
-                        <div className="flex-col items-center justify-center">
-                          <div className="text-lg">
-                            <Bath className="mr-1 inline-block h-5 w-5" />
-                            {floorPlan.baths}
-                          </div>
-                          <div className="text-xs">Bathrooms</div>
-                        </div>
-                        <div className="h-10 border-r border-gray-500"></div>
-                        <div className="flex-col items-center justify-center">
-                          <div className="text-lg">
-                            <Car className="mr-1 inline-block h-5 w-5" />
-                            {floorPlan.garages}
-                          </div>
-                          <div className="text-xs">Garages</div>
-                        </div>
-                        <div className="h-10 border-r border-gray-500"></div>
-                        <div className="flex-col items-center justify-center">
-                          <div className="text-lg">
-                            <Map className="mr-1 inline-block h-5 w-5" />
-                            {parseInt(floorPlan.sqft).toLocaleString()}
-                          </div>
-                          <div className="text-xs">SQFT</div>
-                        </div>
+                        <div className="text-xs">Bathrooms</div>
                       </div>
-                    </CardContent>
-                  </Card>
-                </Link>
+                      <div className="h-10 border-r border-gray-500"></div>
+                      <div className="flex-col items-center justify-center">
+                        <div className="text-lg">
+                          <Car className="mr-1 inline-block h-5 w-5" />
+                          {floorPlan.garages}
+                        </div>
+                        <div className="text-xs">Garages</div>
+                      </div>
+                      <div className="h-10 border-r border-gray-500"></div>
+                      <div className="flex-col items-center justify-center">
+                        <div className="text-lg">
+                          <Map className="mr-1 inline-block h-5 w-5" />
+                          {parseInt(floorPlan.sqft).toLocaleString()}
+                        </div>
+                        <div className="text-xs">SQFT</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             ))}
           </div>
@@ -188,7 +186,7 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
           <div className="mt-6 text-center">
             <Link href={`/floor-plans?community=${encodeURIComponent(community.title)}`}>
               <Button size="lg" className="px-8">
-                Show Floor Plans
+                Show more Floor Plans
               </Button>
             </Link>
           </div>

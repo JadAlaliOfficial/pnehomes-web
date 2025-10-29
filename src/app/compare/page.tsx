@@ -145,7 +145,6 @@ function CompareContent() {
       label: 'Community',
       format: (value: string) => value.charAt(0).toUpperCase() + value.slice(1),
     },
-    { key: 'status', label: 'Status' },
   ]
 
   return (

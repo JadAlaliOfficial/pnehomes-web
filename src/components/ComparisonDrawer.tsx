@@ -3,7 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -12,6 +12,7 @@ import { useComparison } from '@/contexts/ComparisonContext'
 
 export default function ComparisonDrawer() {
   const router = useRouter()
+  const pathname = usePathname()
   const {
     selectedProperties,
     removeFromComparison,
@@ -20,11 +21,20 @@ export default function ComparisonDrawer() {
     setIsDrawerOpen,
   } = useComparison()
 
+  // Only show the drawer on specific routes: /floor-plans, /property/[slug], and /compare
+  const allowedRoutes = ['/floor-plans', '/property/', '/compare']
+  const isOnAllowedRoute = allowedRoutes.some(route => pathname.startsWith(route))
+
   const handleCompare = () => {
     if (selectedProperties.length >= 2) {
       const propertyIds = selectedProperties.map(p => p.id).join(',')
       router.push(`/compare?properties=${propertyIds}`)
     }
+  }
+
+  // Don't render the drawer if not on allowed routes
+  if (!isOnAllowedRoute) {
+    return null
   }
 
   return (

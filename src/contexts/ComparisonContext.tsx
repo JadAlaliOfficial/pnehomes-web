@@ -21,9 +21,12 @@ export function ComparisonProvider({ children }: { children: ReactNode }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const pathname = usePathname()
 
-  // Clear comparison when navigating away from floor-plans page
+  // Clear comparison when navigating away from allowed routes
   useEffect(() => {
-    if (!pathname.startsWith('/floor-plans')) {
+    const allowedRoutes = ['/floor-plans', '/property/', '/compare']
+    const isOnAllowedRoute = allowedRoutes.some(route => pathname.startsWith(route))
+    
+    if (!isOnAllowedRoute) {
       setSelectedProperties([])
       setIsDrawerOpen(false)
     }

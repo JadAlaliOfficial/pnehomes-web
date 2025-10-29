@@ -1,7 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow, useMap } from "@vis.gl/react-google-maps";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import {
+  APIProvider,
+  Map,
+  AdvancedMarker,
+  Pin,
+  InfoWindow,
+  useMap,
+} from "@vis.gl/react-google-maps";
 import type { Community } from "@/features/communities/api";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import type { Marker } from "@googlemaps/markerclusterer";
@@ -23,7 +30,7 @@ export default function CommunityMap({ items }: Props) {
   );
 
   const center = useMemo(() => {
-    if (withCoords.length === 0) return { lat: 39.5, lng: -98.35 };
+    if (withCoords.length === 0) return { lat: 39.5, lng: -98.35 }; // USA centroid fallback
     return { lat: withCoords[0].latitude, lng: withCoords[0].longitude };
   }, [withCoords]);
 
@@ -38,31 +45,29 @@ export default function CommunityMap({ items }: Props) {
           gestureHandling="greedy"
           disableDefaultUI={false}
         >
-          <ClusteredMarkers 
-            points={withCoords} 
-            openId={openId}
-            setOpenId={setOpenId}
-          />
+          <ClusteredMarkers points={withCoords} openId={openId} setOpenId={setOpenId} />
         </Map>
       </div>
     </APIProvider>
   );
 }
 
-function ClusteredMarkers({ 
-  points, 
-  openId, 
-  setOpenId 
-}: { 
+function ClusteredMarkers({
+  points,
+  openId,
+  setOpenId,
+}: {
   points: CommunityWithCoords[];
   openId: string | number | null;
   setOpenId: (id: string | number | null) => void;
 }) {
   const map = useMap();
-  const [markers, setMarkers] = useState<{ [key: string]: Marker }>({});
   const clusterer = useRef<MarkerClusterer | null>(null);
 
-  // Initialize MarkerClusterer
+  // Keep marker instances in a ref (no React re-render loop)
+  const markersRef = useRef<Record<string, Marker>>({});
+
+  // Create the clusterer once when the map is ready
   useEffect(() => {
     if (!map) return;
     if (!clusterer.current) {
@@ -70,15 +75,32 @@ function ClusteredMarkers({
     }
   }, [map]);
 
-  // Update clustered markers when markers change
+  // Stable ref callback that only mutates the ref (no setState here)
+  const setMarkerRef = useCallback((marker: Marker | null, key: string) => {
+    const store = markersRef.current;
+
+    if (marker) {
+      if (store[key] !== marker) {
+        store[key] = marker;
+      }
+    } else {
+      if (store[key]) {
+        delete store[key];
+      }
+    }
+  }, []);
+
+  // Refresh clusterer when the dataset changes
   useEffect(() => {
     if (!clusterer.current) return;
-    
+    const list = Object.values(markersRef.current);
     clusterer.current.clearMarkers();
-    clusterer.current.addMarkers(Object.values(markers));
-  }, [markers]);
+    if (list.length) {
+      clusterer.current.addMarkers(list);
+    }
+  }, [points]);
 
-  // Fit bounds when points change
+  // Fit bounds on dataset changes
   useEffect(() => {
     if (!map || points.length === 0) return;
 
@@ -93,20 +115,12 @@ function ClusteredMarkers({
     map.fitBounds(bounds);
   }, [map, points]);
 
-  const setMarkerRef = (marker: Marker | null, key: string) => {
-    if (marker && markers[key]) return;
-    if (!marker && !markers[key]) return;
-
-    setMarkers((prev) => {
-      if (marker) {
-        return { ...prev, [key]: marker };
-      } else {
-        const newMarkers = { ...prev };
-        delete newMarkers[key];
-        return newMarkers;
-      }
-    });
-  };
+  // Close InfoWindow if its marker disappears after filtering
+  useEffect(() => {
+    if (openId != null && !points.some((p) => String(p.id) === String(openId))) {
+      setOpenId(null);
+    }
+  }, [points, openId, setOpenId]);
 
   return (
     <>
@@ -115,7 +129,9 @@ function ClusteredMarkers({
           key={c.id}
           position={{ lat: c.latitude, lng: c.longitude }}
           onClick={() => setOpenId(c.id)}
-          ref={(marker) => setMarkerRef(marker, String(c.id))}
+          // AdvancedMarker's ref resolves to google.maps.marker.AdvancedMarkerElement.
+          // markerclusterer accepts AdvancedMarkerElement as a Marker type.
+          ref={(m) => setMarkerRef((m as unknown as Marker) ?? null, String(c.id))}
         >
           <Pin scale={openId === c.id ? 1.5 : 1} />
         </AdvancedMarker>
@@ -133,10 +149,14 @@ function ClusteredMarkers({
               <div className="text-sm text-gray-600">{c.city}</div>
               {c["starting-price"] && (
                 <div className="mt-1 font-semibold">
-                  From ${Number(c["starting-price"].replace(/[^0-9]/g, '')).toLocaleString()}
+                  From $
+                  {Number(String(c["starting-price"]).replace(/[^0-9.]/g, "")).toLocaleString()}
                 </div>
               )}
-              <a href={`/communities/${c.slug}`} className="mt-2 inline-block text-blue-600 hover:underline">
+              <a
+                href={`/communities/${c.slug}`}
+                className="mt-2 inline-block text-blue-600 hover:underline"
+              >
                 View community →
               </a>
             </div>

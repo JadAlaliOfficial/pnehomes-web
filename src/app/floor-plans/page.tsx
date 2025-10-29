@@ -80,7 +80,7 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
     <main className="relative">
       {/* Hero / Title (clean and bold like pnehomes.com) */}
       <section className="relative isolate">
-        <div 
+        <div
           className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
           style={{ backgroundImage: `url(${coverImage})` }}
         >
@@ -111,7 +111,7 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
         </p>
 
         {/* Cards grid (clean, airy, like pnehomes) */}
-        <div className="my-2 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="my-2 px-1 md:px-4 lg:px-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 ">
           {list.map(p => (
             <div
               key={p.id}
@@ -128,7 +128,7 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
           <nav
             aria-label="Pagination"
             className="mx-auto mt-10 mb-16 flex items-center justify-center gap-2"
-          > 
+          >
             {/* Prev */}
             {currentPage > 1 && (
               <a

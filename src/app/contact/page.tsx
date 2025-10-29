@@ -1,294 +1,114 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { Suspense, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 
-// Form validation schema
-const contactFormSchema = z.object({
-  firstName: z.string().min(1, 'First name is required'),
-  lastName: z.string().min(1, 'Last name is required'),
-  email: z.string().email('Please enter a valid email address'),
-  phone: z.string().min(1, 'Phone number is required'),
-  message: z.string().optional(),
-  gdprConsent: z.boolean().refine(val => val === true, {
-    message: 'You must consent to the privacy policy to continue',
-  }),
-  captcha: z.string().min(1, 'Please complete the captcha'),
-})
-
-type ContactFormData = z.infer<typeof contactFormSchema>
-
-// Simple captcha component
-function SimpleCaptcha({
-  onCaptchaChange,
-  error,
-}: {
-  onCaptchaChange: (value: string) => void
-  error?: string
-}) {
-  const [captchaQuestion, setCaptchaQuestion] = useState<{
-    num1: number
-    num2: number
-    answer: number
-  } | null>(null)
-  const [userAnswer, setUserAnswer] = useState('')
-  const [, setIsClient] = useState(false)
-
-  // Initialize captcha only on client side to avoid hydration mismatch
-  useEffect(() => {
-    const num1 = Math.floor(Math.random() * 10) + 1
-    const num2 = Math.floor(Math.random() * 10) + 1
-    setCaptchaQuestion({ num1, num2, answer: num1 + num2 })
-    setIsClient(true)
-  }, [])
-
-  const handleAnswerChange = (value: string) => {
-    setUserAnswer(value)
-    if (captchaQuestion) {
-      const isCorrect = parseInt(value) === captchaQuestion.answer
-      onCaptchaChange(isCorrect ? 'correct' : '')
+/** ---- TS: add Cognito to the Window type ---- */
+declare global {
+  interface Window {
+    Cognito?: {
+      prefill?: (values: Record<string, unknown>) => void
     }
   }
+}
+/** -------------------------------------------- */
 
-  const refreshCaptcha = () => {
-    const num1 = Math.floor(Math.random() * 10) + 1
-    const num2 = Math.floor(Math.random() * 10) + 1
-    setCaptchaQuestion({ num1, num2, answer: num1 + num2 })
-    setUserAnswer('')
-    onCaptchaChange('')
-  }
+function CognitoEmbed() {
+  const searchParams = useSearchParams()
+  const messageParam = searchParams.get('message') || ''
+
+  // CSS-safe id (no colons), stable for the component's lifetime
+  const containerId = useMemo(
+    () => `cog-iframe-${Math.random().toString(36).slice(2)}`,
+    []
+  )
+
+  useEffect(() => {
+    const iframeSrc = 'https://www.cognitoforms.com/f/iframe.js'
+
+    const loadScriptAndPrefill = () => {
+      // Load iframe script if not already loaded
+      let script = document.querySelector<HTMLScriptElement>(`script[src="${iframeSrc}"]`)
+      
+      const prefillForm = () => {
+        // Wait for Cognito to be available on window
+        if (typeof window !== 'undefined' && window.Cognito && window.Cognito.prefill && messageParam) {
+          // Try common field names - update based on your actual field name from Developer Mode
+          try {
+            // Attempt 1: Simple field name
+            window.Cognito.prefill({ Message: messageParam })
+          } catch (e) {
+            console.error('Prefill failed:', e)
+          }
+        }
+      }
+
+      if (!script) {
+        script = document.createElement('script')
+        script.src = iframeSrc
+        script.async = true
+        script.addEventListener('load', () => {
+          // Multiple delays to ensure iframe is fully loaded
+          setTimeout(prefillForm, 200)
+          setTimeout(prefillForm, 500)
+          setTimeout(prefillForm, 1000)
+        }, { once: true })
+        document.body.appendChild(script)
+      } else {
+        // Script already exists, just prefill with delays
+        setTimeout(prefillForm, 200)
+        setTimeout(prefillForm, 500)
+        setTimeout(prefillForm, 1000)
+      }
+    }
+
+    loadScriptAndPrefill()
+
+    return () => {
+      // Cleanup if needed
+    }
+  }, [containerId, messageParam])
 
   return (
-    <div className="space-y-2">
-      <Label htmlFor="captcha">Security Check *</Label>
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-        <div className="rounded-md border bg-gray-100 p-2 sm:p-3 dark:bg-gray-800 w-full sm:w-auto">
-          <span className="font-mono text-base sm:text-lg">
-            {captchaQuestion
-              ? `${captchaQuestion.num1} + ${captchaQuestion.num2} = ?`
-              : 'Loading...'}
-          </span>
-        </div>
-        <div className="flex gap-2 w-full sm:w-auto">
-          <Input
-            id="captcha"
-            type="number"
-            placeholder="Answer"
-            value={userAnswer}
-            onChange={e => handleAnswerChange(e.target.value)}
-            className="w-20 sm:w-24"
-            disabled={!captchaQuestion}
-          />
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={refreshCaptcha}
-            disabled={!captchaQuestion}
-            className="text-xs sm:text-sm"
-          >
-            Refresh
-          </Button>
-        </div>
-      </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
-    </div>
+    <iframe
+      id={containerId}
+      src="https://www.cognitoforms.com/f/pxHkG6m3FkeZ9HUuTLWtiA/39"
+      allow="payment"
+      style={{ border: 0, width: '100%' }}
+      height="594"
+      title="Contact Form"
+    />
   )
 }
 
-// Main page component with Suspense wrapper
 export default function ContactPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center bg-gray-50 py-12 dark:bg-gray-900">
-          <div className="text-lg">Loading...</div>
-        </div>
-      }
-    >
-      <ContactForm />
-    </Suspense>
-  )
-}
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 py-12 dark:bg-gray-900">
+        <div className="text-lg">Loading...</div>
+      </div>
+    }>
+      <div className="bg-background min-h-screen">
+        {/* Hero */}
+        <section className="relative isolate">
+          <div className="absolute inset-0 -z-10 bg-[color:var(--pne-brand)]">
+            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/10" />
+          </div>
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-24 pb-8 sm:pb-10 lg:pb-12 text-center">
+            <h1 className="text-white mb-3 sm:mb-4 text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight uppercase">
+              Contact Us
+            </h1>
+          </div>
+        </section>
 
-// Contact form component that uses useSearchParams
-function ContactForm() {
-  const searchParams = useSearchParams()
-  const messageParam = searchParams.get('message')
-
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors, isSubmitting },
-  } = useForm<ContactFormData>({
-    resolver: zodResolver(contactFormSchema),
-    defaultValues: {
-      message: messageParam || '',
-    },
-  })
-
-  // Set the message field value when component mounts if messageParam exists
-  useEffect(() => {
-    if (messageParam) {
-      setValue('message', messageParam)
-    }
-  }, [messageParam, setValue])
-
-  const onSubmit = async (data: ContactFormData) => {
-    // For now, just log the data - no actual submission
-    console.log('Form submitted:', data)
-    alert('Form submitted successfully! (This is just a demo - no data was actually sent)')
-  }
-
-  return (
-    <div className="bg-background min-h-screen">
-      {/* Hero Section with pne-brand Background */}
-      <section className="relative isolate">
-        <div className="absolute inset-0 -z-10 bg-[color:var(--pne-brand)]">
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/10" />
-        </div>
-
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-24 pb-8 sm:pb-10 lg:pb-12 text-center">
-          <h1 className="text-white mb-3 sm:mb-4 text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight uppercase">
-            Contact Us
-          </h1>
-        </div>
-      </section>
-
-      <div className="bg-gray-50 py-8 sm:py-12 lg:py-16 dark:bg-gray-900">
-        <div className="mx-auto max-w-sm sm:max-w-md lg:max-w-2xl xl:max-w-4xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-lg bg-white p-4 sm:p-6 lg:p-8 shadow-lg dark:bg-gray-800">
-
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
-            {/* Name Fields - Side by side on larger screens */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              {/* First Name */}
-              <div>
-                <Label htmlFor="firstName">First Name *</Label>
-                <Input
-                  id="firstName"
-                  type="text"
-                  {...register('firstName')}
-                  className="mt-1"
-                  placeholder="Enter your first name"
-                />
-                {errors.firstName && (
-                  <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
-                )}
-              </div>
-
-              {/* Last Name */}
-              <div>
-                <Label htmlFor="lastName">Last Name *</Label>
-                <Input
-                  id="lastName"
-                  type="text"
-                  {...register('lastName')}
-                  className="mt-1"
-                  placeholder="Enter your last name"
-                />
-                {errors.lastName && (
-                  <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
-                )}
-              </div>
+        <div className="bg-gray-50 py-8 sm:py-12 lg:py-16 dark:bg-gray-900">
+          <div className="mx-auto max-w-sm sm:max-w-md lg:max-w-2xl xl:max-w-4xl px-4 sm:px-6 lg:px-8">
+            <div className="rounded-lg bg-white p-4 sm:p-6 lg:p-8 shadow-lg dark:bg-gray-800">
+              <CognitoEmbed />
             </div>
-
-            {/* Contact Fields - Side by side on larger screens */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              {/* Email */}
-              <div>
-                <Label htmlFor="email">Email *</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  {...register('email')}
-                  className="mt-1"
-                  placeholder="Enter your email address"
-                />
-                {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
-              </div>
-
-              {/* Phone */}
-              <div>
-                <Label htmlFor="phone">Phone *</Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  {...register('phone')}
-                  className="mt-1"
-                  placeholder="Enter your phone number"
-                />
-                {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>}
-              </div>
-            </div>
-
-            {/* Message */}
-            <div>
-              <Label htmlFor="message">Message</Label>
-              <textarea
-                id="message"
-                {...register('message')}
-                rows={4}
-                className="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 mt-1 w-full min-w-0 rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                placeholder="Enter your message (optional)"
-              />
-              {errors.message && (
-                <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>
-              )}
-            </div>
-
-            {/* Captcha */}
-            <SimpleCaptcha
-              onCaptchaChange={value => setValue('captcha', value)}
-              error={errors.captcha?.message}
-            />
-
-            {/* GDPR Consent */}
-            <div className="flex items-start space-x-3">
-              <input
-                id="gdprConsent"
-                type="checkbox"
-                {...register('gdprConsent')}
-                className="text-primary focus:ring-primary mt-1 h-4 w-4 rounded border-gray-300 focus:ring-2"
-              />
-              <div className="flex-1">
-                <Label htmlFor="gdprConsent" className="text-sm">
-                  GDPR Agreement *
-                </Label>
-                <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
-                  I consent to the storage of my information as detailed in the{' '}
-                  <a
-                    href="/privacy-policy"
-                    className="text-primary hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    linked privacy policy
-                  </a>
-                </p>
-                {errors.gdprConsent && (
-                  <p className="mt-1 text-sm text-red-600">{errors.gdprConsent.message}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <div className="pt-4">
-              <Button type="submit" disabled={isSubmitting} className="w-full" size="lg">
-                {isSubmitting ? 'Submitting...' : 'Submit'}
-              </Button>
-            </div>
-            </form>
           </div>
         </div>
       </div>
-    </div>
+    </Suspense>
   )
 }

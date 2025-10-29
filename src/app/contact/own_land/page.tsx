@@ -1,110 +1,8 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { useEffect, useRef, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 
-// Form validation schema with additional land fields
-const contactFormSchema = z.object({
-  firstName: z.string().min(1, 'First name is required'),
-  lastName: z.string().min(1, 'Last name is required'),
-  email: z.string().email('Please enter a valid email address'),
-  phone: z.string().min(1, 'Phone number is required'),
-  landArea: z.string().min(1, 'Land area is required'),
-  landAddress: z.string().min(1, 'Land address is required'),
-  message: z.string().optional(),
-  gdprConsent: z.boolean().refine(val => val === true, {
-    message: 'You must consent to the privacy policy to continue',
-  }),
-  captcha: z.string().min(1, 'Please complete the captcha'),
-})
-
-type ContactFormData = z.infer<typeof contactFormSchema>
-
-// Simple captcha component
-function SimpleCaptcha({
-  onCaptchaChange,
-  error,
-}: {
-  onCaptchaChange: (value: string) => void
-  error?: string
-}) {
-  const [captchaQuestion, setCaptchaQuestion] = useState<{
-    num1: number
-    num2: number
-    answer: number
-  } | null>(null)
-  const [userAnswer, setUserAnswer] = useState('')
-  const [, setIsClient] = useState(false)
-
-  // Initialize captcha only on client side to avoid hydration mismatch
-  useEffect(() => {
-    const num1 = Math.floor(Math.random() * 10) + 1
-    const num2 = Math.floor(Math.random() * 10) + 1
-    setCaptchaQuestion({ num1, num2, answer: num1 + num2 })
-    setIsClient(true)
-  }, [])
-
-  const handleAnswerChange = (value: string) => {
-    setUserAnswer(value)
-    if (captchaQuestion) {
-      const isCorrect = parseInt(value) === captchaQuestion.answer
-      onCaptchaChange(isCorrect ? 'correct' : '')
-    }
-  }
-
-  const refreshCaptcha = () => {
-    const num1 = Math.floor(Math.random() * 10) + 1
-    const num2 = Math.floor(Math.random() * 10) + 1
-    setCaptchaQuestion({ num1, num2, answer: num1 + num2 })
-    setUserAnswer('')
-    onCaptchaChange('')
-  }
-
-  return (
-    <div className="space-y-2">
-      <Label htmlFor="captcha">Security Check *</Label>
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-        <div className="rounded-md border bg-gray-100 p-2 sm:p-3 dark:bg-gray-800 w-full sm:w-auto">
-          <span className="font-mono text-base sm:text-lg">
-            {captchaQuestion
-              ? `${captchaQuestion.num1} + ${captchaQuestion.num2} = ?`
-              : 'Loading...'}
-          </span>
-        </div>
-        <div className="flex gap-2 w-full sm:w-auto">
-          <Input
-            id="captcha"
-            type="number"
-            placeholder="Answer"
-            value={userAnswer}
-            onChange={e => handleAnswerChange(e.target.value)}
-            className="w-20 sm:w-24"
-            disabled={!captchaQuestion}
-          />
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={refreshCaptcha}
-            disabled={!captchaQuestion}
-            className="text-xs sm:text-sm"
-          >
-            Refresh
-          </Button>
-        </div>
-      </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
-    </div>
-  )
-}
-
-// Main page component with Suspense wrapper
 export default function OwnLandContactPage() {
   return (
     <Suspense
@@ -119,44 +17,50 @@ export default function OwnLandContactPage() {
   )
 }
 
-// Contact form component that uses useSearchParams
 function OwnLandContactForm() {
   const searchParams = useSearchParams()
-  const messageParam = searchParams.get('message')
+  const messageParam = searchParams.get('message') || ''
+  const containerRef = useRef<HTMLDivElement>(null)
+  const injectedRef = useRef(false)
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors, isSubmitting },
-  } = useForm<ContactFormData>({
-    resolver: zodResolver(contactFormSchema),
-    defaultValues: {
-      message: messageParam || '',
-    },
-  })
-
-  // Set the message field value when component mounts if messageParam exists
   useEffect(() => {
-    if (messageParam) {
-      setValue('message', messageParam)
-    }
-  }, [messageParam, setValue])
+    if (!containerRef.current) return
 
-  const onSubmit = async (data: ContactFormData) => {
-    // For now, just log the data - no actual submission
-    console.log('Own Land Form submitted:', data)
-    alert('Own Land Form submitted successfully! (This is just a demo - no data was actually sent)')
-  }
+    // Inject the embed script exactly once, and place it where we want the form to render
+    if (!injectedRef.current) {
+      const script = document.createElement('script')
+      script.src = 'https://www.cognitoforms.com/f/seamless.js'
+      script.async = true
+      script.setAttribute('data-key', 'pxHkG6m3FkeZ9HUuTLWtiA')
+      script.setAttribute('data-form', '40')
+
+      // Append the script *inside* the container so the form renders there
+      containerRef.current.appendChild(script)
+      injectedRef.current = true
+    }
+
+    // If a message is present, try to prefill once Cognito is available
+    if (messageParam) {
+      const start = Date.now()
+      const timer = setInterval(() => {
+        const w = window as any
+        if (w.Cognito && typeof w.Cognito.prefill === 'function') {
+          w.Cognito.prefill({ Message: messageParam })
+          clearInterval(timer)
+        }
+        // stop trying after 5s
+        if (Date.now() - start > 5000) clearInterval(timer)
+      }, 100)
+      return () => clearInterval(timer)
+    }
+  }, [messageParam])
 
   return (
     <div className="bg-background min-h-screen">
-      {/* Hero Section with pne-brand Background */}
       <section className="relative isolate">
         <div className="absolute inset-0 -z-10 bg-[color:var(--pne-brand)]">
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/10" />
         </div>
-
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-24 pb-8 sm:pb-10 lg:pb-12 text-center">
           <h1 className="text-white mb-3 sm:mb-4 text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight uppercase">
             Contact Us - Own Land
@@ -167,161 +71,8 @@ function OwnLandContactForm() {
       <div className="bg-gray-50 py-8 sm:py-12 lg:py-16 dark:bg-gray-900">
         <div className="mx-auto max-w-sm sm:max-w-md lg:max-w-2xl xl:max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-lg bg-white p-4 sm:p-6 lg:p-8 shadow-lg dark:bg-gray-800">
-
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
-            {/* Name Fields - Side by side on larger screens */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              {/* First Name */}
-              <div>
-                <Label htmlFor="firstName">First Name *</Label>
-                <Input
-                  id="firstName"
-                  type="text"
-                  {...register('firstName')}
-                  className="mt-1"
-                  placeholder="Enter your first name"
-                />
-                {errors.firstName && (
-                  <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
-                )}
-              </div>
-
-              {/* Last Name */}
-              <div>
-                <Label htmlFor="lastName">Last Name *</Label>
-                <Input
-                  id="lastName"
-                  type="text"
-                  {...register('lastName')}
-                  className="mt-1"
-                  placeholder="Enter your last name"
-                />
-                {errors.lastName && (
-                  <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Contact Fields - Side by side on larger screens */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              {/* Email */}
-              <div>
-                <Label htmlFor="email">Email *</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  {...register('email')}
-                  className="mt-1"
-                  placeholder="Enter your email address"
-                />
-                {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
-              </div>
-
-              {/* Phone */}
-              <div>
-                <Label htmlFor="phone">Phone *</Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  {...register('phone')}
-                  className="mt-1"
-                  placeholder="Enter your phone number"
-                />
-                {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>}
-              </div>
-            </div>
-
-            {/* Land Fields - Side by side on larger screens */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              {/* Land Area */}
-              <div>
-                <Label htmlFor="landArea">Land Area (sqft) *</Label>
-                <Input
-                  id="landArea"
-                  type="number"
-                  {...register('landArea')}
-                  className="mt-1"
-                  placeholder="Enter land area in square feet"
-                  min="1"
-                />
-                {errors.landArea && (
-                  <p className="mt-1 text-sm text-red-600">{errors.landArea.message}</p>
-                )}
-              </div>
-
-              {/* Land Address - Takes full width on small screens, half on larger */}
-              <div className="sm:col-span-1">
-                <Label htmlFor="landAddress">Land Address *</Label>
-                <Input
-                  id="landAddress"
-                  type="text"
-                  {...register('landAddress')}
-                  className="mt-1"
-                  placeholder="Enter the full address of your land"
-                />
-                {errors.landAddress && (
-                  <p className="mt-1 text-sm text-red-600">{errors.landAddress.message}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Message */}
-            <div>
-              <Label htmlFor="message">Message</Label>
-              <textarea
-                id="message"
-                {...register('message')}
-                rows={4}
-                className="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 mt-1 w-full min-w-0 rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                placeholder="Tell us more about your project or any specific requirements (optional)"
-              />
-              {errors.message && (
-                <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>
-              )}
-            </div>
-
-            {/* Captcha */}
-            <SimpleCaptcha
-              onCaptchaChange={value => setValue('captcha', value)}
-              error={errors.captcha?.message}
-            />
-
-            {/* GDPR Consent */}
-            <div className="flex items-start space-x-3">
-              <input
-                id="gdprConsent"
-                type="checkbox"
-                {...register('gdprConsent')}
-                className="text-primary focus:ring-primary mt-1 h-4 w-4 rounded border-gray-300 focus:ring-2"
-              />
-              <div className="flex-1">
-                <Label htmlFor="gdprConsent" className="text-sm">
-                  GDPR Agreement *
-                </Label>
-                <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
-                  I consent to the storage of my information as detailed in the{' '}
-                  <a
-                    href="/privacy-policy"
-                    className="text-primary hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    linked privacy policy
-                  </a>
-                </p>
-                {errors.gdprConsent && (
-                  <p className="mt-1 text-sm text-red-600">{errors.gdprConsent.message}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <div className="pt-4">
-              <Button type="submit" disabled={isSubmitting} className="w-full" size="lg">
-                {isSubmitting ? 'Submitting...' : 'Submit Own Land Inquiry'}
-              </Button>
-            </div>
-            </form>
+            {/* Place the script here via ref so the form renders in this card */}
+            <div id="cognito-form-container" ref={containerRef} />
           </div>
         </div>
       </div>
