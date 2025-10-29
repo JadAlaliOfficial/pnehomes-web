@@ -19,6 +19,7 @@ export default async function SubAlbumPage({ params }: SubAlbumPageProps) {
 
   const { album, subAlbum } = result
   const cover = await getGalleryCover()
+  console.log('Cover image URL:', cover)
   const contactMessage = contactInfo.message.replace('{title}', subAlbum.title)
   const contactUrl = `/contact?message=${encodeURIComponent(contactMessage)}`
 

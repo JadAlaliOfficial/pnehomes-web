@@ -3,6 +3,11 @@ import { Card, CardContent } from '@/components/ui/card'
 import Image from 'next/image'
 import Link from 'next/link'
 
+// app/gallery/page.tsx
+export const dynamic = 'force-static'
+export const fetchCache = 'force-cache' // optional, but makes the intent clear
+// DO NOT export revalidate here if you use `next export`
+
 
 export default async function GalleryPage() {
   const [galleryData, galleryCover, galleryTitle] = await Promise.all([

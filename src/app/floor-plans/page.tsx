@@ -4,6 +4,7 @@ import * as Property from '@/features/property/api'
 import PropertyCard from '@/features/property/components/PropertyCard'
 import FilterBar from '@/features/property/components/FilterBar'
 import { toNum } from '@/lib/url'
+import HeroSection from '@/features/property/components/HeroSection'
 
 // Always fetch fresh data from the API (no Next cache snapshot)
 export const dynamic = 'force-dynamic'
@@ -35,7 +36,6 @@ function buildQueryString(
 
   return new URLSearchParams(merged).toString()
 }
-
 
 function getWindowedPages(current: number, total: number) {
   // Compact pagination: 1 … 4 5 [6] 7 8 … 20
@@ -90,24 +90,7 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
   return (
     <main className="relative">
       {/* Hero / Title */}
-      {coverImage && (
-        <section className="relative isolate">
-          <div
-            className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
-            style={{ backgroundImage: `url(${coverImage})` }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
-          </div>
-
-          <div className="flex min-h-[60vh] items-center justify-center">
-            <div className="container mx-auto px-6 text-center">
-              <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
-                {pageTitle}
-              </h1>
-            </div>
-          </div>
-        </section>
-      )}
+      {coverImage && <HeroSection coverImage={coverImage} pageTitle={pageTitle} />}
 
       {/* Filter bar */}
       <section className="border-y bg-white">
