@@ -1,6 +1,5 @@
 import { getAboutUsData, getCover } from '@/features/aboutUs/api'
 import Link from 'next/link'
-import Image from 'next/image'
 
 export default async function AboutUsPage() {
   const response = await getAboutUsData()

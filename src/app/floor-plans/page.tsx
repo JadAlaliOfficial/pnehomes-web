@@ -4,7 +4,9 @@ import * as Property from '@/features/property/api'
 import PropertyCard from '@/features/property/components/PropertyCard'
 import FilterBar from '@/features/property/components/FilterBar'
 import { toNum } from '@/lib/url'
-import Image from 'next/image'
+
+// Always fetch fresh data from the API (no Next cache snapshot)
+export const dynamic = 'force-dynamic'
 
 type SP = Record<string, string | string[] | undefined>
 
@@ -12,41 +14,46 @@ function buildQueryString(
   searchParams: SP,
   overrides: Record<string, string | number | undefined>
 ) {
-  const base = Object.fromEntries(Object.entries(searchParams).filter(([key]) => key !== 'page'))
-  const qs = new URLSearchParams({
-    ...base,
-    ...Object.fromEntries(
-      Object.entries(overrides).filter(([, v]) => v !== undefined && v !== null)
-    ),
-  } as Record<string, string>)
-  return qs.toString()
+  // keep existing params except "page" (we override it)
+  const baseEntries = Object.entries(searchParams)
+    .filter(([key]) => key !== 'page')
+    .flatMap(([key, value]) => {
+      // normalize only string values
+      if (typeof value === 'string') return [[key, value]]
+      // if it's an array, pick the first value (or join, depending on your use case)
+      if (Array.isArray(value)) return [[key, value[0]]]
+      // skip undefined
+      return []
+    })
+
+  // stringify override values and merge
+  const overrideEntries = Object.entries(overrides)
+    .filter(([, v]) => v !== undefined && v !== null)
+    .map(([k, v]) => [k, String(v as string | number)])
+
+  const merged = Object.fromEntries([...baseEntries, ...overrideEntries]) as Record<string, string>
+
+  return new URLSearchParams(merged).toString()
 }
 
+
 function getWindowedPages(current: number, total: number) {
-  // Create a compact pagination like pnehomes.com: 1 ... 4 5 [6] 7 8 ... 20
+  // Compact pagination: 1 … 4 5 [6] 7 8 … 20
   const delta = 2
   const pages: (number | '...')[] = []
-  const range = new Set<number>()
+  const set = new Set<number>([1, total])
 
-  // Always include first and last
-  range.add(1)
-  range.add(total)
-
-  // Include a sliding window around current
   for (let i = Math.max(1, current - delta); i <= Math.min(total, current + delta); i++) {
-    range.add(i)
+    set.add(i)
   }
 
-  // Build sorted array
-  const sorted = Array.from(range).sort((a, b) => a - b)
-
+  const sorted = Array.from(set).sort((a, b) => a - b)
   for (let i = 0; i < sorted.length; i++) {
     const page = sorted[i]
     pages.push(page)
     const next = sorted[i + 1]
     if (next && next - page > 1) pages.push('...')
   }
-
   return pages
 }
 
@@ -61,10 +68,14 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
     max: toNum(searchParams.max),
     page: toNum(searchParams.page) || 1,
     limit: 9,
+    // match API defaults explicitly
     sortBy: 'sqft' as const,
     sortOrder: 'desc' as const,
   }
 
+  // With the HTTP-backed repo:
+  // - list(params) returns just this page of items (already filtered/sorted on the server)
+  // - getTotalFilteredCount(params) reads pagination.total (fallbacks if absent)
   const [list, totalCount, coverImage, pageTitle] = await Promise.all([
     Property.list(params),
     Property.getTotalFilteredCount(params),
@@ -78,23 +89,25 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
 
   return (
     <main className="relative">
-      {/* Hero / Title (clean and bold like pnehomes.com) */}
-      <section className="relative isolate">
-        <div
-          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
-          style={{ backgroundImage: `url(${coverImage})` }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
-        </div>
-
-        <div className="flex min-h-[60vh] items-center justify-center">
-          <div className="container mx-auto px-6 text-center">
-            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
-              {pageTitle}
-            </h1>
+      {/* Hero / Title */}
+      {coverImage && (
+        <section className="relative isolate">
+          <div
+            className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
+            style={{ backgroundImage: `url(${coverImage})` }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
           </div>
-        </div>
-      </section>
+
+          <div className="flex min-h-[60vh] items-center justify-center">
+            <div className="container mx-auto px-6 text-center">
+              <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+                {pageTitle}
+              </h1>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Filter bar */}
       <section className="border-y bg-white">
@@ -110,14 +123,13 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
           <span className="font-medium">{totalCount}</span> result{totalCount === 1 ? '' : 's'}
         </p>
 
-        {/* Cards grid (clean, airy, like pnehomes) */}
-        <div className="my-2 px-1 md:px-4 lg:px-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 ">
+        {/* Cards grid */}
+        <div className="my-2 grid gap-6 px-1 sm:px-0 sm:grid-cols-2 lg:grid-cols-3 lg:px-10">
           {list.map(p => (
             <div
               key={p.id}
               className="group overflow-hidden rounded-xl border bg-white shadow-sm transition hover:shadow-md"
             >
-              {/* Let PropertyCard render its own internals; we wrap for consistent look */}
               <PropertyCard p={p} />
             </div>
           ))}
@@ -132,9 +144,7 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
             {/* Prev */}
             {currentPage > 1 && (
               <a
-                href={`/floor-plans?${buildQueryString(searchParams, {
-                  page: currentPage - 1,
-                })}`}
+                href={`/floor-plans?${buildQueryString(searchParams, { page: currentPage - 1 })}`}
                 className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
                 <span aria-hidden="true">‹</span>
@@ -146,15 +156,13 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
             <div className="flex items-center gap-2">
               {pages.map((pg, idx) =>
                 pg === '...' ? (
-                  <span key={`dots-${idx}`} className="px-3 py-2 text-sm text-gray-400 select-none">
+                  <span key={`dots-${idx}`} className="select-none px-3 py-2 text-sm text-gray-400">
                     …
                   </span>
                 ) : (
                   <a
                     key={pg}
-                    href={`/floor-plans?${buildQueryString(searchParams, {
-                      page: pg,
-                    })}`}
+                    href={`/floor-plans?${buildQueryString(searchParams, { page: pg })}`}
                     aria-current={pg === currentPage ? 'page' : undefined}
                     className={[
                       'inline-flex min-w-10 items-center justify-center rounded-full border px-3 py-2 text-sm font-medium',
@@ -172,9 +180,7 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
             {/* Next */}
             {currentPage < totalPages && (
               <a
-                href={`/floor-plans?${buildQueryString(searchParams, {
-                  page: currentPage + 1,
-                })}`}
+                href={`/floor-plans?${buildQueryString(searchParams, { page: currentPage + 1 })}`}
                 className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
                 <span className="hidden sm:inline">Next</span>

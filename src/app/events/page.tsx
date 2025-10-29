@@ -1,7 +1,6 @@
 import { EventsAPI } from '@/features/events/api'
 import type { Event } from '@/features/events/model/types'
 import ImageGallery from '@/components/ImageGallery'
-import Image from 'next/image'
 
 export default async function EventsPage() {
   // Fetch events data

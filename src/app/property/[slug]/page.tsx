@@ -1,6 +1,5 @@
 // src/app/property/[slug]/page.tsx
 import * as Property from '@/features/property/api'
-import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import SharePrintButtons from '@/features/property/components/SharePrintButtons'
@@ -11,6 +10,9 @@ import { Card, CardContent } from '@/components/ui/card'
 import { CircleDollarSignIcon, Bed, Bath, Car, Map } from 'lucide-react'
 import { FloorPlanCollapsible } from '@/features/property/components/FloorPlanCollapsible'
 
+// Ensure this page always renders with fresh API data
+export const dynamic = 'force-dynamic'
+
 export async function generateStaticParams() {
   const slugs = await Property.allSlugs()
   return slugs.map(slug => ({ slug }))
@@ -20,18 +22,19 @@ export default async function Page({
   params,
   searchParams,
 }: {
-  params: Promise<{ slug: string }>
-  searchParams: Promise<Record<string, string | string[] | undefined>>
+  params: { slug: string }
+  searchParams: Record<string, string | string[] | undefined>
 }) {
-  const { slug } = await params
-  const sp = await searchParams
+  const { slug } = params
+  const sp = searchParams
+
   const p = await Property.getBySlug(slug)
   if (!p) return notFound()
 
   // Get contact information for dynamic message
   const contactInfo = await Property.getContactInfo()
 
-  // Get filter parameters from search params to maintain context
+  // Keep filter context from the URL (used for prev/next navigation)
   const filterParams = {
     community: typeof sp.community === 'string' ? sp.community : undefined,
     price: sp.price ? Number(sp.price) : undefined,
@@ -49,8 +52,8 @@ export default async function Page({
     Property.list({ ...filterParams, limit: 1000 }),
     Property.getCoverImage(),
   ])
-  const currentIndex = filteredProperties.findIndex(prop => prop.slug === slug)
 
+  const currentIndex = filteredProperties.findIndex(prop => prop.slug === slug)
   const prevProperty = currentIndex > 0 ? filteredProperties[currentIndex - 1] : null
   const nextProperty =
     currentIndex < filteredProperties.length - 1 ? filteredProperties[currentIndex + 1] : null
@@ -63,7 +66,8 @@ export default async function Page({
         queryParams.set(key, value)
       }
     })
-    return `/property/${targetSlug}?${queryParams.toString()}`
+    const qs = queryParams.toString()
+    return qs ? `/property/${targetSlug}?${qs}` : `/property/${targetSlug}`
   }
 
   // helpers
@@ -84,8 +88,7 @@ export default async function Page({
   const beds = p.beds ? `${p.beds} bd` : ''
   const baths = p.baths ? `${p.baths} ba` : ''
 
-  const gallery =
-    Array.isArray(p.gallery) && p.gallery.length > 0 ? p.gallery : ['/img/placeholder.jpg']
+  const gallery = Array.isArray(p.gallery) && p.gallery.length > 0 ? p.gallery : []
 
   const shareText =
     p?.Whats_special?.description?.slice(0, 140)?.trim() ||
@@ -94,19 +97,20 @@ export default async function Page({
 
   return (
     <main className="relative">
-      {/* Hero / Title (clean and bold like pnehomes.com) */}
-      <section 
-        className="relative isolate flex min-h-[60vh] items-center justify-center bg-cover bg-center bg-no-repeat md:bg-fixed"
-        style={{ backgroundImage: `url(${coverImage})` }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
-
-        <div className="container mx-auto px-6 pt-20 pb-10 text-center relative z-10">
-          <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
-            {p.title}
-          </h1>
-        </div>
-      </section>
+      {/* Hero / Title */}
+      {coverImage && (
+        <section
+          className="relative isolate flex min-h-[60vh] items-center justify-center bg-cover bg-center bg-no-repeat md:bg-fixed"
+          style={{ backgroundImage: `url(${coverImage})` }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
+          <div className="container mx-auto px-6 pt-20 pb-10 text-center relative z-10">
+            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+              {p.title}
+            </h1>
+          </div>
+        </section>
+      )}
 
       {/* Header Title block */}
       <header className="container mx-auto max-w-6xl px-4 pt-6 pb-5 sm:px-6">
@@ -130,13 +134,14 @@ export default async function Page({
       <section className="container mx-auto max-w-6xl px-4 pb-12 sm:px-6">
         <div className="grid gap-8 lg:grid-cols-[1fr,380px]">
           {/* Gallery */}
-          <Card>
-            <CardContent className="p-2">
-              <ImageGallery images={gallery} title={p.title} maxVisibleImages={5} />
+          {gallery.length > 0 && (
+            <Card>
+              <CardContent className="p-2">
+                <ImageGallery images={gallery} title={p.title} maxVisibleImages={5} />
 
               {/* Responsive Property Stats */}
               <div className="mt-5">
-                {/* Mobile Layout: 2 rows */}
+                {/* Mobile Layout */}
                 <div className="block text-sm opacity-80 lg:hidden">
                   {/* First Row: Price and SQFT */}
                   <div className="mb-4 flex items-center justify-around border-b border-gray-200 pb-4">
@@ -184,7 +189,7 @@ export default async function Page({
                   </div>
                 </div>
 
-                {/* Desktop Layout: Single row */}
+                {/* Desktop Layout */}
                 <div className="hidden text-sm opacity-80 lg:flex lg:items-center lg:justify-around">
                   <div className="flex-col items-center justify-between">
                     <div className="mt-2 text-base font-medium">
@@ -229,6 +234,7 @@ export default async function Page({
               </div>
             </CardContent>
           </Card>
+        )}
         </div>
 
         {/* What's Special / Highlights */}
@@ -310,7 +316,11 @@ export default async function Page({
           )}
 
           <Button asChild size="lg" className="w-full sm:flex-1">
-            <Link href={`/contact?message=${encodeURIComponent(contactInfo.message.replace('{propertyTitle}', p.title))}`}>
+            <Link
+              href={`/contact?message=${encodeURIComponent(
+                contactInfo.message.replace('{propertyTitle}', p.title)
+              )}`}
+            >
               Contact Us About This Property
             </Link>
           </Button>

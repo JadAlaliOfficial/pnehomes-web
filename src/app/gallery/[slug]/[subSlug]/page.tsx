@@ -2,7 +2,6 @@ import { getGallerySubAlbum, getGalleryContactInfo , getGalleryCover } from '@/f
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
 import GalleryContent from '@/features/gallery/components/GalleryContent'
 
 interface SubAlbumPageProps {

@@ -127,6 +127,7 @@ export class HomeContentRepository {
   }
 
   // Kept for API parity (no-op merge in-memory). In a real app you'd POST/PATCH to CMS.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public updateHomeContent(_updates: Partial<HomeContent>): void {
     // intentionally left blank - no-op for CMS-based repository
   }

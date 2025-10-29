@@ -3,6 +3,13 @@
 import { useEffect, useRef, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 
+// Type definition for Cognito Forms API
+interface CognitoWindow extends Window {
+  Cognito?: {
+    prefill: (data: Record<string, unknown>) => void
+  }
+}
+
 export default function OwnLandContactPage() {
   return (
     <Suspense
@@ -43,7 +50,7 @@ function OwnLandContactForm() {
     if (messageParam) {
       const start = Date.now()
       const timer = setInterval(() => {
-        const w = window as any
+        const w = window as CognitoWindow
         if (w.Cognito && typeof w.Cognito.prefill === 'function') {
           w.Cognito.prefill({ Message: messageParam })
           clearInterval(timer)

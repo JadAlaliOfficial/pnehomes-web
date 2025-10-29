@@ -9,7 +9,7 @@
 // src/features/property/api/file.repository.ts
 import raw from '../mock/properties.json'
 import { z } from 'zod'
-import { PropertySchema, type Property, type Contact, type PropertyData } from '../model/types'
+import { PropertySchema, type Property, type Contact } from '../model/types'
 import {
   applyFiltersAndSort,
   getTotalCount,

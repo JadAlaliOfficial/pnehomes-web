@@ -39,28 +39,30 @@ export default function PropertyCard({ p }: { p: Property }) {
   return (
     <Link href={propertyUrl} className="block">
       <Card className="group cursor-pointer overflow-hidden p-0 transition-shadow hover:shadow-lg">
-        <div className="relative aspect-[5/3]">
-          <Image
-            src={p.gallery[0] ?? '/img/placeholder.jpg'}
-            alt={p.title}
-            fill
-            sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
-            className="object-cover transition-transform group-hover:scale-105"
-          />
-          {/* Review Button - Bottom Left Corner */}
-          <div className="absolute bottom-2 left-2 z-10" onClick={handleQuickReviewClick}>
-            <PropertyReviewDialog property={p}>
-              <Button
-                variant="secondary"
-                size="sm"
-                className="bg-white/95 text-black shadow-lg backdrop-blur-sm transition-all hover:bg-white hover:scale-105 active:scale-95"
-              >
-                <Eye className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
-                <span className="text-xs sm:text-sm">Quick Review</span>
-              </Button>
-            </PropertyReviewDialog>
+        {p.gallery && p.gallery[0] && (
+          <div className="relative aspect-[5/3]">
+            <Image
+              src={p.gallery[0]}
+              alt={p.title}
+              fill
+              sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+              className="object-cover transition-transform group-hover:scale-105"
+            />
+            {/* Review Button - Bottom Left Corner */}
+            <div className="absolute bottom-2 left-2 z-10" onClick={handleQuickReviewClick}>
+              <PropertyReviewDialog property={p}>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="bg-white/95 text-black shadow-lg backdrop-blur-sm transition-all hover:bg-white hover:scale-105 active:scale-95"
+                >
+                  <Eye className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                  <span className="text-xs sm:text-sm">Quick Review</span>
+                </Button>
+              </PropertyReviewDialog>
+            </div>
           </div>
-        </div>
+        )}
         <CardContent className="p-1.5">
           <div className="text-xl font-bold hover:underline">{p.title}</div>
           <div className="mt-0.5 text-base capitalize opacity-60">{p.community}</div>

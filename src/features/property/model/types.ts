@@ -53,16 +53,13 @@ const FloorPlanSchema = z.object({
 })
 
 /**
- * Schema for contact information
- *
- * Contains contact-related data and message templates:
- * @property {string} title - Contact section title (e.g., "Contact Us")
- * @property {string} message - Message template with placeholder for property title
+ * TypeScript type for Contact information
+ * Contains contact-related data and message templates
  */
-const ContactSchema = z.object({
-  title: z.string(),
-  message: z.string(),
-})
+export type Contact = {
+  title: string
+  message: string
+}
 
 
 /**
@@ -109,16 +106,10 @@ export const PropertySchema = z.object({
  *
  * Contains the main data structure including title, cover, properties array, and contact info:
  * @property {string} title - Page title (e.g., "Floor Plans")
- * @property {string} cover - Cover image URL for the page
+ * @property {string | null} cover - Cover image URL for the page (nullable)
  * @property {Property[]} properties - Array of property objects
  * @property {Contact} contact - Contact information and message templates
  */
-const PropertyDataSchema = z.object({
-  title: z.string(),
-  cover: z.string(),
-  properties: z.array(PropertySchema),
-  contact: ContactSchema,
-})
 // TypeScript type inference from Zod schemas
 // These types are automatically generated and stay in sync with the schemas
 
@@ -147,13 +138,12 @@ export type FactsFeature = z.infer<typeof FactsFeatureSchema>
 export type FloorPlan = z.infer<typeof FloorPlanSchema>
 
 /**
- * TypeScript type for Contact information
- * Inferred from ContactSchema
- */
-export type Contact = z.infer<typeof ContactSchema>
-
-/**
  * TypeScript type for the complete Property Data structure
- * Inferred from PropertyDataSchema
+ * Contains the main data structure including title, cover, properties array, and contact info
  */
-export type PropertyData = z.infer<typeof PropertyDataSchema>
+export type PropertyData = {
+  title: string
+  cover?: string | null // allow null/missing
+  properties: Property[]
+  contact: Contact
+}

@@ -27,10 +27,7 @@ interface PropertyReviewDialogProps {
 }
 
 export default function PropertyReviewDialog({ property, children }: PropertyReviewDialogProps) {
-  const gallery =
-    Array.isArray(property.gallery) && property.gallery.length > 0
-      ? property.gallery
-      : ['/img/placeholder.jpg']
+  const gallery = Array.isArray(property.gallery) && property.gallery.length > 0 ? property.gallery : []
 
   const formatPrice = (price?: string) => {
     return price ? `$${parseInt(price).toLocaleString()}` : 'Contact for price'
@@ -52,41 +49,43 @@ export default function PropertyReviewDialog({ property, children }: PropertyRev
               The grid itself can scroll if content exceeds the dialog height. */}
           <div className="grid flex-1 min-h-0 grid-cols-1 gap-4 lg:gap-6 overflow-y-auto p-4 lg:p-6 pt-0 lg:grid-cols-[3fr_1fr]">
             {/* Left side - Image Carousel */}
-            <div className="space-y-4">
-              {/* Strict, consistent aspect ratios for perfect fit across breakpoints.
-                 Remove conflicting h/max-h so the ratio box governs height. */}
-              <Carousel className="w-full">
-                <CarouselContent>
-                  {gallery.map((image, index) => (
-                    <CarouselItem key={index}>
-                      <div className="relative w-full overflow-hidden rounded-lg aspect-[16/9] lg:aspect-[4/3]">
-                        <Image
-                          src={image}
-                          alt={`${property.title} - Image ${index + 1}`}
-                          fill
-                          sizes="(min-width: 1024px) 60vw, 90vw"
-                          priority={index === 0}
-                          className="object-cover"
-                        />
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
+            {gallery.length > 0 && (
+              <div className="space-y-4">
+                {/* Strict, consistent aspect ratios for perfect fit across breakpoints.
+                   Remove conflicting h/max-h so the ratio box governs height. */}
+                <Carousel className="w-full">
+                  <CarouselContent>
+                    {gallery.map((image, index) => (
+                      <CarouselItem key={index}>
+                        <div className="relative w-full overflow-hidden rounded-lg aspect-[16/9] lg:aspect-[4/3]">
+                          <Image
+                            src={image}
+                            alt={`${property.title} - Image ${index + 1}`}
+                            fill
+                            sizes="(min-width: 1024px) 60vw, 90vw"
+                            priority={index === 0}
+                            className="object-cover"
+                          />
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+
+                  {gallery.length > 1 && (
+                    <>
+                      <CarouselPrevious className="left-2" />
+                      <CarouselNext className="right-2" />
+                    </>
+                  )}
+                </Carousel>
 
                 {gallery.length > 1 && (
-                  <>
-                    <CarouselPrevious className="left-2" />
-                    <CarouselNext className="right-2" />
-                  </>
+                  <p className="text-muted-foreground text-center text-sm">
+                    {gallery.length} photos available
+                  </p>
                 )}
-              </Carousel>
-
-              {gallery.length > 1 && (
-                <p className="text-muted-foreground text-center text-sm">
-                  {gallery.length} photos available
-                </p>
-              )}
-            </div>
+              </div>
+            )}
 
             {/* Right side - Property Information */}
             <div className="space-y-6">
