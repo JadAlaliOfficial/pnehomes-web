@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { communitiesAPI } from '@/features/communities/api'
 import ImageGallery from '@/components/ImageGallery'
 import RequestTourButton from '@/components/RequestTourButton'
+import { ResponsiveMedia } from '@/features/home/components/ResponsiveMedia'
 import { Bed, Bath, Car, Map } from 'lucide-react'
 
 interface CommunityPageProps {
@@ -32,12 +33,19 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
     <main className="relative">
       {/* Hero / Title (clean and bold like pnehomes.com) */}
       <section className="relative isolate">
-        {/* Background image (fixed) */}
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
-          style={{ backgroundImage: `url(${pageData.cover})` }}
-        />
+        {/* Background - either image or color */}
+        {pageData.cover ? (
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
+            style={{ backgroundImage: `url(${pageData.cover})` }}
+          />
+        ) : (
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-600 to-blue-800"
+          />
+        )}
         {/* Overlay */}
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
 
@@ -78,14 +86,14 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
             <Card>
               <CardContent className="p-2">
                 <div className="relative aspect-video overflow-hidden rounded-lg bg-gray-100">
-                  <video
-                    controls
+                  <ResponsiveMedia
+                    src={community.video}
                     className="h-full w-full object-cover"
-                    poster={community.gallery[0]}
-                  >
-                    <source src={community.video} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
+                    autoPlay={false}
+                    muted={true}
+                    loop={false}
+                    playsInline={true}
+                  />
                 </div>
               </CardContent>
             </Card>
@@ -107,90 +115,92 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
           </Card>
         </section>
 
-        {/* Floor Plans Preview */}
-        <section className="mt-12">
-          <div className="mb-5">
-            <h2 className="text-xl font-semibold">Floor Plans</h2>
-            <div className="bg-primary/60 mt-2 h-px w-16" />
-          </div>
-          {hasMoreFloorPlans && (
-            <div className="mb-6 flex justify-end">
+        {/* Floor Plans Preview - Only show if floor plans exist */}
+        {floorPlans.length > 0 && (
+          <section className="mt-12">
+            <div className="mb-5">
+              <h2 className="text-xl font-semibold">Floor Plans</h2>
+              <div className="bg-primary/60 mt-2 h-px w-16" />
+            </div>
+            {hasMoreFloorPlans && (
+              <div className="mb-6 flex justify-end">
+                <Link href={`/floor-plans?community=${encodeURIComponent(community.title)}`}>
+                  <Button variant="outline">Show All Floor Plans ({floorPlans.length})</Button>
+                </Link>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {displayedFloorPlans.map(floorPlan => (
+                <div
+                  key={floorPlan.slug}
+                  className="overflow-hidden rounded-xl border bg-white shadow-sm"
+                >
+                  <Card className="overflow-hidden p-0">
+                    <div className="relative aspect-[4/3]">
+                      <Image
+                        src={floorPlan.cover}
+                        alt={floorPlan.title}
+                        fill
+                        sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+                        className="object-cover"
+                      />
+                    </div>
+                    <CardContent className="p-2">
+                      <div className="text-2xl font-bold">{floorPlan.title}</div>
+                      <div className="mt-1 text-lg capitalize opacity-60">{community.title}</div>
+                      <div className="mt-2 text-base font-medium">
+                        ${parseInt(floorPlan.price).toLocaleString()}
+                      </div>
+                      <div className="mt-1 flex items-center justify-around text-sm opacity-80">
+                        <div className="flex-col items-center justify-between">
+                          <div className="text-lg">
+                            <Bed className="mr-1 inline-block h-5 w-5" />
+                            {floorPlan.beds}
+                          </div>
+                          <div className="text-xs">Bedrooms</div>
+                        </div>
+                        <div className="h-10 border-r border-gray-500"></div>
+                        <div className="flex-col items-center justify-center">
+                          <div className="text-lg">
+                            <Bath className="mr-1 inline-block h-5 w-5" />
+                            {floorPlan.baths}
+                          </div>
+                          <div className="text-xs">Bathrooms</div>
+                        </div>
+                        <div className="h-10 border-r border-gray-500"></div>
+                        <div className="flex-col items-center justify-center">
+                          <div className="text-lg">
+                            <Car className="mr-1 inline-block h-5 w-5" />
+                            {floorPlan.garages}
+                          </div>
+                          <div className="text-xs">Garages</div>
+                        </div>
+                        <div className="h-10 border-r border-gray-500"></div>
+                        <div className="flex-col items-center justify-center">
+                          <div className="text-lg">
+                            <Map className="mr-1 inline-block h-5 w-5" />
+                            {parseInt(floorPlan.sqft).toLocaleString()}
+                          </div>
+                          <div className="text-xs">SQFT</div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              ))}
+            </div>
+
+            {/* Show Floor Plans Button */}
+            <div className="mt-6 text-center">
               <Link href={`/floor-plans?community=${encodeURIComponent(community.title)}`}>
-                <Button variant="outline">Show All Floor Plans ({floorPlans.length})</Button>
+                <Button size="lg" className="px-8">
+                  Show more Floor Plans
+                </Button>
               </Link>
             </div>
-          )}
-
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {displayedFloorPlans.map(floorPlan => (
-              <div
-                key={floorPlan.slug}
-                className="overflow-hidden rounded-xl border bg-white shadow-sm"
-              >
-                <Card className="overflow-hidden p-0">
-                  <div className="relative aspect-[4/3]">
-                    <Image
-                      src={floorPlan.cover}
-                      alt={floorPlan.title}
-                      fill
-                      sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
-                      className="object-cover"
-                    />
-                  </div>
-                  <CardContent className="p-2">
-                    <div className="text-2xl font-bold">{floorPlan.title}</div>
-                    <div className="mt-1 text-lg capitalize opacity-60">{community.title}</div>
-                    <div className="mt-2 text-base font-medium">
-                      ${parseInt(floorPlan.price).toLocaleString()}
-                    </div>
-                    <div className="mt-1 flex items-center justify-around text-sm opacity-80">
-                      <div className="flex-col items-center justify-between">
-                        <div className="text-lg">
-                          <Bed className="mr-1 inline-block h-5 w-5" />
-                          {floorPlan.beds}
-                        </div>
-                        <div className="text-xs">Bedrooms</div>
-                      </div>
-                      <div className="h-10 border-r border-gray-500"></div>
-                      <div className="flex-col items-center justify-center">
-                        <div className="text-lg">
-                          <Bath className="mr-1 inline-block h-5 w-5" />
-                          {floorPlan.baths}
-                        </div>
-                        <div className="text-xs">Bathrooms</div>
-                      </div>
-                      <div className="h-10 border-r border-gray-500"></div>
-                      <div className="flex-col items-center justify-center">
-                        <div className="text-lg">
-                          <Car className="mr-1 inline-block h-5 w-5" />
-                          {floorPlan.garages}
-                        </div>
-                        <div className="text-xs">Garages</div>
-                      </div>
-                      <div className="h-10 border-r border-gray-500"></div>
-                      <div className="flex-col items-center justify-center">
-                        <div className="text-lg">
-                          <Map className="mr-1 inline-block h-5 w-5" />
-                          {parseInt(floorPlan.sqft).toLocaleString()}
-                        </div>
-                        <div className="text-xs">SQFT</div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            ))}
-          </div>
-
-          {/* Show Floor Plans Button */}
-          <div className="mt-6 text-center">
-            <Link href={`/floor-plans?community=${encodeURIComponent(community.title)}`}>
-              <Button size="lg" className="px-8">
-                Show more Floor Plans
-              </Button>
-            </Link>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Price Card */}
               <Card className='mt-12'>
@@ -203,11 +213,13 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
                     <div className="mb-6 text-sm text-gray-500">{community.city}</div>
 
                     {/* Request Tour Button */}
-                    <RequestTourButton communityName={community.title} className="mb-3 w-full" />
-
-                    <p className="text-xs text-gray-500">
-                      Schedule a personalized tour of this community
-                    </p>
+                    <RequestTourButton 
+                      content={{
+                        title: pageData.contact.title || 'Request a Tour',
+                        message: (pageData.contact.message || "I'm contacting you to ask about the community of {title}").replace('{title}', community.title)
+                      }} 
+                      className="mb-3 w-full" 
+                    />
                   </div>
                 </CardContent>
               </Card>

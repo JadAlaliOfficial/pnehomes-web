@@ -259,7 +259,10 @@ export default async function Page({
             )}
 
             {p.Whats_special.description && (
-              <p className="text-muted-foreground leading-relaxed">{p.Whats_special.description}</p>
+              <div 
+                className="text-muted-foreground leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: p.Whats_special.description }}
+              />
             )}
           </section>
         )}
@@ -317,11 +320,9 @@ export default async function Page({
 
           <Button asChild size="lg" className="w-full sm:flex-1">
             <Link
-              href={`/contact?message=${encodeURIComponent(
-                contactInfo.message.replace('{propertyTitle}', p.title)
-              )}`}
+              href={`/contact?message=${encodeURIComponent(contactInfo.message)}`}
             >
-              Contact Us About This Property
+              {contactInfo.title}
             </Link>
           </Button>
         </div>

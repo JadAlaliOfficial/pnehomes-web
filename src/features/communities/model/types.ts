@@ -3,7 +3,7 @@ export interface FloorPlan {
   title: string
   community: string
   cover: string
-  status: string
+  status?: string | null
   price: string
   beds: string
   baths: string

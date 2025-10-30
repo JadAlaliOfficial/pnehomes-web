@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import { getBuildingOptions } from '../api' // async API fetcher
 import type { BuildingOptionsData } from '../model/types'
+import HeroSection from './HeroSection'
 
 export default function BuildingOptions() {
   const router = useRouter()
@@ -79,24 +80,12 @@ export default function BuildingOptions() {
     <div className="min-h-screen">
       {/* Hero Section with Cover Image */}
       {data.cover && (
-        <section className="relative isolate">
-          <div
-            aria-hidden
-            className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
-            style={{ backgroundImage: `url(${data.cover})` }}
-          />
-          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
-          <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-6 text-center">
-            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
-              {data.title}
-            </h1>
-          </div>
-        </section>
+        <HeroSection coverImage={data.cover} title={data.title} />
       )}
 
       {/* Slogan Section */}
       {data.cover && (
-        <section className="bg-background py-8">
+        <section className="relative z-20 bg-background py-8">
           <div className="container mx-auto px-6 text-center">
             <h2 className="text-pne-brand text-xl font-medium opacity-90 md:text-2xl lg:text-3xl">
               {data.slogan}
@@ -105,7 +94,7 @@ export default function BuildingOptions() {
         </section>
       )}
 
-      <div className="bg-background px-4 py-16">
+      <div className="relative z-20 bg-background px-4 py-16">
         <div className="mx-auto">
           {/* Fallback when no cover image */}
           {!data.cover && (

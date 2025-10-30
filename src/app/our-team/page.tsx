@@ -10,13 +10,13 @@ export default async function OurTeamPage() {
     <div className="min-h-screen bg-gray-50">
       {/* ===== Hero ===== */}
       {coverImage && (
-        <section 
+        <section
           className="relative isolate flex min-h-[60vh] items-center justify-center bg-cover bg-center bg-no-repeat md:bg-fixed"
           style={{ backgroundImage: `url(${coverImage})` }}
         >
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
 
-          <div className="container mx-auto px-6 pt-20 pb-10 text-center relative z-10">
+          <div className="relative z-10 container mx-auto px-6 pt-20 pb-10 text-center">
             <h1 className="text-pne-brand mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
               {teamData?.title || 'Our Team'}
             </h1>
@@ -84,19 +84,15 @@ export default async function OurTeamPage() {
                   {/* Overlays */}
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-95" />
                   {/* Top-right subtle badge line (decorative) */}
-                  <div className="pointer-events-none absolute right-4 top-4 h-8 w-8 rounded-full border border-white/30 backdrop-blur-[2px] opacity-70 group-hover:opacity-100" />
+                  <div className="pointer-events-none absolute top-4 right-4 h-8 w-8 rounded-full border border-white/30 opacity-70 backdrop-blur-[2px] group-hover:opacity-100" />
                 </div>
 
                 {/* Text block over image, pinned to bottom */}
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 p-6">
                   <h3 className="text-white drop-shadow-sm">
-                    <span className="block text-xl font-bold tracking-tight">
-                      {member.name}
-                    </span>
+                    <span className="block text-xl font-bold tracking-tight">{member.name}</span>
                   </h3>
-                  <p className="text-pne-accent mt-1 font-semibold">
-                    {member.position}
-                  </p>
+                  <p className="text-pne-accent mt-1 font-semibold">{member.position}</p>
 
                   {/* Slide-up bio on hover (clamped when not hovered) */}
                   {member.description && (
@@ -107,7 +103,7 @@ export default async function OurTeamPage() {
                 </div>
 
                 {/* Card underline accent on hover */}
-                <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-pne-accent via-pne-brand to-pne-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <span className="from-pne-accent via-pne-brand to-pne-accent absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               </article>
             ))}
           </div>
@@ -116,12 +112,11 @@ export default async function OurTeamPage() {
           {teamData?.contact && (
             <div className="mt-12 border-t border-gray-200 pt-8">
               <div className="text-center">
-                <h2 className="mb-6 text-2xl font-bold text-gray-900">{teamData.contact.title}</h2>
                 <Link
                   href={`/contact?message=${encodeURIComponent(teamData.contact.message)}`}
-                  className="inline-flex items-center rounded-md border border-transparent bg-pne-accent px-6 py-3 text-base font-medium text-white transition-colors duration-200 hover:bg-pne-brand focus:ring-2 focus:ring-pne-accent focus:ring-offset-2 focus:outline-none"
+                  className="bg-pne-accent hover:bg-pne-brand focus:ring-pne-accent inline-flex items-center rounded-md border border-transparent px-6 py-3 text-base font-medium text-white transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none"
                 >
-                  Get In Touch
+                  {teamData.contact.title}
                 </Link>
               </div>
             </div>

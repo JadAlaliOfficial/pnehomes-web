@@ -74,36 +74,33 @@ export default function CommunitiesPage() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section with Cover Image */}
-      {pageData?.cover && (
-        <section className="relative isolate">
-          {/* Background image (fixed) */}
+      {/* Hero Section */}
+      <section className="relative isolate">
+        {/* Background - either image or color */}
+        {pageData?.cover ? (
           <div
             aria-hidden
             className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
             style={{ backgroundImage: `url(${pageData.cover})` }}
           />
-          {/* Overlay */}
-          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
+        ) : (
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-600 to-blue-800"
+          />
+        )}
+        {/* Overlay */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
 
-          {/* Centered content */}
-          <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-6 text-center">
-            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
-              {pageData.title}
-            </h1>
-          </div>
-        </section>
-      )}
+        {/* Centered content */}
+        <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-6 text-center">
+          <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+            {pageData?.title || 'Our Communities'}
+          </h1>
+        </div>
+      </section>
 
       <div className="container mx-auto max-w-6xl px-4 py-8">
-        {!pageData?.cover && (
-          <div className="mb-8">
-            <h1 className="mb-4 text-center text-4xl font-bold">{pageData?.title || 'Our Communities'}</h1>
-            <p className="mb-8 text-center text-lg text-gray-600">
-              Discover beautiful communities designed for modern living
-            </p>
-          </div>
-        )}
 
         {/* Filters */}
         <div className="mx-auto mb-8 max-w-2xl">

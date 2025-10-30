@@ -33,7 +33,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           {/* Fixed, transparent header positioned above main content */}
           <Header />
           <main className="relative flex-1">{children}</main>
-          <Footer />
+          <div className="relative z-30">
+            <Footer />
+          </div>
           <ComparisonDrawer />
           <ComparisonFloatingButton />
         </ComparisonProvider>

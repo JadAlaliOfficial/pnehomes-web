@@ -38,11 +38,6 @@ export default function ServicePageClient({ service, coverImage }: ServicePageCl
             <h1 className="text-pne-brand mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
               {service.title}
             </h1>
-            {service.sub_title && (
-              <h2 className="text-pne-brand text-xl font-medium opacity-90 md:text-2xl lg:text-3xl">
-                {service.sub_title}
-              </h2>
-            )}
           </div>
         </section>
       )}

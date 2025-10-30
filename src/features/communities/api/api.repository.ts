@@ -52,7 +52,10 @@ export class ApiRepository {
       gallery: c.gallery || [],
       video: c.video ?? null,
       'community-features': c['community-features'] ?? null,
-      'floor-plans': c['floor-plans'] ?? [],
+      'floor-plans': (c['floor-plans'] ?? []).map((fp) => ({
+        ...fp,
+        status: fp.status ?? null,
+      })),
       // ensure starting-price is a string (CMS returns string already, but just in case)
       'starting-price': `${c['starting-price'] ?? ''}`,
     }))
