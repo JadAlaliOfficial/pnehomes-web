@@ -30,35 +30,43 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
   const hasMoreFloorPlans = floorPlans.length > 3
 
   return (
-    <main className="relative">
+    <div className="relative min-h-full">
       {/* Hero / Title (clean and bold like pnehomes.com) */}
-      <section className="relative isolate">
-        {/* Background - either image or color */}
+      <section className="relative isolate overflow-hidden h-[60vh]">
+        {/* Parallax background image container */}
         {pageData.cover ? (
-          <div
-            aria-hidden
-            className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
-            style={{ backgroundImage: `url(${pageData.cover})` }}
-          />
+          <div className="fixed inset-0 -z-10 bg-gray-100">
+            <Image
+              src={pageData.cover}
+              alt="Community Cover"
+              fill
+              className="object-cover object-center"
+              priority
+              sizes="100vw"
+              style={{
+                transform: 'translateZ(0)', // Force hardware acceleration
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10 z-10" />
+          </div>
         ) : (
-          <div
-            aria-hidden
-            className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-600 to-blue-800"
-          />
+          <div className="fixed inset-0 -z-10 bg-gradient-to-br from-blue-600 to-blue-800" />
         )}
-        {/* Overlay */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
 
         {/* Centered content */}
-        <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-6 text-center">
+        <div className="relative z-20 container mx-auto flex h-full items-center justify-center px-6 text-center">
           <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
             {community.title}
           </h1>
         </div>
       </section>
 
+      {/* Content wrapper with white background */}
+      <div className="relative z-10 bg-white min-h-full">
+        <div className="container mx-auto max-w-6xl px-4 pb-16">
+
       {/* Header Title block */}
-      <header className="container mx-auto max-w-6xl px-4 pt-6 pb-5 sm:px-6">
+      <header className="pt-6 pb-5 sm:px-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="text-left">
             <h1 className="mb-2 text-3xl leading-tight font-semibold sm:text-4xl">{community.title}</h1>
@@ -70,7 +78,7 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
       </header>
 
       {/* Main content area */}
-      <section className="container mx-auto max-w-6xl px-4 pb-12 sm:px-6">
+      <section className="pb-12 sm:px-6">
         <div className="grid gap-8 lg:grid-cols-[1fr,380px]">
           {/* Gallery */}
           <Card>
@@ -223,7 +231,9 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
                   </div>
                 </CardContent>
               </Card>
-      </section>
-    </main>
+            </section>
+        </div>
+      </div>
+    </div>
   )
 }

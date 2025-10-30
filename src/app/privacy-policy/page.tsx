@@ -1,5 +1,6 @@
 import { PrivacyPolicyAPI } from '@/features/privacyPolicy/api'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default async function PrivacyPolicyPage() {
   // Fetch privacy policy data
@@ -27,32 +28,46 @@ export default async function PrivacyPolicyPage() {
     <div className="bg-background min-h-screen">
       {/* Hero Section with Cover Image */}
       {coverImage && (
-        <section 
-          className="relative isolate flex min-h-[60vh] items-center justify-center bg-cover bg-center bg-no-repeat md:bg-fixed"
-          style={{ backgroundImage: `url(${coverImage})` }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
+        <section className="relative isolate overflow-hidden h-[60vh]">
+          {/* Parallax background image container */}
+          <div className="fixed inset-0 -z-10 bg-gray-100">
+            <Image
+              src={coverImage}
+              alt="Privacy Policy Hero"
+              fill
+              className="object-cover object-center"
+              priority
+              sizes="100vw"
+              style={{
+                transform: 'translateZ(0)', // Force hardware acceleration
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10 z-10" />
+          </div>
 
-          <div className="container mx-auto px-6 pt-20 pb-10 text-center relative z-10">
-            <h1 className="text-pne-brand mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+          {/* Centered content */}
+          <div className="relative z-20 container mx-auto flex h-full items-center justify-center px-6 text-center">
+            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
               {data.title}
             </h1>
           </div>
         </section>
       )}
 
-      {/* Slogan Section - Right under cover */}
-      {coverImage && (
-        <section className="bg-background py-8">
-          <div className="container mx-auto px-6 text-center">
-            <h2 className="text-pne-brand text-xl font-medium md:text-2xl lg:text-3xl">
-              {data.slogan}
-            </h2>
-          </div>
-        </section>
-      )}
+      {/* Content Wrapper */}
+      <div className="relative z-10 bg-white">
+        {/* Slogan Section - Right under cover */}
+        {coverImage && (
+          <section className="bg-background py-8">
+            <div className="container mx-auto px-6 text-center">
+              <h2 className="text-pne-brand text-xl font-medium md:text-2xl lg:text-3xl">
+                {data.slogan}
+              </h2>
+            </div>
+          </section>
+        )}
 
-      <div className="px-4 py-16">
+        <div className="px-4 py-16">
         <div className="mx-auto max-w-7xl">
           {/* Header Section - Only show if no cover */}
           {!coverImage && (
@@ -92,6 +107,8 @@ export default async function PrivacyPolicyPage() {
             </div>
           )}
         </div>
+      </div>
+      {/* End Content Wrapper */}
       </div>
     </div>
   )

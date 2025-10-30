@@ -1,6 +1,7 @@
 import { EventsAPI } from '@/features/events/api'
 import type { Event } from '@/features/events/model/types'
 import ImageGallery from '@/components/ImageGallery'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export default async function EventsPage() {
@@ -24,35 +25,45 @@ export default async function EventsPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section with Cover Image */}
       {cover && (
-        <section className="relative isolate">
-          <div 
-            className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
-            style={{ backgroundImage: `url(${cover})` }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
+        <section className="relative isolate overflow-hidden h-[60vh]">
+          {/* Parallax background image container */}
+          <div className="fixed inset-0 -z-10 bg-gray-100">
+            <Image
+              src={cover}
+              alt="Events Hero"
+              fill
+              className="object-cover object-center"
+              priority
+              sizes="100vw"
+              style={{
+                transform: 'translateZ(0)', // Force hardware acceleration
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10 z-10" />
           </div>
 
-          <div className="flex min-h-[60vh] items-center justify-center">
-            <div className="container mx-auto px-6 text-center">
-              <h1 className="text-pne-brand mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
-                {title}
-              </h1>
-            </div>
+          {/* Centered content */}
+          <div className="relative z-20 container mx-auto flex h-full items-center justify-center px-6 text-center">
+            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+              {title}
+            </h1>
           </div>
         </section>
       )}
 
-      {/* Slogan Section */}
-      <section className="bg-gray-50 py-8">
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-gray-800 text-xl font-medium md:text-2xl lg:text-3xl">
-            {slogan}
-          </p>
-        </div>
-      </section>
+      {/* Content Wrapper with White Background */}
+      <div className="relative z-30 bg-white">
+        {/* Slogan Section */}
+        <section className="bg-gray-50 py-8">
+          <div className="container mx-auto px-6 text-center">
+            <p className="text-gray-800 text-xl font-medium md:text-2xl lg:text-3xl">
+              {slogan}
+            </p>
+          </div>
+        </section>
 
-      {/* Events Section */}
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        {/* Events Section */}
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="space-y-16">
           {events.map((event: Event, index: number) => {
             const isEven = index % 2 === 0
@@ -97,6 +108,7 @@ export default async function EventsPage() {
             </div>
           </div>
         )}
+        </div>
       </div>
     </div>
   )

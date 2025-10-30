@@ -25,24 +25,38 @@ interface ServicePageClientProps {
 
 export default function ServicePageClient({ service, coverImage }: ServicePageClientProps) {
   return (
-    <div className="bg-background min-h-screen">
+    <div className="relative min-h-full">
       {/* Hero Section with Cover Image */}
       {coverImage && (
-        <section 
-          className="relative isolate flex min-h-[60vh] items-center justify-center bg-cover bg-center bg-no-repeat md:bg-fixed"
-          style={{ backgroundImage: `url(${coverImage})` }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
+        <section className="relative isolate overflow-hidden h-[60vh]">
+          {/* Parallax background image container */}
+          <div className="fixed inset-0 -z-10 bg-gray-100">
+            <Image
+              src={coverImage}
+              alt="Service Cover"
+              fill
+              className="object-cover object-center"
+              priority
+              sizes="100vw"
+              style={{
+                transform: 'translateZ(0)', // Force hardware acceleration
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10 z-10" />
+          </div>
 
-          <div className="container mx-auto px-6 pt-20 pb-10 text-center relative z-10">
-            <h1 className="text-pne-brand mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+          {/* Centered content */}
+          <div className="relative z-20 container mx-auto flex h-full items-center justify-center px-6 text-center">
+            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
               {service.title}
             </h1>
           </div>
         </section>
       )}
 
-      <div className="px-4 py-16">
+      {/* Content wrapper with white background */}
+      <div className="relative z-10 bg-white min-h-full">
+        <div className="px-4 py-16 pb-16">
         <div className="mx-auto max-w-6xl">
           {/* Service Title - Only show if no cover */}
           {!coverImage && (
@@ -146,6 +160,7 @@ export default function ServicePageClient({ service, coverImage }: ServicePageCl
               </Link>
             </Button>
           </motion.div>
+        </div>
         </div>
       </div>
     </div>

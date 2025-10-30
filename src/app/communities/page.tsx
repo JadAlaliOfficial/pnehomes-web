@@ -73,34 +73,40 @@ export default function CommunitiesPage() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="relative min-h-full">
       {/* Hero Section */}
-      <section className="relative isolate">
-        {/* Background - either image or color */}
+      <section className="relative isolate overflow-hidden h-[60vh]">
+        {/* Parallax background image container */}
         {pageData?.cover ? (
-          <div
-            aria-hidden
-            className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
-            style={{ backgroundImage: `url(${pageData.cover})` }}
-          />
+          <div className="fixed inset-0 -z-10 bg-gray-100">
+            <Image
+              src={pageData.cover}
+              alt="Communities Cover"
+              fill
+              className="object-cover object-center"
+              priority
+              sizes="100vw"
+              style={{
+                transform: 'translateZ(0)', // Force hardware acceleration
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10 z-10" />
+          </div>
         ) : (
-          <div
-            aria-hidden
-            className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-600 to-blue-800"
-          />
+          <div className="fixed inset-0 -z-10 bg-gradient-to-br from-blue-600 to-blue-800" />
         )}
-        {/* Overlay */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
 
         {/* Centered content */}
-        <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-6 text-center">
+        <div className="relative z-20 container mx-auto flex h-full items-center justify-center px-6 text-center">
           <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
             {pageData?.title || 'Our Communities'}
           </h1>
         </div>
       </section>
 
-      <div className="container mx-auto max-w-6xl px-4 py-8">
+      {/* Content wrapper with white background */}
+      <div className="relative z-10 bg-white min-h-full">
+        <div className="container mx-auto max-w-6xl px-4 py-8 pb-16">
 
         {/* Filters */}
         <div className="mx-auto mb-8 max-w-2xl">
@@ -219,6 +225,7 @@ export default function CommunitiesPage() {
             Visit us on Zillow
           </a>
         </Button>
+        </div>
       </div>
     </div>
   )

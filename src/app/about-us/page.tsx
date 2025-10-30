@@ -1,4 +1,5 @@
 import { getAboutUsData, getCover } from '@/features/aboutUs/api'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export default async function AboutUsPage() {
@@ -21,22 +22,28 @@ export default async function AboutUsPage() {
   const coverImage = await getCover()
 
   return (
-    <div className="bg-background min-h-screen">
-      {/* Hero Section with fixed background */}
-      {/* Hero Section with fixed background */}
+    <div className="relative min-h-full">
+      {/* Hero Section with Cover Image */}
       {coverImage && (
-        <section className="relative isolate">
-          {/* Background image (fixed) */}
-          <div
-            aria-hidden
-            className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
-            style={{ backgroundImage: `url(${coverImage})` }}
-          />
-          {/* Overlay */}
-          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
+        <section className="relative isolate overflow-hidden h-[60vh]">
+          {/* Parallax background image container */}
+          <div className="fixed inset-0 -z-10 bg-gray-100">
+            <Image
+              src={coverImage}
+              alt="About Us Cover"
+              fill
+              className="object-cover object-center"
+              priority
+              sizes="100vw"
+              style={{
+                transform: 'translateZ(0)', // Force hardware acceleration
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10 z-10" />
+          </div>
 
           {/* Centered content */}
-          <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-6 text-center">
+          <div className="relative z-20 container mx-auto flex h-full items-center justify-center px-6 text-center">
             <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
               {data.title}
             </h1>
@@ -46,7 +53,7 @@ export default async function AboutUsPage() {
 
       {/* Slogan Section - Right under cover */}
       {coverImage && (
-        <div className="bg-white py-8">
+        <div className="relative z-10 bg-white py-8">
           <div className="container mx-auto px-6 text-center">
             <p className="text-pne-brand text-lg font-semibold tracking-wide uppercase">
               {data.slogan}
@@ -55,8 +62,10 @@ export default async function AboutUsPage() {
         </div>
       )}
 
-      <div className="px-4 pb-16">
-        <div className="mx-auto max-w-6xl">
+      {/* Content wrapper with white background */}
+      <div className="relative z-10 bg-white min-h-full">
+        <div className="px-4 py-16 pb-16">
+          <div className="mx-auto max-w-6xl">
           {/* Header Section - Only show if no cover */}
           {!coverImage && (
             <div className="mb-12 text-center">
@@ -92,6 +101,7 @@ export default async function AboutUsPage() {
                 </div>
               )}
             </div>
+          </div>
           </div>
         </div>
       </div>

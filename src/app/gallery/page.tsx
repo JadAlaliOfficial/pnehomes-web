@@ -19,27 +19,37 @@ export default async function GalleryPage() {
 
 
   return (
-    <main className="relative w-full">
-      {/* Hero / Title (clean and bold like pnehomes.com) */}
-      <section className="relative isolate">
-        <div 
-          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
-          style={{ backgroundImage: `url(${galleryCover})` }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
+    <div className="relative min-h-full">
+      {/* Hero / Title - Parallax Effect */}
+      <section className="relative isolate overflow-hidden h-[60vh]">
+        {/* Parallax background image container */}
+        <div className="fixed inset-0 -z-10 bg-gray-100">
+          <Image
+            src={galleryCover}
+            alt={galleryTitle}
+            fill
+            className="object-cover object-center"
+            priority
+            sizes="100vw"
+            style={{
+              transform: 'translateZ(0)', // Force hardware acceleration
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10 z-10" />
         </div>
 
-        <div className="flex min-h-[60vh] items-center justify-center">
+        <div className="relative flex h-full items-center justify-center py-16">
           <div className="container mx-auto px-6 text-center">
-            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl drop-shadow-lg">
               {galleryTitle}
             </h1>
           </div>
         </div>
       </section>
 
-
-      <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+      {/* Content sections with solid backgrounds to cover parallax */}
+      <div className="relative z-10 bg-white min-h-full">
+      <div className="container mx-auto px-4 py-6 pb-16 sm:px-6 lg:px-8">
         {/* Small screens (sm) - 2 columns regular grid */}
         <div className="grid gap-6 sm:grid-cols-2 md:hidden">
           {albums.map(album => (
@@ -163,6 +173,7 @@ export default async function GalleryPage() {
           </div>
         </div>
       </div>
-    </main>
+      </div>
+    </div>
   )
 }

@@ -88,26 +88,30 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
   const pages = getWindowedPages(currentPage, totalPages)
 
   return (
-    <main className="relative">
-      {/* Hero / Title */}
-      {coverImage && <HeroSection coverImage={coverImage} pageTitle={pageTitle} />}
+    <div className="relative min-h-full">
+      {/* Hero / Title - Limited parallax container */}
+      <div className="relative z-0">
+        {coverImage && <HeroSection coverImage={coverImage} pageTitle={pageTitle} />}
+      </div>
 
-      {/* Filter bar */}
-      <section className="border-y bg-white">
-        <div className="container mx-auto px-4 py-4 sm:px-6 sm:py-6">
-          <FilterBar />
-        </div>
-      </section>
+      {/* Content sections with solid backgrounds to cover parallax */}
+      <div className="relative z-10 bg-white min-h-full">
+        {/* Filter bar */}
+        <section className="border-y bg-white">
+          <div className="container mx-auto px-4 py-4 sm:px-6 sm:py-6">
+            <FilterBar />
+          </div>
+        </section>
 
-      {/* Results summary */}
-      <section className="container mx-auto px-6">
-        <p className="mt-6 mb-4 text-sm text-gray-600">
-          Showing <span className="font-medium">{list.length}</span> of{' '}
-          <span className="font-medium">{totalCount}</span> result{totalCount === 1 ? '' : 's'}
-        </p>
+        {/* Results summary */}
+        <section className="container mx-auto px-6 bg-white pb-16">
+          <p className="pt-6 mb-4 text-sm text-gray-600">
+            Showing <span className="font-medium">{list.length}</span> of{' '}
+            <span className="font-medium">{totalCount}</span> result{totalCount === 1 ? '' : 's'}
+          </p>
 
-        {/* Cards grid */}
-        <div className="my-2 grid gap-6 px-1 sm:px-0 sm:grid-cols-2 lg:grid-cols-3 lg:px-10">
+          {/* Cards grid */}
+          <div className="my-2 grid gap-6 px-1 sm:px-0 sm:grid-cols-2 lg:grid-cols-3 lg:px-10">
           {list.map(p => (
             <div
               key={p.id}
@@ -170,9 +174,9 @@ export default async function Page({ searchParams }: { searchParams: SP }) {
                 <span aria-hidden="true">›</span>
               </a>
             )}
-          </nav>
-        )}
-      </section>
-    </main>
+          </nav>)}
+        </section>
+      </div>
+    </div>
   )
 }

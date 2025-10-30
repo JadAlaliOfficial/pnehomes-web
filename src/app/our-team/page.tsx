@@ -10,14 +10,26 @@ export default async function OurTeamPage() {
     <div className="min-h-screen bg-gray-50">
       {/* ===== Hero ===== */}
       {coverImage && (
-        <section
-          className="relative isolate flex min-h-[60vh] items-center justify-center bg-cover bg-center bg-no-repeat md:bg-fixed"
-          style={{ backgroundImage: `url(${coverImage})` }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
+        <section className="relative isolate overflow-hidden h-[60vh]">
+          {/* Parallax background image container */}
+          <div className="fixed inset-0 -z-10 bg-gray-100">
+            <Image
+              src={coverImage}
+              alt="Our Team Hero"
+              fill
+              className="object-cover object-center"
+              priority
+              sizes="100vw"
+              style={{
+                transform: 'translateZ(0)', // Force hardware acceleration
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10 z-10" />
+          </div>
 
-          <div className="relative z-10 container mx-auto px-6 pt-20 pb-10 text-center">
-            <h1 className="text-pne-brand mb-4 text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+          {/* Centered content */}
+          <div className="relative z-20 container mx-auto flex h-full items-center justify-center px-6 text-center">
+            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
               {teamData?.title || 'Our Team'}
             </h1>
           </div>
@@ -26,7 +38,7 @@ export default async function OurTeamPage() {
 
       {/* Slogan section */}
       {teamData?.slogan && (
-        <div className="py-2 text-center">
+        <div className="relative z-10 bg-white py-2 text-center">
           <div className="container mx-auto px-6">
             <p className="text-pne-brand mb-3 text-lg font-bold tracking-[0.2em] uppercase">
               {teamData.slogan}
@@ -34,6 +46,11 @@ export default async function OurTeamPage() {
           </div>
         </div>
       )}
+
+      {/* Content wrapper with white background */}
+      <div className="relative z-10 bg-white min-h-full">
+        <div className="px-4 py-16 pb-16">
+          <div className="mx-auto max-w-6xl">
 
       {/* Title section when no cover image */}
       {!coverImage && (
@@ -62,9 +79,9 @@ export default async function OurTeamPage() {
         </div>
       )}
 
-      {/* ===== Team Grid ===== */}
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            {/* ===== Team Grid ===== */}
+            <section className="py-16 sm:py-20">
+              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {teamData?.team?.map((member: TeamMember, index: number) => (
               <article
@@ -121,8 +138,11 @@ export default async function OurTeamPage() {
               </div>
             </div>
           )}
+                </div>
+              </section>
+          </div>
         </div>
-      </section>
+      </div>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 // src/app/property/[slug]/page.tsx
 import * as Property from '@/features/property/api'
 import Link from 'next/link'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import SharePrintButtons from '@/features/property/components/SharePrintButtons'
 import { Badge } from '@/components/ui/badge'
@@ -96,23 +97,38 @@ export default async function Page({
     [beds, baths, sqft(p.sqft)].filter(Boolean).join(' • ')
 
   return (
-    <main className="relative">
-      {/* Hero / Title */}
+    <div className="relative min-h-full">
+      {/* Hero / Title - Parallax Effect */}
       {coverImage && (
-        <section
-          className="relative isolate flex min-h-[60vh] items-center justify-center bg-cover bg-center bg-no-repeat md:bg-fixed"
-          style={{ backgroundImage: `url(${coverImage})` }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
-          <div className="container mx-auto px-6 pt-20 pb-10 text-center relative z-10">
-            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
-              {p.title}
-            </h1>
+        <section className="relative isolate overflow-hidden h-[60vh]">
+          {/* Parallax background image container */}
+          <div className="fixed inset-0 -z-10 bg-gray-100">
+            <Image
+              src={coverImage}
+              alt={p.title || 'Property'}
+              fill
+              className="object-cover object-center"
+              priority
+              sizes="100vw"
+              style={{
+                transform: 'translateZ(0)', // Force hardware acceleration
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-white/10 to-black/10 z-10" />
+          </div>
+
+          <div className="relative flex h-full items-center justify-center py-16">
+            <div className="container mx-auto px-6 text-center">
+              <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl drop-shadow-lg">
+                {p.title}
+              </h1>
+            </div>
           </div>
         </section>
       )}
 
-      {/* Header Title block */}
+      {/* Content sections with solid backgrounds to cover parallax */}
+      <div className="relative z-10 bg-white min-h-full">{/* Header Title block */}
       <header className="container mx-auto max-w-6xl px-4 pt-6 pb-5 sm:px-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="text-left">
@@ -358,7 +374,7 @@ export default async function Page({
       </section>
 
       {/* Print-only footer */}
-      <div className="text-muted-foreground hidden px-8 pt-4 pb-12 text-sm print:block">
+      <div className="text-muted-foreground hidden px-8 pt-4 pb-16 text-sm print:block">
         <hr className="border-muted mb-3" />
         <p>
           {p.title} — {p.community || ''} {beds && `• ${beds}`} {baths && `• ${baths}`}{' '}
@@ -366,6 +382,7 @@ export default async function Page({
         </p>
         <p>Price: {money(p.price)}</p>
       </div>
-    </main>
+      </div>
+    </div>
   )
 }

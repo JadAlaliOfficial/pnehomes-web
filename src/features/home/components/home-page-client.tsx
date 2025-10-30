@@ -141,13 +141,18 @@ export default function HomePageClient({ content }: { content: HomeContent }) {
           className="absolute inset-0 hidden h-full w-full object-cover sm:block"
         />
         {/* Cover image for mobile screens */}
-        <div
-          className="absolute inset-0 h-full w-full bg-cover bg-center sm:hidden"
-          style={{ 
-            backgroundImage: isLoaded ? `url(${firstSection['cover-for-mobile']})` : 'none',
-            backgroundColor: '#f3f4f6' // Fallback color while loading
-          }}
-        />
+        <div className="absolute inset-0 h-full w-full sm:hidden bg-gray-100">
+          {isLoaded && firstSection['cover-for-mobile'] && (
+            <Image
+              src={firstSection['cover-for-mobile']}
+              alt="Mobile cover image"
+              fill
+              className="object-cover object-center"
+              priority
+              sizes="100vw"
+            />
+          )}
+        </div>
         <div className="absolute inset-0 bg-black/50 [mask-image:linear-gradient(to_bottom,black,black,transparent)]" />
 
         <div className="relative z-10 flex h-full items-center justify-center px-4 pt-16">
@@ -250,18 +255,21 @@ export default function HomePageClient({ content }: { content: HomeContent }) {
       {/* Services */}
       <motion.section
         className="relative bg-gray-50 px-4 py-16 md:py-20 overflow-hidden"
-        style={{
-          backgroundImage: isLoaded ? `url(${services.cover})` : 'none',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundColor: isLoaded ? 'transparent' : '#f9fafb', // Fallback color
-        }}
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         viewport={{ once: true, amount: 0.3 }}
       >
+        {/* Background Image */}
+        {isLoaded && services.cover && (
+          <Image
+            src={services.cover}
+            alt="Services background"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+        )}
         <div className="absolute inset-0 bg-white/20" />
         <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-16">
           <motion.div
@@ -347,13 +355,16 @@ export default function HomePageClient({ content }: { content: HomeContent }) {
               viewport={{ once: true, amount: 0.3 }}
             >
               <Link href="/communities" className="group block">
-                <div
-                  className="relative h-64 overflow-hidden rounded-xl bg-cover bg-center"
-                  style={{ 
-                    backgroundImage: isLoaded ? `url("${gridSection.links[0].cover}")` : 'none',
-                    backgroundColor: '#f3f4f6' // Fallback color
-                  }}
-                >
+                <div className="relative h-64 overflow-hidden rounded-xl bg-gray-100">
+                  {isLoaded && gridSection.links[0].cover && (
+                    <Image
+                      src={gridSection.links[0].cover}
+                      alt={gridSection.links[0].title}
+                      fill
+                      className="object-cover object-center"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-black/40 transition group-hover:bg-black/30" />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <h3
@@ -390,13 +401,16 @@ export default function HomePageClient({ content }: { content: HomeContent }) {
               viewport={{ once: true, amount: 0.3 }}
             >
               <Link href="/gallery/kitchens" className="group block">
-                <div
-                  className="relative h-64 overflow-hidden rounded-xl bg-cover bg-center"
-                  style={{ 
-                    backgroundImage: isLoaded ? `url(${gridSection.links[2].cover})` : 'none',
-                    backgroundColor: '#f3f4f6' // Fallback color
-                  }}
-                >
+                <div className="relative h-64 overflow-hidden rounded-xl bg-gray-100">
+                  {isLoaded && gridSection.links[2].cover && (
+                    <Image
+                      src={gridSection.links[2].cover}
+                      alt={gridSection.links[2].title}
+                      fill
+                      className="object-cover object-center"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-black/40 transition group-hover:bg-black/30" />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <h3
@@ -427,13 +441,16 @@ export default function HomePageClient({ content }: { content: HomeContent }) {
               viewport={{ once: true, amount: 0.3 }}
             >
               <Link href="/events" className="group block">
-                <div
-                  className="relative h-64 overflow-hidden rounded-xl bg-cover bg-center"
-                  style={{ 
-                    backgroundImage: isLoaded ? `url(${gridSection.links[1].cover})` : 'none',
-                    backgroundColor: '#f3f4f6' // Fallback color
-                  }}
-                >
+                <div className="relative h-64 overflow-hidden rounded-xl bg-gray-100">
+                  {isLoaded && gridSection.links[1].cover && (
+                    <Image
+                      src={gridSection.links[1].cover}
+                      alt={gridSection.links[1].title}
+                      fill
+                      className="object-cover object-center"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-black/40 transition group-hover:bg-black/30" />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <h3
@@ -472,13 +489,16 @@ export default function HomePageClient({ content }: { content: HomeContent }) {
               viewport={{ once: true, amount: 0.3 }}
             >
               <Link href="/services/custom-homes" className="group block">
-                <div
-                  className="relative h-64 overflow-hidden rounded-xl bg-cover bg-center"
-                  style={{ 
-                    backgroundImage: isLoaded ? `url(${gridSection.links[3].cover})` : 'none',
-                    backgroundColor: '#f3f4f6' // Fallback color
-                  }}
-                >
+                <div className="relative h-64 overflow-hidden rounded-xl bg-gray-100">
+                  {isLoaded && gridSection.links[3].cover && (
+                    <Image
+                      src={gridSection.links[3].cover}
+                      alt={gridSection.links[3].title}
+                      fill
+                      className="object-cover object-center"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-black/40 transition group-hover:bg-black/30" />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <h3
