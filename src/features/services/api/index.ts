@@ -1,4 +1,4 @@
-import { serviceRepository } from './file.repository'
+import { serviceRepository } from './http.repository'
 import {
   Services,
   ServiceApiResponse,
@@ -8,6 +8,7 @@ import {
 
 /**
  * Services API - Main entry point for services data operations
+ * (Public surface kept the same as your mock-backed version)
  */
 export class ServicesAPI {
   /**
@@ -25,7 +26,9 @@ export class ServicesAPI {
       return {
         data: [],
         success: false,
-        message: `Failed to retrieve services: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        message: `Failed to retrieve services: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
       }
     }
   }
@@ -45,7 +48,9 @@ export class ServicesAPI {
       return {
         data: null,
         success: false,
-        message: `Failed to retrieve service: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        message: `Failed to retrieve service: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
       }
     }
   }
@@ -65,7 +70,9 @@ export class ServicesAPI {
       return {
         data: null,
         success: false,
-        message: `Failed to retrieve service: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        message: `Failed to retrieve service: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
       }
     }
   }
@@ -85,7 +92,9 @@ export class ServicesAPI {
       return {
         data: [],
         success: false,
-        message: `Failed to search services: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        message: `Failed to search services: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
       }
     }
   }
@@ -124,7 +133,9 @@ export class ServicesAPI {
       return {
         data: [],
         success: false,
-        message: `Failed to retrieve paginated services: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        message: `Failed to retrieve paginated services: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
         pagination: {
           total: 0,
           page: 1,
@@ -154,7 +165,9 @@ export class ServicesAPI {
       return {
         exists: false,
         success: false,
-        message: `Failed to check service existence: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        message: `Failed to check service existence: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
       }
     }
   }
@@ -174,7 +187,9 @@ export class ServicesAPI {
       return {
         data: '',
         success: false,
-        message: `Failed to retrieve cover image: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        message: `Failed to retrieve cover image: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
       }
     }
   }
@@ -192,7 +207,7 @@ export const {
 } = ServicesAPI
 
 // Export repository for direct access if needed
-export { serviceRepository } from './file.repository'
+export { serviceRepository } from './http.repository'
 
 // Re-export types for convenience
 export type {

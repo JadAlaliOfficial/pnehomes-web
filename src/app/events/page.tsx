@@ -1,6 +1,7 @@
 import { EventsAPI } from '@/features/events/api'
 import type { Event } from '@/features/events/model/types'
 import ImageGallery from '@/components/ImageGallery'
+import Link from 'next/link'
 
 export default async function EventsPage() {
   // Fetch events data
@@ -85,16 +86,14 @@ export default async function EventsPage() {
 
         {/* Contact Section */}
         {contact && (
-          <div className="mt-16 rounded-lg bg-blue-600 shadow-lg">
-            <div className="px-6 py-12 text-center md:px-8 md:py-16">
-              <h2 className="mb-4 text-3xl font-bold text-white">{contact.title}</h2>
-              <p className="mb-8 text-blue-100">{contact.message}</p>
-              <a
+          <div className="mt-12 border-t border-gray-200 pt-8">
+            <div className="text-center">
+              <Link
                 href={`/contact?message=${encodeURIComponent(contact.message)}`}
-                className="inline-flex items-center rounded-md border border-transparent bg-white px-6 py-3 text-base font-medium text-blue-600 transition-colors duration-200 hover:bg-gray-50"
+                className="inline-flex items-center rounded-md border border-transparent bg-pne-accent px-6 py-3 text-base font-medium text-white transition-colors duration-200 hover:bg-pne-brand focus:ring-2 focus:ring-pne-accent focus:ring-offset-2 focus:outline-none"
               >
-                Get In Touch
-              </a>
+                {contact.title}
+              </Link>
             </div>
           </div>
         )}

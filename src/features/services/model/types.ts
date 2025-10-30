@@ -49,10 +49,16 @@ export interface ServiceRepository {
   getById(id: number): Promise<Service | null>
   getBySlug(slug: string): Promise<Service | null>
   getCover(): Promise<string>
+  searchByTitle(query: string): Promise<Services>
+  getPaginated(
+    page?: number,
+    limit?: number
+  ): Promise<{ services: Services; total: number; page: number; totalPages: number }>
+  existsBySlug(slug: string): Promise<boolean>
 }
 
 /**
- * Service API response types
+ * Service API response types (kept stable for the rest of your app)
  */
 export interface ServiceApiResponse {
   data: Services
@@ -70,4 +76,13 @@ export interface CoverApiResponse {
   data: string
   success: boolean
   message?: string
+}
+
+/**
+ * Remote CMS envelope — the new CMS returns:
+ * { success: boolean, data: ServicesData }
+ */
+export interface RemoteServicesEnvelope {
+  success: boolean
+  data: ServicesData
 }

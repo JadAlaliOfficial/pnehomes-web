@@ -82,12 +82,11 @@ export default async function PrivacyPolicyPage() {
           {data.contact && (
             <div className="mt-12 border-t border-gray-200 pt-8">
               <div className="text-center">
-                <h2 className="mb-6 text-2xl font-bold text-gray-900">{data.contact.title}</h2>
                 <Link
                   href={`/contact?message=${encodeURIComponent(data.contact.message)}`}
                   className="inline-flex items-center rounded-md border border-transparent bg-pne-accent px-6 py-3 text-base font-medium text-white transition-colors duration-200 hover:bg-pne-brand focus:ring-2 focus:ring-pne-accent focus:ring-offset-2 focus:outline-none"
                 >
-                  Get In Touch
+                  {data.contact.title}
                 </Link>
               </div>
             </div>

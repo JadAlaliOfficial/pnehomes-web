@@ -1,10 +1,11 @@
-import { OurTeamRepository } from './file.repository'
+// src/repository/index.ts
 
-// Export all repository functions and types
-export { OurTeamRepository } from './file.repository'
+import { OurTeamRepository } from './team.repository'
+export { OurTeamRepository } from './team.repository'
+
 export type { OurTeamData, TeamMember, Contact } from '../model/types'
 
-// Export convenience functions directly from the repository
+// Convenience re-exports — now these can access the imported OurTeamRepository
 export const getOurTeamData = () => OurTeamRepository.getOurTeamData()
 export const getTeamMembers = () => OurTeamRepository.getTeamMembers()
 export const getTeamMemberByName = (name: string) => OurTeamRepository.getTeamMemberByName(name)

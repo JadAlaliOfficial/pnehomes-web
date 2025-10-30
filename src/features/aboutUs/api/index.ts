@@ -1,58 +1,19 @@
 /**
- * AboutUs API - Main entry point
- *
- * This module provides a centralized API for accessing aboutUs data
- * and serves as the main interface for the aboutUs feature.
+ * AboutUs API - Main entry point (using live API)
  */
 
-// Export types
 export type { AboutUsData, ContactInfo, AboutUsResponse } from '../model/types'
+export { AboutUsApiRepository } from './api.repository'
 
-// Export repository functions
-export { AboutUsFileRepository } from './file.repository'
+import { AboutUsApiRepository } from './api.repository'
 
-// Re-export commonly used functions for convenience
-import { AboutUsFileRepository } from './file.repository'
+export const getAboutUsData = () => AboutUsApiRepository.getAboutUsData()
+export const getContactInfo = () => AboutUsApiRepository.getContactInfo()
+export const getTitle = () => AboutUsApiRepository.getTitle()
+export const getSlogan = () => AboutUsApiRepository.getSlogan()
+export const getDescription = () => AboutUsApiRepository.getDescription()
+export const getCover = () => AboutUsApiRepository.getCover()
 
-/**
- * Convenience function to get all aboutUs data
- * @returns Promise<AboutUsResponse> - Complete aboutUs data
- */
-export const getAboutUsData = () => AboutUsFileRepository.getAboutUsData()
-
-/**
- * Convenience function to get contact information
- * @returns Promise<ContactInfo | null> - Contact information
- */
-export const getContactInfo = () => AboutUsFileRepository.getContactInfo()
-
-/**
- * Convenience function to get the main title
- * @returns Promise<string | null> - The title
- */
-export const getTitle = () => AboutUsFileRepository.getTitle()
-
-/**
- * Convenience function to get the slogan
- * @returns Promise<string | null> - The slogan
- */
-export const getSlogan = () => AboutUsFileRepository.getSlogan()
-
-/**
- * Convenience function to get the description
- * @returns Promise<string | null> - The description
- */
-export const getDescription = () => AboutUsFileRepository.getDescription()
-
-/**
- * Convenience function to get the cover image
- * @returns Promise<string | null> - The cover image path
- */
-export const getCover = () => AboutUsFileRepository.getCover()
-
-/**
- * Default export - AboutUs API object with all methods
- */
 const AboutUsAPI = {
   getAboutUsData,
   getContactInfo,
@@ -60,7 +21,7 @@ const AboutUsAPI = {
   getSlogan,
   getDescription,
   getCover,
-  Repository: AboutUsFileRepository,
+  Repository: AboutUsApiRepository,
 }
 
 export default AboutUsAPI

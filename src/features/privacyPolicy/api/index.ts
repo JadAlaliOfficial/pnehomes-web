@@ -1,9 +1,11 @@
+// src/privacy-policy/index.ts
+
 // Privacy Policy API - Main Entry Point
-export { PrivacyPolicyFileRepository } from './file.repository'
+export { PrivacyPolicyHttpRepository } from './http.repository'
 export type { PrivacyPolicy, Contact, PrivacyPolicyResponse } from '../model/types'
 
 // Re-export commonly used functions for easier access
-import { PrivacyPolicyFileRepository } from './file.repository'
+import { PrivacyPolicyHttpRepository } from './http.repository'
 
 /**
  * Main Privacy Policy API functions
@@ -12,32 +14,32 @@ export const PrivacyPolicyAPI = {
   /**
    * Get complete privacy policy data
    */
-  getPrivacyPolicy: () => PrivacyPolicyFileRepository.getPrivacyPolicy(),
+  getPrivacyPolicy: () => PrivacyPolicyHttpRepository.getPrivacyPolicy(),
 
   /**
    * Get privacy policy slogan
    */
-  getSlogan: () => PrivacyPolicyFileRepository.getSlogan(),
+  getSlogan: () => PrivacyPolicyHttpRepository.getSlogan(),
 
   /**
    * Get privacy policy title
    */
-  getTitle: () => PrivacyPolicyFileRepository.getTitle(),
+  getTitle: () => PrivacyPolicyHttpRepository.getTitle(),
 
   /**
-   * Get privacy policy description
+   * Get privacy policy description (HTML string)
    */
-  getDescription: () => PrivacyPolicyFileRepository.getDescription(),
+  getDescription: () => PrivacyPolicyHttpRepository.getDescription(),
 
   /**
    * Get privacy policy cover
    */
-  getCover: () => PrivacyPolicyFileRepository.getCover(),
+  getCover: () => PrivacyPolicyHttpRepository.getCover(),
 
   /**
    * Get contact information
    */
-  getContact: () => PrivacyPolicyFileRepository.getContact(),
+  getContact: () => PrivacyPolicyHttpRepository.getContact(),
 }
 
 // Default export for convenience

@@ -1,16 +1,17 @@
-import { fileRepository } from './file.repository'
+import { httpRepository } from '../data'
 import type { Event, Contact, EventsData, EventsResponse } from '../model/types'
 
 /**
  * Events API - Main entry point for events-related operations
+ * (same surface as before; now backed by HTTP instead of the file system)
  */
 export class EventsAPI {
   /**
    * Get all events data including slogan, events array, and contact info
    * @returns Promise<EventsResponse>
    */
-  static async getEventsData(): Promise<EventsResponse> {
-    return await fileRepository.getEventsData()
+  static async getEventsData(forceRefresh = false): Promise<EventsResponse> {
+    return await httpRepository.getEventsData(forceRefresh)
   }
 
   /**
@@ -18,7 +19,7 @@ export class EventsAPI {
    * @returns Promise<Event[]>
    */
   static async getAllEvents(): Promise<Event[]> {
-    return await fileRepository.getAllEvents()
+    return await httpRepository.getAllEvents()
   }
 
   /**
@@ -27,7 +28,7 @@ export class EventsAPI {
    * @returns Promise<Event | null>
    */
   static async getEventByTitle(title: string): Promise<Event | null> {
-    return await fileRepository.getEventByTitle(title)
+    return await httpRepository.getEventByTitle(title)
   }
 
   /**
@@ -35,7 +36,7 @@ export class EventsAPI {
    * @returns Promise<Contact | null>
    */
   static async getContactInfo(): Promise<Contact | null> {
-    return await fileRepository.getContactInfo()
+    return await httpRepository.getContactInfo()
   }
 
   /**
@@ -43,7 +44,7 @@ export class EventsAPI {
    * @returns Promise<string>
    */
   static async getSlogan(): Promise<string> {
-    return await fileRepository.getSlogan()
+    return await httpRepository.getSlogan()
   }
 
   /**
@@ -51,7 +52,7 @@ export class EventsAPI {
    * @returns Promise<string>
    */
   static async getTitle(): Promise<string> {
-    return await fileRepository.getTitle()
+    return await httpRepository.getTitle()
   }
 
   /**
@@ -59,7 +60,7 @@ export class EventsAPI {
    * @returns Promise<string>
    */
   static async getCover(): Promise<string> {
-    return await fileRepository.getCover()
+    return await httpRepository.getCover()
   }
 
   /**
@@ -68,7 +69,7 @@ export class EventsAPI {
    * @returns Promise<Event[]>
    */
   static async searchEvents(keyword: string): Promise<Event[]> {
-    const events = await fileRepository.getAllEvents()
+    const events = await httpRepository.getAllEvents()
     const searchTerm = keyword.toLowerCase()
 
     return events.filter(
@@ -83,7 +84,7 @@ export class EventsAPI {
    * @returns Promise<number>
    */
   static async getEventsCount(): Promise<number> {
-    const events = await fileRepository.getAllEvents()
+    const events = await httpRepository.getAllEvents()
     return events.length
   }
 }
@@ -92,7 +93,7 @@ export class EventsAPI {
 export type { Event, Contact, EventsData, EventsResponse }
 
 // Export repository for advanced use cases
-export { fileRepository }
+export { httpRepository as repository }
 
 // Default export
 export default EventsAPI

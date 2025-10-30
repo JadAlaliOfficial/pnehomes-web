@@ -14,7 +14,9 @@ export interface AboutUsData {
   slogan: string
   title: string
   /** Description text that may contain HTML tags for formatting */
-  description: string
+  description?: string
+  /** Some APIs may return content instead of description */
+  content?: string
   contact?: ContactInfo
 }
 

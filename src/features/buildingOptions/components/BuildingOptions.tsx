@@ -1,19 +1,40 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
-import { getBuildingOptionsSync } from '../api'
+import { getBuildingOptions } from '../api' // async API fetcher
+import type { BuildingOptionsData } from '../model/types'
 
 export default function BuildingOptions() {
   const router = useRouter()
-  const data = getBuildingOptionsSync()
+
+  // Local state for data + loading + error
+  const [data, setData] = useState<BuildingOptionsData | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getBuildingOptions()
+        setData(result)
+      } catch (err) {
+        console.error('Error loading building options:', err)
+        setError('Failed to load building options.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
 
   const handleCardClick = (optionId: number) => {
     if (optionId === 1) {
       router.push('/contact/own_land')
     } else {
-      // Handle other options as needed
       router.push('/communities')
     }
   }
@@ -22,21 +43,49 @@ export default function BuildingOptions() {
     router.push(`/articles/${slug}`)
   }
 
+  // --- Loading state ---
+  if (loading) {
+    return (
+      <div className="min-h-screen">
+        <div className="container mx-auto px-6 py-16">
+          <div className="animate-pulse space-y-6">
+            <div className="h-12 w-2/3 rounded bg-muted" />
+            <div className="h-6 w-1/2 rounded bg-muted" />
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div className="h-80 rounded bg-muted" />
+              <div className="h-80 rounded bg-muted" />
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // --- Error state ---
+  if (error || !data) {
+    return (
+      <div className="min-h-screen">
+        <div className="container mx-auto px-6 py-16 text-center">
+          <p className="text-destructive text-lg font-medium">
+            {error ?? 'Failed to load building options.'}
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  // --- Main render ---
   return (
     <div className="min-h-screen">
       {/* Hero Section with Cover Image */}
       {data.cover && (
         <section className="relative isolate">
-          {/* Background image (fixed) */}
           <div
             aria-hidden
             className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat md:bg-fixed"
             style={{ backgroundImage: `url(${data.cover})` }}
           />
-          {/* Overlay */}
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-white/10 to-black/10" />
-
-          {/* Centered content */}
           <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-6 text-center">
             <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
               {data.title}
@@ -45,7 +94,7 @@ export default function BuildingOptions() {
         </section>
       )}
 
-      {/* Slogan Section - Under Cover */}
+      {/* Slogan Section */}
       {data.cover && (
         <section className="bg-background py-8">
           <div className="container mx-auto px-6 text-center">
@@ -58,17 +107,15 @@ export default function BuildingOptions() {
 
       <div className="bg-background px-4 py-16">
         <div className="mx-auto">
-          {/* Fallback for when no cover image */}
+          {/* Fallback when no cover image */}
           {!data.cover && (
             <>
-              {/* Slogan - Very big font in the middle */}
               <div className="mb-8 text-center">
                 <h1 className="text-foreground text-4xl leading-tight font-bold md:text-6xl lg:text-7xl">
                   {data.slogan}
                 </h1>
               </div>
 
-              {/* Title - Smaller font under slogan */}
               <div className="mb-16 text-center">
                 <h2 className="text-muted-foreground text-xl font-medium md:text-2xl lg:text-3xl">
                   {data.title}
@@ -77,7 +124,7 @@ export default function BuildingOptions() {
             </>
           )}
 
-          {/* Two main option cards next to each other - Now Fully Responsive */}
+          {/* Option cards */}
           <div className="mx-auto mb-16 grid max-w-7xl grid-cols-1 gap-6 sm:gap-8 md:max-w-4xl md:grid-cols-2 lg:max-w-6xl">
             {data.options.map(option => (
               <Card
@@ -86,7 +133,6 @@ export default function BuildingOptions() {
                 onClick={() => handleCardClick(option.id)}
               >
                 <CardContent className="p-0">
-                  {/* Image - Responsive Heights */}
                   <div className="relative h-48 w-full overflow-hidden rounded-t-xl sm:h-56 md:h-64 lg:h-80 xl:h-96">
                     <Image
                       src={option.section_img}
@@ -97,14 +143,11 @@ export default function BuildingOptions() {
                     />
                   </div>
 
-                  {/* Content - Responsive Padding */}
                   <div className="p-4 sm:p-6 md:p-8">
-                    {/* Title - Responsive Text Size */}
                     <h3 className="text-foreground mb-2 text-lg font-semibold sm:mb-3 sm:text-xl md:text-2xl">
                       {option.title}
                     </h3>
 
-                    {/* Description - Responsive Text Size */}
                     {option.description && (
                       <p className="text-muted-foreground text-sm leading-relaxed sm:text-base">
                         {option.description}
@@ -117,7 +160,7 @@ export default function BuildingOptions() {
           </div>
 
           {/* Articles Section */}
-          {data.articles && data.articles.articles && data.articles.articles.length > 0 && (
+          {data.articles?.articles?.length > 0 && (
             <div className="mx-auto max-w-4xl">
               <div className="mb-8 text-center">
                 <h3 className="text-foreground mb-2 text-2xl font-bold md:text-3xl">
@@ -128,7 +171,6 @@ export default function BuildingOptions() {
                 </p>
               </div>
 
-              {/* Article cards - smaller cards in a grid */}
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {data.articles.articles.map(article => (
                   <Card
@@ -137,7 +179,6 @@ export default function BuildingOptions() {
                     onClick={() => handleArticleClick(article.slug)}
                   >
                     <CardContent className="p-0">
-                      {/* Image */}
                       <div className="relative h-48 w-full overflow-hidden rounded-t-xl">
                         <Image
                           src={article.img}
@@ -148,14 +189,11 @@ export default function BuildingOptions() {
                         />
                       </div>
 
-                      {/* Content */}
                       <div className="p-4">
-                        {/* Title */}
                         <h4 className="text-foreground mb-2 line-clamp-2 text-lg font-semibold">
                           {article.title}
                         </h4>
 
-                        {/* Description */}
                         {article.description && (
                           <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed">
                             {article.description}

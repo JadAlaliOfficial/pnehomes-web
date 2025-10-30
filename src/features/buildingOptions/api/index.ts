@@ -1,61 +1,59 @@
-import { BuildingOptionsFileRepository } from './file.repository'
-import { BuildingOptionsData, BuildingOption, Article, ArticlesSection } from '../model/types'
+// src/services/buildingOptions.service.ts
+import { BuildingOptionsApiRepository } from './api.repository'
+import type { BuildingOptionsData, BuildingOption, Article, ArticlesSection } from '../model/types'
 
-// Create a singleton instance of the repository
-const buildingOptionsRepository = new BuildingOptionsFileRepository()
+// You can make these configurable via env if you wish:
+const BASE_URL = process.env.CMS_BASE_URL ?? 'https://cms.pnehomes.com/api'
+const PATH = process.env.CMS_BUILDING_OPTIONS_PATH ?? '/building-options'
+const TTL_MS = process.env.CMS_CACHE_TTL_MS ? Number(process.env.CMS_CACHE_TTL_MS) : 10 * 60 * 1000
+
+// Create a singleton instance of the repository (API-backed)
+const buildingOptionsRepository = new BuildingOptionsApiRepository(BASE_URL, PATH, TTL_MS)
 
 /**
- * Get all building options data
- * @returns Promise<BuildingOptionsData>
+ * Get all building options data (async)
  */
 export const getBuildingOptions = async (): Promise<BuildingOptionsData> => {
   return buildingOptionsRepository.getBuildingOptions()
 }
 
 /**
- * Get building options synchronously
- * @returns BuildingOptionsData
+ * Get building options synchronously from cache
  */
 export const getBuildingOptionsSync = (): BuildingOptionsData => {
   return buildingOptionsRepository.getBuildingOptionsSync()
 }
 
 /**
- * Get all articles
- * @returns Promise<Article[]>
+ * Get all articles (async)
  */
 export const getArticles = async (): Promise<Article[]> => {
   return buildingOptionsRepository.getArticles()
 }
 
 /**
- * Get articles synchronously
- * @returns Article[]
+ * Get articles synchronously from cache
  */
 export const getArticlesSync = (): Article[] => {
   return buildingOptionsRepository.getArticlesSync()
 }
 
 /**
- * Get article by slug
- * @param slug - The article slug
- * @returns Promise<Article | undefined>
+ * Get article by slug (async)
  */
 export const getArticleBySlug = async (slug: string): Promise<Article | undefined> => {
   return buildingOptionsRepository.getArticleBySlug(slug)
 }
 
 /**
- * Get article by slug synchronously
- * @param slug - The article slug
- * @returns Article | undefined
+ * Get article by slug synchronously from cache
  */
 export const getArticleBySlugSync = (slug: string): Article | undefined => {
   return buildingOptionsRepository.getArticleBySlugSync(slug)
 }
 
-// Export types for convenience
+// Export types for convenience (unchanged)
 export type { BuildingOptionsData, BuildingOption, Article, ArticlesSection }
 
 // Export repository class for advanced usage
-export { BuildingOptionsFileRepository }
+export { BuildingOptionsApiRepository }

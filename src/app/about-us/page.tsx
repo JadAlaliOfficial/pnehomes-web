@@ -73,7 +73,7 @@ export default async function AboutUsPage() {
               <div className="prose prose-lg max-w-none">
                 <div
                   className="text-lg leading-relaxed text-gray-700"
-                  dangerouslySetInnerHTML={{ __html: data.description }}
+                  dangerouslySetInnerHTML={{ __html: data.description || '' }}
                 />
               </div>
 

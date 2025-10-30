@@ -1,13 +1,14 @@
-import { FileRepository } from './file.repository'
+// src/api/communities.api.ts
+import ApiRepository from './api.repository' // <- new
 import { Community, CommunityFilter, PropertyFilter, SearchFilters, CommunitiesPageData } from '../model/types'
 import { CommunitySelector } from '../model/selector'
 
 export class CommunitiesAPI {
-  private repository: FileRepository
+  private repository: ApiRepository
   private selector: CommunitySelector
 
   constructor() {
-    this.repository = new FileRepository()
+    this.repository = new ApiRepository()
     this.selector = new CommunitySelector()
   }
 
@@ -59,16 +60,14 @@ export class CommunitiesAPI {
   async advancedSearch(filters: SearchFilters): Promise<Community[]> {
     let communities = await this.repository.getAllCommunities()
 
-    // Filter communities first
     if (filters.community) {
       communities = this.selector.filterCommunities(communities, filters.community)
     }
 
-    // Then filter properties within each community
     if (filters.property) {
       communities = communities
-        .map(community => this.selector.filterProperties(community, filters.property!))
-        .filter(community => (community['floor-plans'] || []).length > 0)
+        .map((community) => this.selector.filterProperties(community, filters.property!))
+        .filter((community) => (community['floor-plans'] || []).length > 0)
     }
 
     return communities
