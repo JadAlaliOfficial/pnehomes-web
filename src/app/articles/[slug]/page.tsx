@@ -2,9 +2,10 @@
 
 import { notFound, useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { use } from 'react'
-import { getArticleBySlugSync, getBuildingOptionsSync } from '@/features/buildingOptions/api'
+import { use, useEffect, useState } from 'react'
+import { getBuildingOptions, getArticleBySlug } from '@/features/buildingOptions/api'
 import { Button } from '@/components/ui/button'
+import type { BuildingOptionsData, Article } from '@/features/buildingOptions/model/types'
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>
@@ -13,11 +14,83 @@ interface ArticlePageProps {
 export default function ArticlePage({ params }: ArticlePageProps) {
   const router = useRouter()
   const { slug } = use(params)
-  const article = getArticleBySlugSync(slug)
-  const buildingOptionsData = getBuildingOptionsSync()
+  
+  // State for async data loading
+  const [article, setArticle] = useState<Article | null>(null)
+  const [buildingOptionsData, setBuildingOptionsData] = useState<BuildingOptionsData | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  if (!article) {
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        
+        // Load building options data first to populate the cache
+        const buildingOptions = await getBuildingOptions()
+        setBuildingOptionsData(buildingOptions)
+        
+        // Then get the specific article
+        const articleData = await getArticleBySlug(slug)
+        if (!articleData) {
+          notFound()
+          return
+        }
+        
+        setArticle(articleData)
+      } catch (err) {
+        console.error('Error loading article data:', err)
+        setError('Failed to load article data. Please try again.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadData()
+  }, [slug])
+
+  // Loading state
+  if (loading) {
+    return (
+      <main className="min-h-screen">
+        <div className="container mx-auto px-6 py-16">
+          <div className="animate-pulse space-y-6">
+            <div className="h-12 w-2/3 rounded bg-muted mx-auto" />
+            <div className="h-6 w-1/2 rounded bg-muted mx-auto" />
+            <div className="h-64 sm:h-80 md:h-96 rounded bg-muted" />
+            <div className="space-y-4">
+              <div className="h-4 w-full rounded bg-muted" />
+              <div className="h-4 w-5/6 rounded bg-muted" />
+              <div className="h-4 w-4/5 rounded bg-muted" />
+            </div>
+          </div>
+        </div>
+      </main>
+    )
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <main className="min-h-screen">
+        <div className="container mx-auto px-6 py-16 text-center">
+          <p className="text-destructive text-lg font-medium mb-4">{error}</p>
+          <Button
+            onClick={() => window.location.reload()}
+            className="bg-pne-accent hover:bg-pne-brand text-white"
+          >
+            Try Again
+          </Button>
+        </div>
+      </main>
+    )
+  }
+
+  // Data not found
+  if (!article || !buildingOptionsData) {
     notFound()
+    return null
   }
 
   const handleBackClick = () => {

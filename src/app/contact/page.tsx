@@ -1,85 +1,114 @@
 'use client'
 
-import { Suspense, useEffect, useMemo } from 'react'
+
+import { Suspense, useEffect, useMemo, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
+
 
 /** ---- TS: add Cognito to the Window type ---- */
 declare global {
   interface Window {
     Cognito?: {
       prefill?: (values: Record<string, unknown>) => void
+      mount?: (
+        formId: string,
+        selector: string
+      ) => { prefill?: (values: Record<string, unknown>) => void }
     }
   }
 }
 /** -------------------------------------------- */
 
+
 function CognitoEmbed() {
   const searchParams = useSearchParams()
-  const messageParam = searchParams.get('message') || ''
+  const messageParam = (searchParams.get('message') || '').trim()
 
-  // CSS-safe id (no colons), stable for the component's lifetime
+
   const containerId = useMemo(
-    () => `cog-iframe-${Math.random().toString(36).slice(2)}`,
+    () => `cognito-form-${Math.random().toString(36).slice(2)}`,
     []
   )
+  const containerRef = useRef<HTMLDivElement | null>(null)
+
+
+  // Helper to apply prefill using the mount API (robust for React)
+  const applyPrefill = () => {
+    if (!messageParam) return
+    try {
+      // Target this specific embed container and form id "39"
+      const api = window.Cognito?.mount?.('39', `#${containerId}`)
+      // Nest Message inside Section (replace "Section" with your actual section name)
+      api?.prefill?.({ Section: { Message: messageParam } })
+      // Fallback: also try the global prefill (harmless if not needed)
+      window.Cognito?.prefill?.({ Section: { Message: messageParam } })
+    } catch {
+      // no-op; we'll try again below if needed
+    }
+  }
+
+
 
   useEffect(() => {
-    const iframeSrc = 'https://www.cognitoforms.com/f/iframe.js'
+    const container = containerRef.current
+    if (!container) return
 
-    const loadScriptAndPrefill = () => {
-      // Load iframe script if not already loaded
-      let script = document.querySelector<HTMLScriptElement>(`script[src="${iframeSrc}"]`)
-      
-      const prefillForm = () => {
-        // Wait for Cognito to be available on window
-        if (typeof window !== 'undefined' && window.Cognito && window.Cognito.prefill && messageParam) {
-          // Try common field names - update based on your actual field name from Developer Mode
-          try {
-            // Attempt 1: Simple field name
-            window.Cognito.prefill({ Message: messageParam })
-          } catch (e) {
-            console.error('Prefill failed:', e)
-          }
-        }
-      }
 
-      if (!script) {
-        script = document.createElement('script')
-        script.src = iframeSrc
-        script.async = true
-        script.addEventListener('load', () => {
-          // Multiple delays to ensure iframe is fully loaded
-          setTimeout(prefillForm, 200)
-          setTimeout(prefillForm, 500)
-          setTimeout(prefillForm, 1000)
-        }, { once: true })
-        document.body.appendChild(script)
-      } else {
-        // Script already exists, just prefill with delays
-        setTimeout(prefillForm, 200)
-        setTimeout(prefillForm, 500)
-        setTimeout(prefillForm, 1000)
-      }
+    // Avoid double-injecting on Fast Refresh / re-renders
+    const existing = container.querySelector('script[data-cognito="seamless"]')
+    if (existing) {
+      applyPrefill()
+      return
     }
 
-    loadScriptAndPrefill()
 
+    // Clear the container and inject the Seamless script *inside* it
+    container.innerHTML = ''
+    const script = document.createElement('script')
+    script.src = 'https://www.cognitoforms.com/f/seamless.js'
+    script.setAttribute('data-cognito', 'seamless')
+    script.setAttribute('data-key', 'pxHkG6m3FkeZ9HUuTLWtiA') // your org key
+    script.setAttribute('data-form', '39')                    // your form id
+    // Important: don't set async=true; we want predictable load order
+    script.addEventListener('load', () => {
+      // Call immediately when the loader is ready (during form load)
+      applyPrefill()
+      // Belt-and-suspenders retries in case the form stream is still attaching
+      setTimeout(applyPrefill, 150)
+      setTimeout(applyPrefill, 400)
+    }, { once: true })
+
+
+    container.appendChild(script)
+
+
+    // Optional cleanup on unmount (keeps hot-reloads tidy)
     return () => {
-      // Cleanup if needed
+      container.innerHTML = ''
     }
-  }, [containerId, messageParam])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [containerId])
+
+
+  // If the URL param changes via client-side navigation, reapply
+  useEffect(() => {
+    applyPrefill()
+    // a second nudge shortly after to catch any late load
+    const t = setTimeout(applyPrefill, 150)
+    return () => clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messageParam])
+
 
   return (
-    <iframe
+    <div
       id={containerId}
-      src="https://www.cognitoforms.com/f/pxHkG6m3FkeZ9HUuTLWtiA/39"
-      allow="payment"
+      ref={containerRef}
       style={{ border: 0, width: '100%' }}
-      height="594"
-      title="Contact Form"
     />
   )
 }
+
 
 export default function ContactPage() {
   return (
@@ -100,6 +129,7 @@ export default function ContactPage() {
             </h1>
           </div>
         </section>
+
 
         <div className="bg-gray-50 py-8 sm:py-12 lg:py-16 dark:bg-gray-900">
           <div className="mx-auto max-w-sm sm:max-w-md lg:max-w-2xl xl:max-w-4xl px-4 sm:px-6 lg:px-8">

@@ -8,6 +8,7 @@ import ImageGallery from '@/components/ImageGallery'
 import RequestTourButton from '@/components/RequestTourButton'
 import { ResponsiveMedia } from '@/features/home/components/ResponsiveMedia'
 import { Bed, Bath, Car, Map } from 'lucide-react'
+import { replacePlaceholders } from '@/lib/utils'
 
 interface CommunityPageProps {
   params: Promise<{ slug: string }>
@@ -224,7 +225,14 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
                     <RequestTourButton 
                       content={{
                         title: pageData.contact.title || 'Request a Tour',
-                        message: (pageData.contact.message || "I'm contacting you to ask about the community of {title}").replace('{title}', community.title)
+                        message: replacePlaceholders(
+                          pageData.contact.message || "I'm contacting you to ask about the community of {title}",
+                          { 
+                            title: community.title,
+                            community: community.title,
+                            city: community.city 
+                          }
+                        )
                       }} 
                       className="mb-3 w-full" 
                     />

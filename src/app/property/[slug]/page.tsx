@@ -10,6 +10,7 @@ import ImageGallery from '@/components/ImageGallery'
 import { Card, CardContent } from '@/components/ui/card'
 import { CircleDollarSignIcon, Bed, Bath, Car, Map } from 'lucide-react'
 import { FloorPlanCollapsible } from '@/features/property/components/FloorPlanCollapsible'
+import { replacePlaceholders } from '@/lib/utils'
 
 // Ensure this page always renders with fresh API data
 export const dynamic = 'force-dynamic'
@@ -336,7 +337,17 @@ export default async function Page({
 
           <Button asChild size="lg" className="w-full sm:flex-1">
             <Link
-              href={`/contact?message=${encodeURIComponent(contactInfo.message)}`}
+              href={`/contact?message=${encodeURIComponent(
+                replacePlaceholders(contactInfo.message, {
+                  propertyTitle: p.title || '',
+                  title: p.title || '',
+                  community: p.community || '',
+                  price: p.price || '',
+                  beds: p.beds || '',
+                  baths: p.baths || '',
+                  sqft: p.sqft || ''
+                })
+              )}`}
             >
               {contactInfo.title}
             </Link>

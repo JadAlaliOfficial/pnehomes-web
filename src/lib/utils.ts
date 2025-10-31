@@ -60,3 +60,36 @@ import { twMerge } from 'tailwind-merge'
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+/**
+ * Replaces placeholders in a message template with actual values
+ *
+ * This utility function replaces common placeholders like {title}, {community},
+ * {name}, etc. with their corresponding values from the provided data object.
+ *
+ * @param template - The message template containing placeholders
+ * @param data - Object containing the replacement values
+ * @returns The message with placeholders replaced
+ *
+ * @example
+ * replacePlaceholders(
+ *   "I'm interested in {community} community",
+ *   { community: "Beulah Park" }
+ * )
+ * // Returns: "I'm interested in Beulah Park community"
+ *
+ * @example
+ * replacePlaceholders(
+ *   "Contact me about {title} in {community}",
+ *   { title: "Modern Home", community: "Edgewater" }
+ * )
+ * // Returns: "Contact me about Modern Home in Edgewater"
+ */
+export function replacePlaceholders(
+  template: string,
+  data: Record<string, string | number>
+): string {
+  return template.replace(/\{(\w+)\}/g, (match, key) => {
+    return data[key]?.toString() || match
+  })
+}

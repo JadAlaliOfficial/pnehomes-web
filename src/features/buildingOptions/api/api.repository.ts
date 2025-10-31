@@ -10,6 +10,7 @@ type ApiArticle = {
   title: string
   description?: string | null
   image: string
+  content?: string | null
 }
 
 type ApiSection = {
@@ -150,7 +151,7 @@ function adaptToDomain(payload: ApiBuildingOptionsPayload): BuildingOptionsData 
     description: a.description ?? null,
     img: a.image,
     // API does not provide article body; keep empty string to satisfy the domain type
-    content: '',
+    content: a.content ?? '',
   }))
 
   const articlesSection: ArticlesSection = {

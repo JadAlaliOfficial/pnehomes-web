@@ -132,16 +132,28 @@ export default function HomePageClient({ content }: { content: HomeContent }) {
   const hasServicesDescription = !!services.description
 
   return (
-    <div className="min-h-screen bg-white overflow-x-hidden">
+    <div className="relative min-h-screen overflow-x-hidden bg-white">
+      {/* Full Page Services Background Image */}
+      {isLoaded && services.cover && (
+        <div className="fixed inset-0 z-0">
+          <Image
+            src={services.cover}
+            alt="Services background"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+        </div>
+      )}
       {/* HERO */}
-      <section className="relative h-[100svh] min-h-[560px] w-full overflow-hidden">
+      <section className="relative z-10 h-[100svh] min-h-[560px] w-full overflow-hidden">
         {/* Video for larger screens */}
         <ResponsiveMedia
           src={firstSection.video}
           className="absolute inset-0 hidden h-full w-full object-cover sm:block"
         />
         {/* Cover image for mobile screens */}
-        <div className="absolute inset-0 h-full w-full sm:hidden bg-gray-100">
+        <div className="absolute inset-0 h-full w-full bg-gray-100 sm:hidden">
           {isLoaded && firstSection['cover-for-mobile'] && (
             <Image
               src={firstSection['cover-for-mobile']}
@@ -200,7 +212,7 @@ export default function HomePageClient({ content }: { content: HomeContent }) {
       </section>
 
       {/* Why PNE */}
-      <section className="bg-white px-4 py-16 md:py-20 overflow-hidden">
+      <section className="relative z-10 overflow-hidden bg-white px-4 py-16 md:py-20">
         <div className="mx-auto max-w-7xl text-[color:var(--pne-brand)]">
           <div className="mb-12 text-center">
             <h2
@@ -254,29 +266,18 @@ export default function HomePageClient({ content }: { content: HomeContent }) {
 
       {/* Services */}
       <motion.section
-        className="relative bg-gray-50 px-4 py-16 md:py-20 overflow-hidden"
+        className="relative z-10 overflow-hidden px-4 py-16 md:py-20"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
         viewport={{ once: true, amount: 0.3 }}
       >
-        {/* Background Image */}
-        {isLoaded && services.cover && (
-          <Image
-            src={services.cover}
-            alt="Services background"
-            fill
-            className="object-cover object-center"
-            sizes="100vw"
-          />
-        )}
-        <div className="absolute inset-0 bg-white/20" />
         <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-16">
           <motion.div
             className="w-full"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
             viewport={{ once: true, amount: 0.3 }}
           >
             <h2
@@ -294,11 +295,11 @@ export default function HomePageClient({ content }: { content: HomeContent }) {
               </p>
             )}
           </motion.div>
-          <motion.div 
-            className="space-y-6 w-full"
+          <motion.div
+            className="w-full space-y-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
             viewport={{ once: true, amount: 0.3 }}
           >
             {services.links.map((link, i) => (
@@ -307,18 +308,18 @@ export default function HomePageClient({ content }: { content: HomeContent }) {
                 className="w-full"
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 + i * 0.1, ease: "easeOut" }}
+                transition={{ duration: 0.5, delay: 0.6 + i * 0.1, ease: 'easeOut' }}
                 viewport={{ once: true, amount: 0.3 }}
               >
                 <Button
                   asChild
                   variant="ghost"
                   size="lg"
-                  className="h-auto w-full justify-start rounded-lg border-none py-6 text-left shadow-none ring-0 hover:bg-white max-w-full"
+                  className="h-auto w-full max-w-full justify-start rounded-lg border-none py-6 text-left shadow-none ring-0 hover:bg-white"
                 >
                   <Link href={`/services/${link.slug}`} className="block w-full">
                     <span
-                      className="text-xl md:text-2xl block w-full"
+                      className="block w-full text-xl md:text-2xl"
                       style={{ fontFamily: '"New Caslon SB Bold", serif' }}
                     >
                       {link.title}
@@ -332,191 +333,193 @@ export default function HomePageClient({ content }: { content: HomeContent }) {
       </motion.section>
 
       {/* Media Grid */}
-      <motion.section 
-        className="bg-white px-4 py-16 md:py-20"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        viewport={{ once: true, amount: 0.2 }}
-      >
-        <div className="mx-auto max-w-7xl">
-          <motion.div 
-            className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            {/* Communities */}
+      <div className="relative z-10 w-full bg-white">
+        <motion.section
+          className="bg-white px-4 py-16 md:py-20"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <div className="mx-auto max-w-7xl">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 30 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+              className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
               viewport={{ once: true, amount: 0.3 }}
             >
-              <Link href="/communities" className="group block">
-                <div className="relative h-64 overflow-hidden rounded-xl bg-gray-100">
-                  {isLoaded && gridSection.links[0].cover && (
-                    <Image
-                      src={gridSection.links[0].cover}
-                      alt={gridSection.links[0].title}
-                      fill
-                      className="object-cover object-center"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-black/40 transition group-hover:bg-black/30" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <h3
-                      className="text-3xl font-bold text-white md:text-4xl"
-                      style={{ fontFamily: '"New Caslon SB Bold", serif' }}
-                    >
-                      {gridSection.links[0].title}
-                    </h3>
+              {/* Communities */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <Link href="/communities" className="group block">
+                  <div className="relative h-64 overflow-hidden rounded-xl bg-gray-100">
+                    {isLoaded && gridSection.links[0].cover && (
+                      <Image
+                        src={gridSection.links[0].cover}
+                        alt={gridSection.links[0].title}
+                        fill
+                        className="object-cover object-center"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-black/40 transition group-hover:bg-black/30" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <h3
+                        className="text-3xl font-bold text-white md:text-4xl"
+                        style={{ fontFamily: '"New Caslon SB Bold", serif' }}
+                      >
+                        {gridSection.links[0].title}
+                      </h3>
+                    </div>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              </motion.div>
+
+              {/* Center video - hidden on small screens */}
+              <motion.div
+                className="relative hidden h-64 overflow-hidden rounded-xl md:block"
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4, ease: 'easeOut' }}
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <ResponsiveMedia
+                  src={gridSection.video}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+                <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-black/5" />
+              </motion.div>
+
+              {/* Kitchens */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5, ease: 'easeOut' }}
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <Link href="/gallery/kitchens" className="group block">
+                  <div className="relative h-64 overflow-hidden rounded-xl bg-gray-100">
+                    {isLoaded && gridSection.links[2].cover && (
+                      <Image
+                        src={gridSection.links[2].cover}
+                        alt={gridSection.links[2].title}
+                        fill
+                        className="object-cover object-center"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-black/40 transition group-hover:bg-black/30" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <h3
+                        className="text-3xl font-bold text-white md:text-4xl"
+                        style={{ fontFamily: '"New Caslon SB Bold", serif' }}
+                      >
+                        {gridSection.links[2].title}
+                      </h3>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
             </motion.div>
 
-            {/* Center video - hidden on small screens */}
-            <motion.div 
-              className="relative hidden h-64 overflow-hidden rounded-xl md:block"
-              initial={{ opacity: 0, scale: 0.9, y: 30 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <ResponsiveMedia
-                src={gridSection.video}
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-              <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-black/5" />
-            </motion.div>
-
-            {/* Kitchens */}
+            {/* Row 2 */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 30 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
+              className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
               viewport={{ once: true, amount: 0.3 }}
             >
-              <Link href="/gallery/kitchens" className="group block">
-                <div className="relative h-64 overflow-hidden rounded-xl bg-gray-100">
-                  {isLoaded && gridSection.links[2].cover && (
-                    <Image
-                      src={gridSection.links[2].cover}
-                      alt={gridSection.links[2].title}
-                      fill
-                      className="object-cover object-center"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-black/40 transition group-hover:bg-black/30" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <h3
-                      className="text-3xl font-bold text-white md:text-4xl"
-                      style={{ fontFamily: '"New Caslon SB Bold", serif' }}
-                    >
-                      {gridSection.links[2].title}
-                    </h3>
+              {/* Events */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.7, ease: 'easeOut' }}
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <Link href="/events" className="group block">
+                  <div className="relative h-64 overflow-hidden rounded-xl bg-gray-100">
+                    {isLoaded && gridSection.links[1].cover && (
+                      <Image
+                        src={gridSection.links[1].cover}
+                        alt={gridSection.links[1].title}
+                        fill
+                        className="object-cover object-center"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-black/40 transition group-hover:bg-black/30" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <h3
+                        className="text-3xl font-bold text-white md:text-4xl"
+                        style={{ fontFamily: '"New Caslon SB Bold", serif' }}
+                      >
+                        {gridSection.links[1].title}
+                      </h3>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            </motion.div>
-          </motion.div>
+                </Link>
+              </motion.div>
 
-          {/* Row 2 */}
-          <motion.div 
-            className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            {/* Events */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 30 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <Link href="/events" className="group block">
-                <div className="relative h-64 overflow-hidden rounded-xl bg-gray-100">
-                  {isLoaded && gridSection.links[1].cover && (
-                    <Image
-                      src={gridSection.links[1].cover}
-                      alt={gridSection.links[1].title}
-                      fill
-                      className="object-cover object-center"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-black/40 transition group-hover:bg-black/30" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <h3
-                      className="text-3xl font-bold text-white md:text-4xl"
-                      style={{ fontFamily: '"New Caslon SB Bold", serif' }}
-                    >
-                      {gridSection.links[1].title}
-                    </h3>
+              {/* Logo tile */}
+              <motion.div
+                className="hidden h-64 items-center justify-center rounded-xl bg-transparent ring-1 ring-black/5 md:flex"
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8, ease: 'easeOut' }}
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <Image
+                  src={gridSection.logo}
+                  alt="PNE Homes Logo"
+                  width={320}
+                  height={160}
+                  className="h-auto w-[200px] object-contain md:w-[260px] lg:w-[320px]"
+                />
+              </motion.div>
+
+              {/* Custom Homes */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.9, ease: 'easeOut' }}
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <Link href="/services/custom-homes" className="group block">
+                  <div className="relative h-64 overflow-hidden rounded-xl bg-gray-100">
+                    {isLoaded && gridSection.links[3].cover && (
+                      <Image
+                        src={gridSection.links[3].cover}
+                        alt={gridSection.links[3].title}
+                        fill
+                        className="object-cover object-center"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-black/40 transition group-hover:bg-black/30" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <h3
+                        className="text-3xl font-bold text-white md:text-4xl"
+                        style={{ fontFamily: '"New Caslon SB Bold", serif' }}
+                      >
+                        {gridSection.links[3].title}
+                      </h3>
+                    </div>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              </motion.div>
             </motion.div>
-
-            {/* Logo tile */}
-            <motion.div 
-              className="hidden h-64 items-center justify-center rounded-xl bg-transparent ring-1 ring-black/5 md:flex"
-              initial={{ opacity: 0, scale: 0.9, y: 30 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <Image
-                src={gridSection.logo}
-                alt="PNE Homes Logo"
-                width={320}
-                height={160}
-                className="h-auto w-[200px] object-contain md:w-[260px] lg:w-[320px]"
-              />
-            </motion.div>
-
-            {/* Custom Homes */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 30 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.9, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <Link href="/services/custom-homes" className="group block">
-                <div className="relative h-64 overflow-hidden rounded-xl bg-gray-100">
-                  {isLoaded && gridSection.links[3].cover && (
-                    <Image
-                      src={gridSection.links[3].cover}
-                      alt={gridSection.links[3].title}
-                      fill
-                      className="object-cover object-center"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-black/40 transition group-hover:bg-black/30" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <h3
-                      className="text-3xl font-bold text-white md:text-4xl"
-                      style={{ fontFamily: '"New Caslon SB Bold", serif' }}
-                    >
-                      {gridSection.links[3].title}
-                    </h3>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          </motion.div>
-        </div>
-      </motion.section>
+          </div>
+        </motion.section>
+      </div>
 
       {/* Testimonials */}
-      <section className="px-4 py-16 md:py-20 overflow-hidden">
+      <section className="relative z-10 w-full overflow-hidden bg-white px-4 py-16 md:py-20">
         <div className="mx-auto max-w-7xl">
           <h2 className="mb-10 text-center text-3xl font-bold text-gray-900 sm:text-4xl">
             What Our Clients Say
@@ -526,7 +529,7 @@ export default function HomePageClient({ content }: { content: HomeContent }) {
       </section>
 
       {/* Contact CTA */}
-      <section className="bg-white px-4 py-16 text-center md:py-20 overflow-hidden">
+      <section className="relative z-10 overflow-hidden bg-white px-4 py-16 text-center md:py-20">
         <div className="mx-auto max-w-3xl">
           <Button
             asChild
