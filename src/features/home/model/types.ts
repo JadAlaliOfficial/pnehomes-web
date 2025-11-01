@@ -36,9 +36,18 @@ export interface CmsLayoutLink {
   slug: string
 }
 
+export interface CmsNavigationContact {
+  id: number
+  phone: string
+  button: string
+  created_at: string
+  updated_at: string
+}
+
 export interface CmsNavigation {
   logo: string
   links: CmsLayoutLink[]
+  contact: CmsNavigationContact
 }
 
 export interface CmsFooter {

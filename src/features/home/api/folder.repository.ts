@@ -155,8 +155,12 @@ export class HomeLayoutRepository {
       ? data.navigation.links.map(l => l?.title).filter(Boolean)
       : []
 
-    // contact/phone (convert to number or null)
-    const phoneNum = this.toPhoneNumberOrNull(data?.contact?.phone)
+    // header contact info (phone and button from navigation.contact)
+    const headerPhone = this.toPhoneNumberOrNull(data?.navigation?.contact?.phone)
+    const headerButton = data?.navigation?.contact?.button || null
+
+    // contact/phone for footer (from separate contact object)
+    const footerPhoneNum = this.toPhoneNumberOrNull(data?.contact?.phone)
 
     // footer nav
     const footerNav = Array.isArray(data?.footer?.links)
@@ -173,10 +177,10 @@ export class HomeLayoutRepository {
     const result: HomeLayout = {
       'header-logo': headerLogo,
       'header-nav': headerNav,
-      'header-button': null, // API doesn't provide a header CTA; keep null to preserve type
-      'header-phone': phoneNum,
+      'header-button': headerButton,
+      'header-phone': headerPhone,
       'footer-nav': footerNav,
-      'footer-phone': phoneNum, // using the same contact phone for footer
+      'footer-phone': footerPhoneNum,
       'footer-social': footerSocial,
     }
 
