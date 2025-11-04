@@ -141,7 +141,11 @@ export default async function Page({
             </div>
             <div className="text-right">
               <div className="mt-4">
-                <SharePrintButtons title={p.title || 'Property'} text={shareText} />
+                <SharePrintButtons 
+                  title={p.title || 'Property'} 
+                  text={shareText} 
+                  property={p}
+                />
               </div>
               {/* <div className="text-2xl font-semibold sm:text-3xl">{money(p.price)}</div> */}
             </div>
