@@ -207,7 +207,7 @@ function ContactForm() {
         <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800">
             <div className="mb-8 text-center">
-              <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Contact Us</h1>
+              <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl max-w-[800px] mx-auto break-words">Contact Us</h1>
               <p className="text-gray-600 dark:text-gray-300">
                 Get in touch with our team. We&apos;d love to hear from you.
               </p>

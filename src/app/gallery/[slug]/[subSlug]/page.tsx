@@ -39,7 +39,7 @@ export default async function SubAlbumPage({ params }: SubAlbumPageProps) {
 
         <div className="relative z-20 flex h-full items-center justify-center">
           <div className="container mx-auto px-6 text-center">
-            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl max-w-[800px] mx-auto break-words">
               {subAlbum.title}
             </h1>
           </div>

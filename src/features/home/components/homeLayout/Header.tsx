@@ -53,6 +53,61 @@ type NavItem =
   | { type: 'link'; label: string; href: string }
   | { type: 'services'; label: string }
 
+// Put near your helpers
+const KNOWN_LOCALES = ['en', 'bg', 'fr'] // adjust to your setup
+
+/**
+ * Remove any locale prefix (e.g. /en/...) from a pathname for comparison.
+ */
+const stripLocale = (path: string) => {
+  const m = path.match(/^\/([a-zA-Z-]+)(?=\/|$)/)
+  if (!m) return path
+  const locale = m[1]
+  return KNOWN_LOCALES.includes(locale) ? path.slice(locale.length + 1) || '/' : path
+}
+
+/**
+ * Normalize a path or href to compare:
+ * - drop hash/query
+ * - strip locale (pathname only)
+ * - remove trailing slash except root
+ */
+const normalizeForCompare = (value: string, { isPathname }: { isPathname: boolean }) => {
+  const noHash = value.split('#')[0]
+  const noQuery = noHash.split('?')[0]
+  const maybeNoLocale = isPathname ? stripLocale(noQuery) : noQuery
+  const trimmed = maybeNoLocale !== '/' ? maybeNoLocale.replace(/\/+$/, '') : '/'
+  return trimmed || '/'
+}
+
+/**
+ * Some links should be considered active on extra prefixes (legacy rules you had before).
+ * e.g. Floor Plans active on /property/* and /compare; Building Options active on /articles/*
+ */
+const EXTRA_ACTIVE_PREFIXES: Record<string, string[]> = {
+  '/floor-plans': ['/property', '/compare'],
+  '/building-options': ['/articles'],
+}
+
+/**
+ * Idiomatic Next.js: compare each link's href to usePathname().
+ * Also consider common "section" rules (startsWith) and extra custom prefixes.
+ */
+const isActiveHref = (pathname: string, href: string) => {
+  const a = normalizeForCompare(pathname, { isPathname: true })
+  const b = normalizeForCompare(href, { isPathname: false })
+
+  if (a === b) return true
+  if (b !== '/' && a.startsWith(b + '/')) return true
+
+  const extras = EXTRA_ACTIVE_PREFIXES[b]
+  if (extras && extras.some(prefix => a === prefix || a.startsWith(prefix + '/'))) {
+    return true
+  }
+
+  return false
+}
+
 /**
  * Given headerConfig.navigation (API titles), build the final nav array and inject "Services".
  * Rule:
@@ -132,32 +187,22 @@ export function Header() {
     children,
     onClick,
     isMobile = false,
+    active = false,
   }: {
     href: string
     children: React.ReactNode
     onClick?: () => void
     isMobile?: boolean
+    active?: boolean
   }) => {
-    const [isActive, setIsActive] = useState(false)
-
-    useEffect(() => {
-      const checkActive = () => {
-        if (href === '/' && pathname === '/') return true
-        if (href !== '/' && pathname.startsWith(href)) return true
-        return false
-      }
-      setIsActive(checkActive())
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [href, pathname])
-
     return (
       <Link
         href={href}
         onClick={onClick}
         className={`relative px-2 py-3 text-base font-medium transition-all duration-300 ${
           isMobile
-            ? `text-[color:var(--pne-brand)] after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[color:var(--pne-accent)] after:transition-all after:duration-300 hover:text-[color:var(--pne-brand-600)] hover:after:w-full ${isActive ? 'text-[color:var(--pne-accent)] after:w-full' : ''}`
-            : `text-white hover:-translate-y-0.5 hover:text-[color:var(--pne-accent)] ${isActive ? '-translate-y-0.5 text-[color:var(--pne-accent)]' : ''}`
+            ? `text-[color:var(--pne-brand)] after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[color:var(--pne-accent)] after:transition-all after:duration-300 hover:text-[color:var(--pne-brand-600)] hover:after:w-full ${active ? '!text-[color:var(--pne-accent)] after:w-full' : ''}`
+            : `text-white hover:-translate-y-0.5 hover:text-[color:var(--pne-accent)] ${active ? '-translate-y-0.5 !text-[color:var(--pne-accent)]' : ''}`
         }`}
       >
         {children}
@@ -243,14 +288,16 @@ export function Header() {
             <nav className="hidden items-center gap-3 md:flex lg:gap-6 xl:gap-8">
               {navItems.map((item, index) => {
                 if (item.type === 'services') {
+                  const activeServices = isActiveHref(pathname, '/services')
                   return (
                     <div key={`services-${index}`}>
-                      <ServicesSelect placeholder={item.label} />
+                      <ServicesSelect placeholder={item.label} active={activeServices} />
                     </div>
                   )
                 }
+                const active = isActiveHref(pathname, item.href)
                 return (
-                  <NavLink key={item.href} href={item.href}>
+                  <NavLink key={item.href} href={item.href} active={active}>
                     {item.label}
                   </NavLink>
                 )
@@ -295,18 +342,21 @@ export function Header() {
           <div className="space-y-3 px-4 py-4">
             {navItems.map((item, index) => {
               if (item.type === 'services') {
+                const activeServices = isActiveHref(pathname, '/services')
                 return (
                   <div key={`m-services-${index}`} className="border-b border-gray-200 py-2 last:border-b-0">
-                    <ServicesSelect placeholder={item.label} />
+                    <ServicesSelect placeholder={item.label} active={activeServices} />
                   </div>
                 )
               }
+              const active = isActiveHref(pathname, item.href)
               return (
                 <div key={item.href} className="border-b border-gray-200 py-2 last:border-b-0">
                   <NavLink
                     href={item.href}
                     onClick={() => setOpen(false)} // close on link click
                     isMobile={true}
+                    active={active}
                   >
                     {item.label}
                   </NavLink>

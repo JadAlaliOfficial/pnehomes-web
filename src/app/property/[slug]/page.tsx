@@ -120,7 +120,7 @@ export default async function Page({
 
           <div className="relative flex h-full items-center justify-center py-16">
             <div className="container mx-auto px-6 text-center">
-              <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase drop-shadow-lg sm:text-5xl">
+              <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase drop-shadow-lg sm:text-5xl max-w-[800px] mx-auto break-words">
                 {p.title}
               </h1>
             </div>

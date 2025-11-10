@@ -45,7 +45,7 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
 
         <div className="relative flex h-full items-center justify-center py-16">
           <div className="container mx-auto px-6 text-center">
-            <h1 className="text-4xl text-pne-brand font-extrabold tracking-tight uppercase sm:text-5xl drop-shadow-lg">
+            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl drop-shadow-lg max-w-[800px] mx-auto break-words">
               {album.title}
             </h1>
           </div>

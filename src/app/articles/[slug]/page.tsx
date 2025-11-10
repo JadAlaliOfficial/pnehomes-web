@@ -113,7 +113,7 @@ export default function ArticlePage({ params }: ArticlePageProps) {
 
           {/* Centered content */}
           <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-6 text-center">
-            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl">
+            <h1 className="text-pne-brand text-4xl font-extrabold tracking-tight uppercase sm:text-5xl max-w-[800px] mx-auto break-words">
               {article.title}
             </h1>
           </div>
